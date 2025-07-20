@@ -21,8 +21,31 @@
       margin: 0;
       color: #00aaff;
     }
+    nav {
+      background-color: #003366;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 10px 0;
+    }
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      color: #00aaff;
+    }
     .container {
       padding: 20px;
+    }
+    .categoria {
+      margin-bottom: 40px;
+    }
+    .categoria h2 {
+      color: #00aaff;
+      border-bottom: 2px solid #00aaff;
+      padding-bottom: 5px;
     }
     .producto {
       border: 1px solid #00aaff;
@@ -31,7 +54,7 @@
       margin-bottom: 20px;
       background-color: #1a1a1a;
     }
-    .producto h2 {
+    .producto h3 {
       margin: 0 0 10px 0;
     }
     .producto p {
@@ -68,17 +91,37 @@
     <p>Tu tienda de tecnología y luces RGB</p>
   </header>
 
+  <nav>
+    <a href="#iluminacion">Iluminación</a>
+    <a href="#audio">Audio</a>
+    <a href="#teclado-mouse">Teclado y mouse</a>
+  </nav>
+
   <div class="container">
-    <div class="producto">
-      <h2>Luces RGB</h2>
-      <p>Precio: S/ 30.00</p>
-      <a href="#" class="btn-comprar">Comprar</a>
+    <div class="categoria" id="iluminacion">
+      <h2>Iluminación</h2>
+
+      <div class="producto">
+        <h3>Luces RGB</h3>
+        <p>Precio: S/ 30.00</p>
+        <a href="#" class="btn-comprar">Comprar</a>
+      </div>
+
+      <div class="producto">
+        <h3>Luces RGB Smart</h3>
+        <p>Precio: S/ 50.00</p>
+        <a href="#" class="btn-comprar">Comprar</a>
+      </div>
     </div>
 
-    <div class="producto">
-      <h2>Luces RGB Smart</h2>
-      <p>Precio: S/ 50.00</p>
-      <a href="#" class="btn-comprar">Comprar</a>
+    <div class="categoria" id="audio">
+      <h2>Audio</h2>
+      <p>Próximamente...</p>
+    </div>
+
+    <div class="categoria" id="teclado-mouse">
+      <h2>Teclado y mouse</h2>
+      <p>Próximamente...</p>
     </div>
   </div>
 
@@ -91,3 +134,4 @@
 
 </body>
 </html>
+

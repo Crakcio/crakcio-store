@@ -104,7 +104,7 @@
 
       const message = cart.map(item => `🛒 ${item.name} - S/ ${item.price}`).join('%0A');
       const total = cart.reduce((sum, item) => sum + item.price, 0);
-      const phone = '51TU_NUMERO'; // ← CAMBIA ESTO por tu número real
+      const phone = '51999207025'; // ← CAMBIA ESTO por tu número real
 
       const url = `https://wa.me/${phone}?text=Hola!%20Quiero%20comprar:%0A${message}%0A%0ATotal:%20S/%20${total}`;
       window.open(url, '_blank');

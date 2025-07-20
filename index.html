@@ -1,67 +1,105 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Crackio Store</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #0a0a0a;
-      color: #fff;
+      background-color: #0d0d0d;
+      color: #ffffff;
       margin: 0;
       padding: 0;
     }
+
     header {
-      background-color: #101820;
+      background-color: #111827;
       padding: 20px;
       text-align: center;
     }
+
     header h1 {
-      color: #00aaff;
       margin: 0;
+      font-size: 32px;
+      color: #3b82f6;
     }
+
     nav {
-      background-color: #1a1a1a;
+      background-color: #1f2937;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
       padding: 10px;
-      text-align: center;
     }
+
     nav a {
-      color: #fff;
-      margin: 0 15px;
+      color: #ffffff;
       text-decoration: none;
+      font-weight: bold;
     }
+
     section {
       padding: 20px;
     }
+
     h2 {
-      border-bottom: 2px solid #00aaff;
+      color: #3b82f6;
+      border-bottom: 2px solid #3b82f6;
       padding-bottom: 5px;
     }
+
     .product {
-      background-color: #1f1f1f;
-      border: 1px solid #333;
+      background-color: #1e1e1e;
       border-radius: 10px;
       padding: 15px;
       margin-bottom: 20px;
       display: flex;
+      gap: 15px;
       align-items: center;
     }
+
     .product img {
-      max-width: 150px;
+      width: 120px;
+      height: auto;
       border-radius: 10px;
-      margin-right: 20px;
     }
+
     .product-info {
       flex: 1;
     }
-    footer {
-      background-color: #101820;
-      padding: 20px;
-      text-align: center;
-      color: #aaa;
+
+    .product-info h3 {
+      margin: 0 0 5px 0;
+      font-size: 20px;
     }
-    .contact a {
-      color: #00aaff;
+
+    .product-info p {
+      margin: 0 0 10px 0;
+    }
+
+    .product-info button {
+      background-color: #3b82f6;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .product-info button:hover {
+      background-color: #2563eb;
+    }
+
+    footer {
+      background-color: #111827;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+    }
+
+    .redes-sociales a {
+      color: #3b82f6;
       margin: 0 10px;
       text-decoration: none;
     }
@@ -71,52 +109,54 @@
 
   <header>
     <h1>Crackio Store</h1>
-    <p>Tu tienda gamer y smart de confianza</p>
   </header>
 
   <nav>
     <a href="#iluminacion">Iluminación</a>
     <a href="#audio">Audio</a>
-    <a href="#tecladoymouse">Teclado y Mouse</a>
+    <a href="#teclado">Teclado y Mouse</a>
   </nav>
 
-  <section id="iluminacion">
-    <h2>Iluminación</h2>
+  <main>
+    <section id="iluminacion">
+      <h2>Iluminación</h2>
 
-    <div class="product">
-      <img src="images/luces-rgb.webp" alt="Luces RGB">
-      <div class="product-info">
-        <h3>Luces RGB</h3>
-        <p>Precio: S/ 30</p>
-        <button>Añadir al carrito</button>
+      <div class="product">
+        <img src="images/luces-rgb.webp" alt="Luces RGB">
+        <div class="product-info">
+          <h3>Luces RGB</h3>
+          <p>Precio: S/ 30</p>
+          <button>Añadir al carrito</button>
+        </div>
       </div>
-    </div>
 
-    <div class="product">
-      <div class="product-info">
-        <h3>Luces RGB Smart</h3>
-        <p>Precio: S/ 50</p>
-        <button>Añadir al carrito</button>
+      <div class="product">
+        <img src="images/luces-rgbit.webp" alt="Luces RGB Smart">
+        <div class="product-info">
+          <h3>Luces RGB Smart</h3>
+          <p>Precio: S/ 50</p>
+          <button>Añadir al carrito</button>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="audio">
-    <h2>Audio</h2>
-    <p>Próximamente productos de audio...</p>
-  </section>
+    <section id="audio">
+      <h2>Audio</h2>
+      <p>Próximamente productos de audio disponibles.</p>
+    </section>
 
-  <section id="tecladoymouse">
-    <h2>Teclado y Mouse</h2>
-    <p>Próximamente accesorios para gamers...</p>
-  </section>
+    <section id="teclado">
+      <h2>Teclado y Mouse</h2>
+      <p>Próximamente combos gamer y periféricos disponibles.</p>
+    </section>
+  </main>
 
   <footer>
-    <div class="contact">
-      <p>Contáctanos:</p>
-      <a href="mailto:soporte@crakcio.com">soporte@crakcio.com</a>
-      <a href="https://wa.me/51999207025" target="_blank">WhatsApp</a>
-      <a href="https://instagram.com/crakcio.store" target="_blank">Instagram</a>
+    <p>Contáctanos:</p>
+    <div class="redes-sociales">
+      <a href="mailto:ventas@crakcio.com">ventas@crakcio.com</a> |
+      <a href="https://www.instagram.com/crakcio.store" target="_blank">Instagram</a> |
+      <a href="https://wa.me/51999999999" target="_blank">WhatsApp</a>
     </div>
     <p>&copy; 2025 Crackio Store</p>
   </footer>

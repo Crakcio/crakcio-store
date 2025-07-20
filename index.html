@@ -3,59 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Crackio Store</title>
+  <title>Crakcio Store</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: Arial, sans-serif;
+      background-color: #0d0d0d;
+      color: #ffffff;
       margin: 0;
       padding: 0;
-      background-color: #0a0a0a;
-      color: #ffffff;
     }
     header {
-      background-color: #000000;
+      background-color: #001f3f;
       padding: 20px;
       text-align: center;
-      border-bottom: 3px solid #00bfff;
     }
     header h1 {
       margin: 0;
-      font-size: 2.5em;
-      color: #00bfff;
+      color: #00aaff;
     }
-    main {
+    .container {
       padding: 20px;
     }
     .producto {
-      background-color: #1a1a1a;
-      border: 1px solid #333;
+      border: 1px solid #00aaff;
       border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 30px;
-      text-align: center;
+      padding: 15px;
+      margin-bottom: 20px;
+      background-color: #1a1a1a;
     }
     .producto h2 {
-      color: #00bfff;
+      margin: 0 0 10px 0;
     }
-    .producto button {
-      background-color: #00bfff;
-      color: #000;
+    .producto p {
+      margin: 5px 0;
+    }
+    .btn-comprar {
+      display: inline-block;
       padding: 10px 20px;
-      border: none;
+      background-color: #00aaff;
+      color: white;
+      text-decoration: none;
       border-radius: 5px;
-      cursor: pointer;
+      margin-top: 10px;
     }
     footer {
-      background-color: #000000;
-      padding: 20px;
+      background-color: #001f3f;
+      color: #ffffff;
       text-align: center;
-      border-top: 2px solid #00bfff;
+      padding: 20px;
+      margin-top: 40px;
     }
-    .contacto {
-      margin-top: 20px;
-    }
-    .contacto a {
-      color: #00bfff;
+    footer a {
+      color: #00aaff;
       text-decoration: none;
       display: block;
       margin: 5px 0;
@@ -63,36 +62,32 @@
   </style>
 </head>
 <body>
+
   <header>
-    <h1>Crackio Store</h1>
-    <p>Tu tienda gamer y smart tech al mejor precio</p>
+    <h1>Crakcio Store</h1>
+    <p>Tu tienda de tecnología y luces RGB</p>
   </header>
 
-  <main>
-    <section class="producto">
+  <div class="container">
+    <div class="producto">
       <h2>Luces RGB</h2>
-      <p>Ilumina tu setup con estilo. Compatible con control remoto. 2 metros.</p>
-      <p><strong>Precio: S/ 30</strong></p>
-      <button>Agregar al carrito</button>
-    </section>
+      <p>Precio: S/ 30.00</p>
+      <a href="#" class="btn-comprar">Comprar</a>
+    </div>
 
-    <section class="producto">
+    <div class="producto">
       <h2>Luces RGB Smart</h2>
-      <p>Controla tus luces desde el celular o con tu voz. Compatible con Google Home.</p>
-      <p><strong>Precio: S/ 50</strong></p>
-      <button>Agregar al carrito</button>
-    </section>
-  </main>
+      <p>Precio: S/ 50.00</p>
+      <a href="#" class="btn-comprar">Comprar</a>
+    </div>
+  </div>
 
   <footer>
-    <h3>Contacto y redes sociales</h3>
-    <div class="contacto">
-      <a href="mailto:ventas@crackio.store">📧 ventas@crackio.store</a>
-      <a href="https://facebook.com/crackio.store" target="_blank">📘 Facebook</a>
-      <a href="https://wa.me/51912345678" target="_blank">💬 WhatsApp</a>
-    </div>
-    <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
+    <h3>Contáctanos</h3>
+    <a href="mailto:contacto@crakcio.com">📧 contacto@crakcio.com</a>
+    <a href="https://instagram.com/crakcio" target="_blank">📷 Instagram</a>
+    <a href="https://wa.me/51999207025" target="_blank">💬 WhatsApp</a>
   </footer>
+
 </body>
 </html>
-

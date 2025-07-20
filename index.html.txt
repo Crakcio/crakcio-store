@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crakcio Store</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0f0f0f;
+      color: white;
+    }
+    header, footer {
+      background-color: #1a1a1a;
+      padding: 1em;
+      text-align: center;
+    }
+    nav a {
+      margin: 0 15px;
+      color: #00aaff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    section {
+      padding: 2em;
+      max-width: 1000px;
+      margin: auto;
+    }
+    h2 {
+      color: #00aaff;
+      border-bottom: 2px solid #00aaff;
+      padding-bottom: 0.3em;
+    }
+    .product {
+      background-color: #222;
+      border: 1px solid #333;
+      padding: 1em;
+      margin-bottom: 1em;
+      border-radius: 10px;
+    }
+    @media (max-width: 600px) {
+      nav a {
+        display: block;
+        margin: 10px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Crakcio Store</h1>
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#catalogo">Catálogo</a>
+      <a href="#nosotros">Sobre Nosotros</a>
+      <a href="#contacto">Contacto</a>
+      <a href="#faq">Preguntas Frecuentes</a>
+    </nav>
+  </header>
+
+  <section id="inicio">
+    <h2>Bienvenido a Crakcio</h2>
+    <p>Tu tienda gamer y tecnológica con precios accesibles y productos de calidad.</p>
+  </section>
+
+  <section id="catalogo">
+    <h2>Catálogo de Productos</h2>
+
+    <div class="product">
+      <h3>Enchufe Inteligente TP-Link</h3>
+      <p>Controla tus dispositivos desde el celular. Compatible con Google Home.</p>
+      <strong>S/ 85.00</strong>
+    </div>
+
+    <div class="product">
+      <h3>Tiras LED Gamer RGB</h3>
+      <p>Dale estilo a tu setup. Control remoto incluido.</p>
+      <strong>S/ 35.00</strong>
+    </div>
+
+    <!-- Puedes seguir agregando más productos así -->
+  </section>
+
+  <section id="nosotros">
+    <h2>Sobre Nosotros</h2>
+    <p>Somos Crakcio, una tienda peruana dedicada a ofrecer productos tecnológicos y smart de calidad importados directamente desde China, con enfoque gamer y precios accesibles.</p>
+  </section>
+
+  <section id="contacto">
+    <h2>Contacto</h2>
+    <p>📧 Correo: <a href="mailto:contacto@crakcio.com" style="color: #00aaff;">contacto@crakcio.com</a></p>
+    <p>📱 WhatsApp: +51 999 999 999</p>
+  </section>
+
+  <section id="faq">
+    <h2>Preguntas Frecuentes</h2>
+    <p><strong>¿Hacen envíos a todo el Perú?</strong><br>Sí, trabajamos con Olva Courier y Serpost.</p>
+    <p><strong>¿Los productos tienen garantía?</strong><br>Sí, ofrecemos garantía de fábrica por 30 días.</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Crakcio Store - Todos los derechos reservados.</p>
+  </footer>
+
+</body>
+</html>

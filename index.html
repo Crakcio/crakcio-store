@@ -5,110 +5,94 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crackio Store</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #0a0a0a; color: white; }
-    header { background: #121212; padding: 1rem; text-align: center; }
-    nav ul { display: flex; justify-content: center; list-style: none; padding: 0; margin: 1rem 0; flex-wrap: wrap; }
-    nav li { margin: 0.5rem 1rem; }
-    nav a { color: white; text-decoration: none; }
-    .product-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; padding: 1rem; }
-    .product { background: #1c1c1c; border-radius: 10px; padding: 1rem; width: 280px; text-align: center; }
-    .product img { width: 100%; border-radius: 8px; }
-    .product button { background: #007bff; color: white; padding: 0.5rem; border: none; border-radius: 5px; cursor: pointer; }
-    .product button:disabled { background: gray; }
-    #cart-section, #confirmation { background: #111; padding: 1rem; margin-top: 1rem; }
-    #cart-items li { margin: 0.5rem 0; }
-    #whatsapp-button { position: fixed; bottom: 20px; right: 20px; background: #25D366; padding: 10px 15px; border-radius: 50%; font-size: 24px; color: white; text-decoration: none; }
-    footer { background: #121212; padding: 2rem 1rem; text-align: center; margin-top: 2rem; }
-    @media (max-width: 600px) {
-      .product-list { flex-direction: column; align-items: center; }
-    }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; scroll-behavior: smooth; }
+    header { background: #0a0a0a; color: #00aaff; padding: 20px; text-align: center; }
+    nav { display: flex; justify-content: center; gap: 20px; background: #111; padding: 10px 0; position: sticky; top: 0; z-index: 1000; }
+    nav a { color: white; text-decoration: none; font-weight: bold; }
+    section { padding: 40px 20px; }
+    h2 { color: #00aaff; }
+    .productos { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+    .producto { background: #222; color: white; padding: 20px; border-radius: 10px; text-align: center; }
+    .producto img { width: 100%; max-height: 150px; object-fit: cover; border-radius: 8px; }
+    .boton { background: #00aaff; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+    .boton:hover { background: #0077cc; }
+    #carrito { position: fixed; top: 20px; right: 20px; background: #00aaff; color: white; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+    footer { background: #0a0a0a; color: white; text-align: center; padding: 30px 20px; }
+    footer a { color: #00aaff; text-decoration: none; }
   </style>
 </head>
 <body>
   <header>
     <h1>Crackio Store</h1>
+    <p>Iluminación Smart y Accesorios Gamer</p>
   </header>
+
   <nav>
-    <ul>
-      <li><a href="#">Iluminación</a></li>
-      <li><a href="#">Audio</a></li>
-      <li><a href="#">Teclado y Mouse</a></li>
-    </ul>
+    <a href="#iluminacion">Iluminación</a>
+    <a href="#audio">Audio</a>
+    <a href="#teclado-mouse">Teclado y Mouse</a>
+    <a href="#contacto">Contacto</a>
   </nav>
-  <section class="product-list">
-    <div class="product">
-      <img src="images/luces-rgb.webp" alt="Luces RGB">
-      <h3>Luces RGB</h3>
-      <p>S/ 30</p>
-      <button onclick="addToCart(this, 'Luces RGB', 30)">Añadir al carrito</button>
+
+  <div id="carrito" onclick="confirmarPedido()">🛒 Carrito (0)</div>
+
+  <section id="iluminacion">
+    <h2>Iluminación</h2>
+    <div class="productos">
+      <div class="producto">
+        <img src="images/luces-rgb.webp" alt="Luces RGB">
+        <h3>Luces RGB</h3>
+        <p>S/ 30.00</p>
+        <button class="boton" onclick="agregarAlCarrito('Luces RGB', 30)">Añadir al carrito</button>
+      </div>
+      <div class="producto">
+        <img src="images/luces-rgbit.webp" alt="Luces Smart">
+        <h3>Luces RGB Smart</h3>
+        <p>S/ 50.00</p>
+        <button class="boton" onclick="agregarAlCarrito('Luces RGB Smart', 50)">Añadir al carrito</button>
+      </div>
     </div>
-    <div class="product">
-      <img src="images/luces-rgbit.webp" alt="Luces RGB Smart">
-      <h3>Luces RGB Smart</h3>
-      <p>S/ 50</p>
-      <button onclick="addToCart(this, 'Luces RGB Smart', 50)">Añadir al carrito</button>
-    </div>
   </section>
 
-  <section id="cart-section">
-    <h2>🛒 Carrito</h2>
-    <ul id="cart-items"></ul>
-    <p id="total"></p>
-    <button onclick="finalizePurchase()">Finalizar compra</button>
+  <section id="audio">
+    <h2>Audio</h2>
+    <p>Próximamente productos de audio.</p>
   </section>
 
-  <section id="confirmation" style="display:none;">
-    <h2>Confirmación de Pedido</h2>
-    <p>Tu pedido ha sido generado, listo para enviarse por WhatsApp.</p>
-    <pre id="order-summary"></pre>
-    <a id="whatsapp-link" href="#" target="_blank">Enviar pedido por WhatsApp</a>
+  <section id="teclado-mouse">
+    <h2>Teclado y Mouse</h2>
+    <p>Próximamente teclados y mouses gamers.</p>
   </section>
 
-  <a id="whatsapp-button" href="https://wa.me/51999999999" target="_blank">💬</a>
+  <section id="contacto">
+    <h2>Contacto y Redes</h2>
+    <p>📧 Email: contacto@crakcio.com</p>
+    <p>📸 Instagram: <a href="https://www.instagram.com/crakcio.store" target="_blank">@crakcio.store</a></p>
+    <p>📱 WhatsApp: <a href="https://wa.me/51999999999" target="_blank">+51 999 999 999</a></p>
+  </section>
 
   <footer>
-    <h3>Contacto</h3>
-    <p>Correo: contacto@crakcio.com</p>
-    <p>Instagram: <a href="https://instagram.com/crackiostore" target="_blank">@crackiostore</a></p>
-    <p>WhatsApp: 999999999</p>
+    <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
   </footer>
 
   <script>
-    const cart = [];
+    let carrito = [];
 
-    function addToCart(button, name, price) {
-      cart.push({ name, price });
-      button.disabled = true;
-      button.innerText = '✅ En carrito';
-      updateCart();
+    function agregarAlCarrito(nombre, precio) {
+      carrito.push({ nombre, precio });
+      document.getElementById('carrito').innerText = `🛒 Carrito (${carrito.length})`;
     }
 
-    function updateCart() {
-      const list = document.getElementById('cart-items');
-      list.innerHTML = '';
-      let total = 0;
-      cart.forEach(item => {
-        const li = document.createElement('li');
-        li.textContent = `${item.name} - S/ ${item.price}`;
-        list.appendChild(li);
-        total += item.price;
-      });
-      document.getElementById('total').innerText = `Total: S/ ${total}`;
-    }
-
-    function finalizePurchase() {
-      const section = document.getElementById('confirmation');
-      section.style.display = 'block';
-      const order = cart.map(p => `${p.name} - S/ ${p.price}`).join('\n');
-      const total = cart.reduce((acc, p) => acc + p.price, 0);
-      const message = `Hola, deseo pedir lo siguiente desde la web Crackio:\n${order}\nTotal: S/ ${total}`;
-      document.getElementById('order-summary').innerText = message;
-      const url = `https://wa.me/51999207025?text=${encodeURIComponent(message)}`;
-      document.getElementById('whatsapp-link').href = url;
+    function confirmarPedido() {
+      if (carrito.length === 0) {
+        alert('Tu carrito está vacío');
+        return;
+      }
+      let mensaje = 'Hola Crackio Store, quiero comprar:%0A';
+      carrito.forEach(p => mensaje += `- ${p.nombre} (S/ ${p.precio})%0A`);
+      mensaje += `%0AForma de pago: Yape o Plin (a coordinar)`;
+      window.open(`https://wa.me/51999207025?text=${mensaje}`, '_blank');
     }
   </script>
 </body>
 </html>
-
-
-

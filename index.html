@@ -1,194 +1,114 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crackio Store</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #0d0d0d;
-      color: #ffffff;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background-color: #111827;
-      padding: 20px;
-      text-align: center;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 32px;
-      color: #3b82f6;
-    }
-
-    nav {
-      background-color: #1f2937;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-      padding: 10px;
-    }
-
-    nav a {
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 8px;
-    }
-
-    section {
-      padding: 20px;
-    }
-
-    h2 {
-      color: #3b82f6;
-      border-bottom: 2px solid #3b82f6;
-      padding-bottom: 5px;
-    }
-
-    .product-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
-
-    .product {
-      background-color: #1e1e1e;
-      border-radius: 10px;
-      padding: 15px;
-      width: 100%;
-      max-width: 350px;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    .product img {
-      width: 100%;
-      height: auto;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
-
-    .product-info h3 {
-      margin: 0 0 5px 0;
-      font-size: 20px;
-    }
-
-    .product-info p {
-      margin: 0 0 10px 0;
-    }
-
-    .product-info button {
-      background-color: #3b82f6;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      color: #fff;
-      cursor: pointer;
-    }
-
-    .product-info button:hover {
-      background-color: #2563eb;
-    }
-
-    footer {
-      background-color: #111827;
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-    }
-
-    .redes-sociales a {
-      color: #3b82f6;
-      margin: 0 10px;
-      text-decoration: none;
-    }
-
-    @media (min-width: 768px) {
-      .product {
-        flex-direction: row;
-        text-align: left;
-      }
-
-      .product img {
-        width: 150px;
-        margin-right: 15px;
-        margin-bottom: 0;
-      }
-
-      .product-info {
-        flex: 1;
-      }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #0a0a0a; color: white; }
+    header { background: #121212; padding: 1rem; text-align: center; }
+    nav ul { display: flex; justify-content: center; list-style: none; padding: 0; margin: 1rem 0; flex-wrap: wrap; }
+    nav li { margin: 0.5rem 1rem; }
+    nav a { color: white; text-decoration: none; }
+    .product-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; padding: 1rem; }
+    .product { background: #1c1c1c; border-radius: 10px; padding: 1rem; width: 280px; text-align: center; }
+    .product img { width: 100%; border-radius: 8px; }
+    .product button { background: #007bff; color: white; padding: 0.5rem; border: none; border-radius: 5px; cursor: pointer; }
+    .product button:disabled { background: gray; }
+    #cart-section, #confirmation { background: #111; padding: 1rem; margin-top: 1rem; }
+    #cart-items li { margin: 0.5rem 0; }
+    #whatsapp-button { position: fixed; bottom: 20px; right: 20px; background: #25D366; padding: 10px 15px; border-radius: 50%; font-size: 24px; color: white; text-decoration: none; }
+    footer { background: #121212; padding: 2rem 1rem; text-align: center; margin-top: 2rem; }
+    @media (max-width: 600px) {
+      .product-list { flex-direction: column; align-items: center; }
     }
   </style>
 </head>
 <body>
-
   <header>
     <h1>Crackio Store</h1>
   </header>
-
   <nav>
-    <a href="#iluminacion">Iluminación</a>
-    <a href="#audio">Audio</a>
-    <a href="#teclado">Teclado y Mouse</a>
+    <ul>
+      <li><a href="#">Iluminación</a></li>
+      <li><a href="#">Audio</a></li>
+      <li><a href="#">Teclado y Mouse</a></li>
+    </ul>
   </nav>
+  <section class="product-list">
+    <div class="product">
+      <img src="images/luces-rgb.webp" alt="Luces RGB">
+      <h3>Luces RGB</h3>
+      <p>S/ 30</p>
+      <button onclick="addToCart(this, 'Luces RGB', 30)">Añadir al carrito</button>
+    </div>
+    <div class="product">
+      <img src="images/luces-rgbit.webp" alt="Luces RGB Smart">
+      <h3>Luces RGB Smart</h3>
+      <p>S/ 50</p>
+      <button onclick="addToCart(this, 'Luces RGB Smart', 50)">Añadir al carrito</button>
+    </div>
+  </section>
 
-  <main>
-    <section id="iluminacion">
-      <h2>Iluminación</h2>
-      <div class="product-list">
-        <div class="product">
-          <img src="images/luces-rgb.webp" alt="Luces RGB">
-          <div class="product-info">
-            <h3>Luces RGB</h3>
-            <p>Precio: S/ 30</p>
-            <button>Añadir al carrito</button>
-          </div>
-        </div>
+  <section id="cart-section">
+    <h2>🛒 Carrito</h2>
+    <ul id="cart-items"></ul>
+    <p id="total"></p>
+    <button onclick="finalizePurchase()">Finalizar compra</button>
+  </section>
 
-        <div class="product">
-          <img src="images/luces-rgbit.webp" alt="Luces RGB Smart">
-          <div class="product-info">
-            <h3>Luces RGB Smart</h3>
-            <p>Precio: S/ 50</p>
-            <button>Añadir al carrito</button>
-          </div>
-        </div>
-      </div>
-    </section>
+  <section id="confirmation" style="display:none;">
+    <h2>Confirmación de Pedido</h2>
+    <p>Tu pedido ha sido generado, listo para enviarse por WhatsApp.</p>
+    <pre id="order-summary"></pre>
+    <a id="whatsapp-link" href="#" target="_blank">Enviar pedido por WhatsApp</a>
+  </section>
 
-    <section id="audio">
-      <h2>Audio</h2>
-      <p>Próximamente productos de audio disponibles.</p>
-    </section>
-
-    <section id="teclado">
-      <h2>Teclado y Mouse</h2>
-      <p>Próximamente combos gamer y periféricos disponibles.</p>
-    </section>
-  </main>
+  <a id="whatsapp-button" href="https://wa.me/51999999999" target="_blank">💬</a>
 
   <footer>
-    <p>Contáctanos:</p>
-    <div class="redes-sociales">
-      <a href="mailto:ventas@crakcio.com">ventas@crakcio.com</a> |
-      <a href="https://www.instagram.com/crakcio.store" target="_blank">Instagram</a> |
-      <a href="https://wa.me/51999999999" target="_blank">WhatsApp</a>
-    </div>
-    <p>&copy; 2025 Crackio Store</p>
+    <h3>Contacto</h3>
+    <p>Correo: contacto@crakcio.com</p>
+    <p>Instagram: <a href="https://instagram.com/crackiostore" target="_blank">@crackiostore</a></p>
+    <p>WhatsApp: 999999999</p>
   </footer>
 
+  <script>
+    const cart = [];
+
+    function addToCart(button, name, price) {
+      cart.push({ name, price });
+      button.disabled = true;
+      button.innerText = '✅ En carrito';
+      updateCart();
+    }
+
+    function updateCart() {
+      const list = document.getElementById('cart-items');
+      list.innerHTML = '';
+      let total = 0;
+      cart.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.name} - S/ ${item.price}`;
+        list.appendChild(li);
+        total += item.price;
+      });
+      document.getElementById('total').innerText = `Total: S/ ${total}`;
+    }
+
+    function finalizePurchase() {
+      const section = document.getElementById('confirmation');
+      section.style.display = 'block';
+      const order = cart.map(p => `${p.name} - S/ ${p.price}`).join('\n');
+      const total = cart.reduce((acc, p) => acc + p.price, 0);
+      const message = `Hola, deseo pedir lo siguiente desde la web Crackio:\n${order}\nTotal: S/ ${total}`;
+      document.getElementById('order-summary').innerText = message;
+      const url = `https://wa.me/51999207025?text=${encodeURIComponent(message)}`;
+      document.getElementById('whatsapp-link').href = url;
+    }
+  </script>
 </body>
 </html>
+
 
 

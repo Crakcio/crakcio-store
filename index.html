@@ -3,99 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crackio Store</title>
+  
+  <title>Crackio Store | Iluminación Smart y Accesorios Gamer en Perú</title>
+
+  <!-- SEO META TAGS -->
+  <meta name="description" content="Crackio Store: tu tienda online de luces RGB, enchufes inteligentes y accesorios gamer a precios increíbles en Perú. Compra fácil por WhatsApp.">
+  <meta name="keywords" content="Crackio, tecnología, tienda gamer, luces LED, RGB, smart, enchufes inteligentes, Perú, barato, accesorios gamer, tienda online">
+  <meta name="author" content="Crackio Store">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="es">
+
+  <!-- FAVICON -->
+  <link rel="icon" type="image/jpeg" href="banner-crackio.jpeg">
+
+  <!-- ESTILOS -->
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; scroll-behavior: smooth; }
-    header { background: #0a0a0a; color: #00aaff; text-align: center; }
-    header img { width: 100%; max-height: 300px; object-fit: cover; }
-    nav { display: flex; justify-content: center; gap: 20px; background: #111; padding: 10px 0; position: sticky; top: 0; z-index: 1000; }
-    nav a { color: white; text-decoration: none; font-weight: bold; }
-    section { padding: 40px 20px; }
-    h2 { color: #00aaff; }
-    .productos { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-    .producto { background: #222; color: white; padding: 20px; border-radius: 10px; text-align: center; }
-    .producto img { width: 100%; max-height: 150px; object-fit: cover; border-radius: 8px; }
-    .boton { background: #00aaff; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
-    .boton:hover { background: #0077cc; }
-    #carrito { position: fixed; top: 20px; right: 20px; background: #00aaff; color: white; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
-    footer { background: #0a0a0a; color: white; text-align: center; padding: 30px 20px; }
-    footer a { color: #00aaff; text-decoration: none; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0d1117;
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background-color: #111827;
+      padding: 20px;
+    }
+
+    header img {
+      max-width: 90%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: #3b82f6;
+      margin-top: 20px;
+    }
+
+    p {
+      font-size: 1.2em;
+      margin: 10px auto;
+      max-width: 800px;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 0.9em;
+      color: #9ca3af;
+    }
   </style>
 </head>
+
 <body>
   <header>
-    <img src="images/banner-crackio.jpeg" alt="Banner Crackio Store">
-    <h1>Crackio Store</h1>
-    <p>Iluminación Smart y Accesorios Gamer</p>
+    <img src="banner-crackio.jpeg" alt="Banner Crackio Store" title="Crackio Store - Tecnología Smart y Gamer">
   </header>
 
-  <nav>
-    <a href="#iluminacion">Iluminación</a>
-    <a href="#audio">Audio</a>
-    <a href="#teclado-mouse">Teclado y Mouse</a>
-    <a href="#contacto">Contacto</a>
-  </nav>
-
-  <div id="carrito" onclick="confirmarPedido()">🛒 Carrito (0)</div>
-
-  <section id="iluminacion">
-    <h2>Iluminación</h2>
-    <div class="productos">
-      <div class="producto">
-        <img src="images/luces-rgb.webp" alt="Luces RGB">
-        <h3>Luces RGB</h3>
-        <p>S/ 30.00</p>
-        <button class="boton" onclick="agregarAlCarrito('Luces RGB', 30)">Añadir al carrito</button>
-      </div>
-      <div class="producto">
-        <img src="images/luces-rgbit.webp" alt="Luces Smart">
-        <h3>Luces RGB Smart</h3>
-        <p>S/ 50.00</p>
-        <button class="boton" onclick="agregarAlCarrito('Luces RGB Smart', 50)">Añadir al carrito</button>
-      </div>
-    </div>
-  </section>
-
-  <section id="audio">
-    <h2>Audio</h2>
-    <p>Próximamente productos de audio.</p>
-  </section>
-
-  <section id="teclado-mouse">
-    <h2>Teclado y Mouse</h2>
-    <p>Próximamente teclados y mouses gamers.</p>
-  </section>
-
-  <section id="contacto">
-    <h2>Contacto y Redes</h2>
-    <p>📧 Email: contacto@crakcio.com</p>
-    <p>📸 Instagram: <a href="https://www.instagram.com/crakcio.store" target="_blank">@crakcio.store</a></p>
-    <p>📱 WhatsApp: <a href="https://wa.me/51999999999" target="_blank">+51 999 999 999</a></p>
-  </section>
+  <main>
+    <h1>Bienvenido a Crackio Store</h1>
+    <p>Descubre los mejores productos tecnológicos del mercado: iluminación inteligente, enchufes smart, y accesorios gamer. Todo con precios justos y soporte local en Perú.</p>
+    <p>📦 Envíos a todo el país | 💬 Compra rápida por WhatsApp</p>
+  </main>
 
   <footer>
-    <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
+    © 2025 Crackio Store. Todos los derechos reservados.
   </footer>
-
-  <script>
-    let carrito = [];
-
-    function agregarAlCarrito(nombre, precio) {
-      carrito.push({ nombre, precio });
-      document.getElementById('carrito').innerText = `🛒 Carrito (${carrito.length})`;
-    }
-
-    function confirmarPedido() {
-      if (carrito.length === 0) {
-        alert('Tu carrito está vacío');
-        return;
-      }
-      let mensaje = 'Hola Crackio Store, quiero comprar:%0A';
-      carrito.forEach(p => mensaje += `- ${p.nombre} (S/ ${p.precio})%0A`);
-      mensaje += `%0AForma de pago: Yape o Plin (a coordinar)`;
-      window.open(`https://wa.me/51999207025?text=${mensaje}`, '_blank');
-    }
-  </script>
 </body>
 </html>
-

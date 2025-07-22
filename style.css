@@ -1,73 +1,125 @@
-/* style.css para Crakcio Store */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #0a0a0a;
-  color: #ffffff;
+/* General */
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+body {
+  background-color: #0a0a0a;
+  color: #f0f0f0;
+  line-height: 1.6;
+}
+
+/* Header */
 header {
-  background-color: #111827;
-  padding: 20px;
   text-align: center;
+  padding: 2rem 1rem 1rem;
+  background-color: #111;
+  border-bottom: 2px solid #00aaff;
 }
 
 header h1 {
-  color: #3b82f6;
-  font-size: 36px;
-  margin: 0;
+  font-size: 2.5rem;
+  color: #00aaff;
+  margin-bottom: 0.5rem;
 }
 
+header p {
+  font-size: 1.2rem;
+  color: #ccc;
+}
+
+/* Banner */
+#banner {
+  width: 100%;
+  max-height: 400px;
+  overflow: hidden;
+}
+
+#banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Navigation */
 nav {
-  background-color: #1f2937;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
+  background-color: #1a1a1a;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
 }
 
 nav ul {
   list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
 }
 
 nav a {
-  color: #ffffff;
+  color: #00aaff;
   text-decoration: none;
   font-weight: bold;
+  padding: 0.5rem 1rem;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  transition: 0.3s;
 }
 
 nav a:hover {
-  color: #3b82f6;
+  background-color: #00aaff;
+  color: #000;
 }
 
-main {
-  padding: 20px;
+/* Productos */
+.productos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.producto {
+  background-color: #1e1e1e;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 170, 255, 0.2);
   text-align: center;
+  transition: transform 0.2s ease;
 }
 
-footer {
-  background-color: #111827;
-  text-align: center;
-  padding: 15px;
-  font-size: 14px;
-  margin-top: 30px;
-  color: #9ca3af;
+.producto:hover {
+  transform: scale(1.03);
 }
 
-img {
+.producto img {
   max-width: 100%;
   height: auto;
-  margin: 20px 0;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
 }
 
-a {
-  color: #3b82f6;
+.producto h2 {
+  font-size: 1.1rem;
+  color: #00aaff;
+  margin-bottom: 0.3rem;
 }
 
-a:hover {
-  text-decoration: underline;
+.producto p {
+  color: #ccc;
+  font-size: 1rem;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #111;
+  color: #777;
+  margin-top: 2rem;
 }

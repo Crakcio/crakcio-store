@@ -9,59 +9,43 @@
 <body>
   <header>
     <h1>Crakcio Store</h1>
-    <p>Tu tienda de tecnología, iluminación RGB y más.</p>
+    <p>¡Tecnología y estilo a precios inteligentes!</p>
   </header>
 
-  <section id="banner">
-    <img src="images/Banner2.png" alt="Banner Crakcio Store" class="banner">
-  </section>
+  <img src="images/Banner2.png" alt="Crakcio Store" class="banner" />
 
   <nav>
-    <ul>
-      <li><a href="#">Inicio</a></li>
-      <li><a href="#">Luces LED</a></li>
-      <li><a href="#">Smart Home</a></li>
-      <li><a href="#">Mouse</a></li>
-      <li><a href="#">Teclado</a></li>
-      <li><a href="#">Contacto</a></li>
-    </ul>
+    <a href="#">Inicio</a>
+    <a href="#">Accesorios</a>
+    <a href="#">Smart Home</a>
+    <a href="#">Ofertas</a>
   </nav>
 
-  <main>
-    <section id="productos-container" class="productos-grid">
-      <!-- Aquí se cargarán los productos desde productos.json -->
-    </section>
+  <main id="contenedor-productos">
+    <!-- Los productos se cargarán desde productos.json -->
   </main>
 
-  <footer>
-    <p>&copy; 2025 Crakcio Store. Todos los derechos reservados.</p>
-  </footer>
-
   <script>
-    async function cargarProductos() {
-      try {
-        const response = await fetch('productos.json');
-        const productos = await response.json();
-
-        const contenedor = document.getElementById('productos-container');
-        productos.forEach(producto => {
-          const div = document.createElement('div');
-          div.className = 'producto';
-
-          div.innerHTML = `
-            <img src="images/${producto.imagen}" alt="${producto.nombre}">
+    // Carga de productos desde productos.json
+    fetch('productos.json')
+      .then(response => response.json())
+      .then(data => {
+        const contenedor = document.getElementById('contenedor-productos');
+        data.forEach(producto => {
+          const card = document.createElement('div');
+          card.className = 'producto';
+          card.innerHTML = `
+            <img src="images/${producto.imagen}" alt="${producto.nombre}" />
             <h2>${producto.nombre}</h2>
-            <p>${producto.precio}</p>
+            <p>${producto.descripcion}</p>
+            <p class="precio">S/ ${producto.precio}</p>
           `;
-
-          contenedor.appendChild(div);
+          contenedor.appendChild(card);
         });
-      } catch (error) {
+      })
+      .catch(error => {
         console.error('Error al cargar los productos:', error);
-      }
-    }
-
-    cargarProductos();
+      });
   </script>
 </body>
 </html>

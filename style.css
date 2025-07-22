@@ -104,3 +104,10 @@ footer .social-icons a:hover {
 .contacto p {
   margin: 10px 0;
 }
+.redes-sociales a {
+  margin: 0 10px;
+  font-size: 24px;
+  color: white;
+  text-decoration: none;
+}
+

@@ -4,105 +4,113 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Crackio Store</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #0a0a0a;
-      color: #ffffff;
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #fff;
     }
 
     header {
-      background-color: #111;
+      background-color: #000;
       padding: 10px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 2px solid #0ff;
       position: sticky;
       top: 0;
       z-index: 1000;
     }
 
     .logo {
-      font-size: 1.5em;
+      font-size: 1.8em;
+      color: #00f0ff;
       font-weight: bold;
-      color: #0ff;
     }
 
-    nav {
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
       display: flex;
-      gap: 20px;
-    }
-
-    .nav-item {
+      gap: 15px;
       position: relative;
-      cursor: pointer;
     }
 
-    .dropdown {
+    nav li {
+      position: relative;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 12px;
+      display: block;
+    }
+
+    nav li:hover > ul {
+      display: block;
+    }
+
+    nav ul ul {
+      display: none;
       position: absolute;
+      background-color: #222;
       top: 100%;
       left: 0;
-      background-color: #222;
-      padding: 10px;
-      display: none;
-      flex-direction: column;
-      border: 1px solid #0ff;
-      z-index: 1001;
+      min-width: 150px;
     }
 
-    .nav-item:hover .dropdown {
-      display: flex;
+    nav ul ul li {
+      width: 100%;
     }
 
-    .dropdown a {
-      color: white;
-      text-decoration: none;
-      padding: 5px 0;
+    nav ul ul a:hover {
+      background-color: #333;
     }
 
-    .dropdown a:hover {
-      color: #0ff;
+    .banner-img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
 
-    .hero {
-      background-image: url("images/banner-crackio.jpeg");
-      background-size: cover;
-      background-position: center;
-      padding: 100px 20px;
+    .bienvenida {
       text-align: center;
+      margin-top: 40px;
+      margin-bottom: 40px;
     }
 
-    .hero h1 {
-      font-size: 3em;
+    .bienvenida h1 {
+      font-size: 2em;
       margin-bottom: 10px;
-      text-shadow: 0 0 10px #0ff;
+      color: #00f0ff;
     }
 
-    .hero p {
+    .bienvenida p {
       font-size: 1.2em;
+      color: #aaa;
     }
 
     .productos {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 20px;
-      padding: 40px 20px;
+      padding: 20px;
     }
 
     .producto {
-      background-color: #111;
-      border: 1px solid #333;
+      background-color: #1a1a1a;
       padding: 15px;
-      width: 250px;
       border-radius: 10px;
-      box-shadow: 0 0 10px #0ff3;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,255,255,0.2);
     }
 
     .producto img {
-      width: 100%;
+      max-width: 100%;
       border-radius: 8px;
     }
 
@@ -110,120 +118,91 @@
       margin: 10px 0 5px;
     }
 
-    footer {
-      background-color: #111;
-      padding: 20px;
-      text-align: center;
-      border-top: 2px solid #0ff;
-      position: relative;
+    .producto p {
+      color: #0ff;
     }
 
-    #contacto {
-      padding: 20px;
+    footer {
+      background-color: #000;
       text-align: center;
+      padding: 20px;
+      margin-top: 40px;
     }
 
     .redes-sociales {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
       margin-top: 10px;
     }
 
     .redes-sociales a {
       color: #0ff;
+      margin: 0 10px;
       font-size: 1.5em;
-      text-decoration: none;
-    }
-
-    .redes-superior {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      display: flex;
-      gap: 15px;
-    }
-
-    .redes-superior a {
-      color: #0ff;
-      font-size: 1.2em;
-      text-decoration: none;
     }
   </style>
-
-  <!-- Íconos -->
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
   <header>
     <div class="logo">Crackio Store</div>
     <nav>
-      <div class="nav-item">
-        Productos
-        <div class="dropdown">
-          <a href="#">Iluminación</a>
-          <a href="#">Audio</a>
-          <a href="#">Mouse</a>
-          <a href="#">Teclado</a>
-        </div>
-      </div>
-      <div class="nav-item">
-        <a href="#contacto" style="text-decoration: none; color: white;">Contacto</a>
-      </div>
+      <ul>
+        <li><a href="#">Inicio</a></li>
+        <li>
+          <a href="#">Productos</a>
+          <ul>
+            <li><a href="#">Iluminación</a></li>
+            <li><a href="#">Audio</a></li>
+            <li><a href="#">Mouse</a></li>
+            <li><a href="#">Teclado</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
     </nav>
-    <div class="redes-superior">
-      <a href="https://wa.me/51999207025" target="_blank"><i class="fab fa-whatsapp"></i></a>
-      <a href="https://www.instagram.com/crakciostore/" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.facebook.com/people/Crakcio-Store/61578344680156/" target="_blank"><i class="fab fa-facebook"></i></a>
-    </div>
   </header>
 
-  <section class="hero">
+  <!-- Banner -->
+  <div class="banner">
+    <img src="images/banner-crackio.jpeg" alt="Banner Crackio" class="banner-img">
+  </div>
+
+  <!-- Bienvenida debajo del banner -->
+  <section class="bienvenida">
     <h1>Bienvenido a Crackio Store</h1>
     <p>Tu tienda de tecnología, iluminación RGB y más.</p>
   </section>
 
-  <section class="productos" id="productos">
-    <!-- Productos se cargan desde JSON -->
-  </section>
+  <!-- Sección de productos (llenada con JavaScript) -->
+  <section class="productos" id="productos"></section>
 
-  <section id="contacto">
-    <h2>Contacto</h2>
-    <p>Teléfono (WhatsApp): <a href="https://wa.me/51999207025" target="_blank" style="color: #0ff;">999 207 025</a></p>
-    <p>Correo: <a href="mailto:contacto@crakcio.com" style="color: #0ff;">contacto@crakcio.com</a></p>
+  <!-- Footer -->
+  <footer>
+    <p>Contacto: <a href="https://wa.me/51999207025" style="color:#0ff;">+51 999 207 025</a> | 
+      <a href="mailto:contacto@crakcio.com" style="color:#0ff;">contacto@crakcio.com</a></p>
     <div class="redes-sociales">
-      <a href="https://wa.me/51999207025" target="_blank"><i class="fab fa-whatsapp"></i></a>
       <a href="https://www.instagram.com/crakciostore/" target="_blank"><i class="fab fa-instagram"></i></a>
       <a href="https://www.facebook.com/people/Crakcio-Store/61578344680156/" target="_blank"><i class="fab fa-facebook"></i></a>
+      <!-- TikTok se añadirá luego -->
     </div>
-  </section>
-
-  <footer>
-    &copy; 2025 Crackio Store. Todos los derechos reservados.
   </footer>
 
   <script>
     fetch('productos.json')
       .then(response => response.json())
       .then(data => {
-        const container = document.getElementById('productos');
+        const contenedor = document.getElementById('productos');
+        contenedor.innerHTML = '';
         data.forEach(producto => {
           const div = document.createElement('div');
           div.className = 'producto';
           div.innerHTML = `
-            <img src="${producto.imagen}" alt="${producto.nombre}" />
+            <img src="images/${producto.imagen}" alt="${producto.nombre}">
             <h3>${producto.nombre}</h3>
-            <p>${producto.descripcion}</p>
+            <p>S/ ${producto.precio}</p>
           `;
-          container.appendChild(div);
+          contenedor.appendChild(div);
         });
-      })
-      .catch(error => {
-        console.error('Error al cargar productos:', error);
       });
   </script>
-
 </body>
 </html>
 

@@ -1,13 +1,13 @@
 [
   {
     "nombre": "Luces RGB",
-    "imagen": "images/luces-rgb.webp",
-    "precio": "30.00"
+    "precio": "30.00",
+    "imagen": "images/luces-rgb.webp"
   },
   {
     "nombre": "Luces RGB Inteligentes",
-    "imagen": "images/luces-rgbit.webp",
-    "precio": "50.00"
+    "precio": "50.00",
+    "imagen": "images/luces-rgbit.webp"
   }
 ]
 

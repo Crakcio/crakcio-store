@@ -2,13 +2,14 @@
   {
     "nombre": "Luces RGB",
     "imagen": "images/luces-rgb.webp",
-    "precio": "S/ 30.00"
+    "precio": "30.00"
   },
   {
     "nombre": "Luces RGB Inteligentes",
     "imagen": "images/luces-rgbit.webp",
-    "precio": "S/ 50.00"
+    "precio": "50.00"
   }
 ]
+
 
 

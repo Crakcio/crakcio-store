@@ -3,204 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Crackio Store</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #111;
-      color: #fff;
-    }
-
-    header {
-      background-color: #000;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .logo {
-      font-size: 1.8em;
-      color: #00f0ff;
-      font-weight: bold;
-    }
-
-    nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      gap: 15px;
-      position: relative;
-    }
-
-    nav li {
-      position: relative;
-    }
-
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      padding: 8px 12px;
-      display: block;
-    }
-
-    nav li:hover > ul {
-      display: block;
-    }
-
-    nav ul ul {
-      display: none;
-      position: absolute;
-      background-color: #222;
-      top: 100%;
-      left: 0;
-      min-width: 150px;
-    }
-
-    nav ul ul li {
-      width: 100%;
-    }
-
-    nav ul ul a:hover {
-      background-color: #333;
-    }
-
-    .banner-img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .bienvenida {
-      text-align: center;
-      margin-top: 40px;
-      margin-bottom: 40px;
-    }
-
-    .bienvenida h1 {
-      font-size: 2em;
-      margin-bottom: 10px;
-      color: #00f0ff;
-    }
-
-    .bienvenida p {
-      font-size: 1.2em;
-      color: #aaa;
-    }
-
-    .productos {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
-
-    .producto {
-      background-color: #1a1a1a;
-      padding: 15px;
-      border-radius: 10px;
-      text-align: center;
-      box-shadow: 0 0 10px rgba(0,255,255,0.2);
-    }
-
-    .producto img {
-      max-width: 100%;
-      border-radius: 8px;
-    }
-
-    .producto h3 {
-      margin: 10px 0 5px;
-    }
-
-    .producto p {
-      color: #0ff;
-    }
-
-    footer {
-      background-color: #000;
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-    }
-
-    .redes-sociales {
-      margin-top: 10px;
-    }
-
-    .redes-sociales a {
-      color: #0ff;
-      margin: 0 10px;
-      font-size: 1.5em;
-    }
-  </style>
+  <title>Crakcio Store</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Banner superior -->
   <header>
-    <div class="logo">Crackio Store</div>
-    <nav>
-      <ul>
-        <li><a href="#">Inicio</a></li>
-        <li>
-          <a href="#">Productos</a>
-          <ul>
-            <li><a href="#">Iluminación</a></li>
-            <li><a href="#">Audio</a></li>
-            <li><a href="#">Mouse</a></li>
-            <li><a href="#">Teclado</a></li>
-          </ul>
-        </li>
-        <li><a href="#">Contacto</a></li>
-      </ul>
-    </nav>
+    <img src="images/banner-crackio.png" alt="Banner Crakcio Store" style="width: 100%; max-height: 300px; object-fit: cover;">
   </header>
 
-  <!-- Banner -->
-  <div class="banner">
-    <img src="images/banner-crackio.jpeg" alt="Banner Crackio" class="banner-img">
-  </div>
-
-  <!-- Bienvenida debajo del banner -->
-  <section class="bienvenida">
-    <h1>Bienvenido a Crackio Store</h1>
-    <p>Tu tienda de tecnología, iluminación RGB y más.</p>
+  <!-- Texto de bienvenida -->
+  <section style="margin-top: 30px; text-align: center;">
+    <h1 style="color: cyan;">Bienvenido a Crakcio Store</h1>
+    <p style="color: #ccc;">Tu tienda de tecnología, iluminación RGB y más.</p>
   </section>
 
-  <!-- Sección de productos (llenada con JavaScript) -->
-  <section class="productos" id="productos"></section>
+  <!-- Contenedor de productos -->
+  <main style="padding: 40px;">
+    <div id="productos" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;"></div>
+  </main>
 
   <!-- Footer -->
-  <footer>
-    <p>Contacto: <a href="https://wa.me/51999207025" style="color:#0ff;">+51 999 207 025</a> | 
-      <a href="mailto:contacto@crakcio.com" style="color:#0ff;">contacto@crakcio.com</a></p>
-    <div class="redes-sociales">
-      <a href="https://www.instagram.com/crakciostore/" target="_blank"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.facebook.com/people/Crakcio-Store/61578344680156/" target="_blank"><i class="fab fa-facebook"></i></a>
-      <!-- TikTok se añadirá luego -->
-    </div>
+  <footer style="text-align: center; padding: 20px; background-color: #111; color: #ccc;">
+    Contacto: 
+    <a href="tel:+51999207025" style="color: cyan;">+51 999 207 025</a> | 
+    <a href="mailto:contacto@crakcio.com" style="color: cyan;">contacto@crakcio.com</a>
   </footer>
 
+  <!-- Script para cargar productos -->
   <script>
     fetch('productos.json')
       .then(response => response.json())
-      .then(data => {
+      .then(productos => {
         const contenedor = document.getElementById('productos');
-        contenedor.innerHTML = '';
-        data.forEach(producto => {
-          const div = document.createElement('div');
-          div.className = 'producto';
-          div.innerHTML = `
-            <img src="images/${producto.imagen}" alt="${producto.nombre}">
-            <h3>${producto.nombre}</h3>
-            <p>S/ ${producto.precio}</p>
+
+        productos.forEach(p => {
+          const producto = document.createElement('div');
+          producto.style.border = '1px solid #222';
+          producto.style.padding = '20px';
+          producto.style.borderRadius = '10px';
+          producto.style.background = '#111';
+          producto.style.color = '#fff';
+          producto.style.width = '200px';
+          producto.style.boxShadow = '0 0 10px #0ff';
+          producto.style.textAlign = 'center';
+
+          producto.innerHTML = `
+            <img src="${p.imagen}" alt="${p.nombre}" style="width: 100%; height: 150px; object-fit: contain;" />
+            <h3 style="margin: 10px 0;">${p.nombre}</h3>
+            <p style="color: cyan;">S/ ${p.precio.toFixed(2)}</p>
           `;
-          contenedor.appendChild(div);
+
+          contenedor.appendChild(producto);
         });
+      })
+      .catch(error => {
+        console.error('Error cargando productos:', error);
+        document.getElementById('productos').innerText = "No se pudieron cargar los productos.";
       });
   </script>
 </body>

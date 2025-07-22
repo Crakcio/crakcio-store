@@ -4,62 +4,62 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Crakcio Store</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <!-- Banner superior -->
   <header>
-    <img src="images/banner-crackio.png" alt="Banner Crakcio Store" style="width: 100%; max-height: 300px; object-fit: cover;">
+    <h1 class="titulo">Crakcio Store</h1>
+    <p class="descripcion">Tu tienda de tecnología, iluminación RGB y más.</p>
+    <nav>
+      <ul class="menu">
+        <li><a href="#">Inicio</a></li>
+        <li class="submenu">
+          <a href="#">Productos</a>
+          <ul class="submenu-items">
+            <li><a href="#">Iluminación</a></li>
+            <li><a href="#">Audio</a></li>
+            <li><a href="#">Mouse</a></li>
+            <li><a href="#">Teclado</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <!-- Texto de bienvenida -->
-  <section style="margin-top: 30px; text-align: center;">
-    <h1 style="color: cyan;">Bienvenido a Crakcio Store</h1>
-    <p style="color: #ccc;">Tu tienda de tecnología, iluminación RGB y más.</p>
-  </section>
+  <main>
+    <section class="banner">
+      <img src="images/banner-crackio.png" alt="Banner Crakcio Store"/>
+    </section>
 
-  <!-- Contenedor de productos -->
-  <main style="padding: 40px;">
-    <div id="productos" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;"></div>
+    <section class="productos" id="productos">
+      <!-- Productos cargados dinámicamente -->
+    </section>
   </main>
 
-  <!-- Footer -->
-  <footer style="text-align: center; padding: 20px; background-color: #111; color: #ccc;">
-    Contacto: 
-    <a href="tel:+51999207025" style="color: cyan;">+51 999 207 025</a> | 
-    <a href="mailto:contacto@crakcio.com" style="color: cyan;">contacto@crakcio.com</a>
+  <footer>
+    <p>&copy; 2025 Crakcio Store. Todos los derechos reservados.</p>
+    <div class="redes">
+      <a href="https://www.facebook.com/people/Crakcio-Store/61578344680156/" target="_blank">Facebook</a>
+      <a href="https://www.instagram.com/crakcio.store/" target="_blank">Instagram</a>
+    </div>
   </footer>
 
-  <!-- Script para cargar productos -->
   <script>
     fetch('productos.json')
       .then(response => response.json())
-      .then(productos => {
-        const contenedor = document.getElementById('productos');
-
-        productos.forEach(p => {
-          const producto = document.createElement('div');
-          producto.style.border = '1px solid #222';
-          producto.style.padding = '20px';
-          producto.style.borderRadius = '10px';
-          producto.style.background = '#111';
-          producto.style.color = '#fff';
-          producto.style.width = '200px';
-          producto.style.boxShadow = '0 0 10px #0ff';
-          producto.style.textAlign = 'center';
-
-          producto.innerHTML = `
-            <img src="${p.imagen}" alt="${p.nombre}" style="width: 100%; height: 150px; object-fit: contain;" />
-            <h3 style="margin: 10px 0;">${p.nombre}</h3>
-            <p style="color: cyan;">S/ ${p.precio.toFixed(2)}</p>
+      .then(data => {
+        const productosContainer = document.getElementById('productos');
+        data.forEach(producto => {
+          const card = document.createElement('div');
+          card.classList.add('producto');
+          card.innerHTML = `
+            <img src="${producto.imagen}" alt="${producto.nombre}">
+            <h3>${producto.nombre}</h3>
+            <p>S/ ${producto.precio.toFixed(2)}</p>
           `;
-
-          contenedor.appendChild(producto);
+          productosContainer.appendChild(card);
         });
-      })
-      .catch(error => {
-        console.error('Error cargando productos:', error);
-        document.getElementById('productos').innerText = "No se pudieron cargar los productos.";
       });
   </script>
 </body>

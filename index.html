@@ -4,67 +4,99 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="index, follow" />
-  <meta name="description" content="Crackio Store - Accesorios gamers y productos tecnológicos importados de calidad y buen precio." />
   <title>Crackio Store</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    .neon {
+      text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #00f, 0 0 40px #00f;
+    }
+  </style>
 </head>
 <body class="bg-black text-white font-sans">
-  <!-- Fondo banner -->
-  <div class="relative h-[400px] bg-cover bg-center" style="background-image: url('banner.jpg');">
-    <div class="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center">
-      <h1 class="text-4xl md:text-6xl font-bold text-blue-500 drop-shadow-lg">Crackio Store</h1>
-    </div>
-  </div>
 
-  <!-- Navegación -->
-  <nav class="bg-gray-900 text-white shadow-md">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-      <span class="text-xl font-bold text-blue-500">Crackio</span>
-      <ul class="hidden md:flex space-x-6">
-        <li class="hover:text-blue-400 cursor-pointer">Inicio</li>
-        <li class="group relative cursor-pointer">
-          <span class="hover:text-blue-400">Productos</span>
-          <ul class="absolute hidden group-hover:block bg-gray-800 mt-2 p-2 rounded shadow-lg">
-            <li class="hover:text-blue-400 py-1">Iluminación</li>
-            <li class="hover:text-blue-400 py-1">Mouse</li>
-            <li class="hover:text-blue-400 py-1">Teclado</li>
+  <!-- Navbar -->
+  <header class="bg-gray-900 p-4">
+    <div class="flex justify-between items-center">
+      <h1 class="text-3xl font-bold neon">Crackio Store</h1>
+      <button id="menu-btn" class="lg:hidden focus:outline-none">
+        <svg class="w-6 h-6 fill-white" viewBox="0 0 24 24">
+          <path d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+      <nav id="menu" class="hidden lg:flex space-x-6">
+        <div class="relative group">
+          <a href="#" class="hover:text-cyan-400">Productos</a>
+          <ul class="absolute hidden group-hover:block bg-gray-800 mt-2 rounded shadow-lg z-50">
+            <li><a href="#iluminacion" class="block px-4 py-2 hover:bg-gray-700">Iluminación</a></li>
+            <li><a href="#audio" class="block px-4 py-2 hover:bg-gray-700">Audio</a></li>
+            <li><a href="#teclado" class="block px-4 py-2 hover:bg-gray-700">Teclado</a></li>
+            <li><a href="#mouse" class="block px-4 py-2 hover:bg-gray-700">Mouse</a></li>
           </ul>
-        </li>
-        <li class="hover:text-blue-400 cursor-pointer">Nosotros</li>
-        <li class="hover:text-blue-400 cursor-pointer">Contacto</li>
-      </ul>
+        </div>
+        <a href="#contacto" class="hover:text-cyan-400">Contacto</a>
+      </nav>
     </div>
-  </nav>
+    <!-- Menú móvil -->
+    <nav id="mobile-menu" class="lg:hidden hidden mt-4 flex flex-col space-y-2">
+      <a href="#iluminacion" class="hover:text-cyan-400">Iluminación</a>
+      <a href="#audio" class="hover:text-cyan-400">Audio</a>
+      <a href="#teclado" class="hover:text-cyan-400">Teclado</a>
+      <a href="#mouse" class="hover:text-cyan-400">Mouse</a>
+      <a href="#contacto" class="hover:text-cyan-400">Contacto</a>
+    </nav>
+  </header>
 
-  <!-- Sección de productos destacados -->
-  <section class="py-16 bg-black">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl md:text-4xl font-bold text-center text-blue-500 mb-12">Productos Destacados</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-        <div class="bg-gray-900 rounded-2xl shadow-lg p-4 hover:shadow-blue-500">
-          <img src="producto1.jpg" alt="Producto 1" class="w-full rounded-lg mb-4" />
-          <h3 class="text-xl font-semibold">Mouse Gamer RGB</h3>
-          <p class="text-gray-400">Precisión, estilo y luces neón.</p>
-        </div>
-        <div class="bg-gray-900 rounded-2xl shadow-lg p-4 hover:shadow-blue-500">
-          <img src="producto2.jpg" alt="Producto 2" class="w-full rounded-lg mb-4" />
-          <h3 class="text-xl font-semibold">Teclado Mecánico</h3>
-          <p class="text-gray-400">Resistente y retroiluminado.</p>
-        </div>
-        <div class="bg-gray-900 rounded-2xl shadow-lg p-4 hover:shadow-blue-500">
-          <img src="producto3.jpg" alt="Producto 3" class="w-full rounded-lg mb-4" />
-          <h3 class="text-xl font-semibold">Tira LED Smart</h3>
-          <p class="text-gray-400">Controla por voz y app.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- Main -->
+  <main class="p-4 space-y-16">
+    <!-- Iluminación -->
+    <section id="iluminacion">
+      <h2 class="text-2xl font-bold neon mb-4">Iluminación</h2>
+      <img src="https://images.unsplash.com/photo-1602526212463-3a6e7ecb0f61?w=800" alt="Luces LED" class="rounded-lg mb-4 w-full max-w-md mx-auto">
+      <p class="text-center">Luces LED, tiras RGB, lámparas inteligentes y más.</p>
+    </section>
+
+    <!-- Audio -->
+    <section id="audio">
+      <h2 class="text-2xl font-bold neon mb-4">Audio</h2>
+      <img src="https://images.unsplash.com/photo-1587574293340-dcaa7a40a3ec?w=800" alt="Audio Gamer" class="rounded-lg mb-4 w-full max-w-md mx-auto">
+      <p class="text-center">Parlantes, audífonos, barras de sonido y equipos gamer.</p>
+    </section>
+
+    <!-- Teclado -->
+    <section id="teclado">
+      <h2 class="text-2xl font-bold neon mb-4">Teclados</h2>
+      <img src="https://images.unsplash.com/photo-1585076800399-e84a9f8651b6?w=800" alt="Teclado gamer" class="rounded-lg mb-4 w-full max-w-md mx-auto">
+      <p class="text-center">Teclados mecánicos, retroiluminados y smart.</p>
+    </section>
+
+    <!-- Mouse -->
+    <section id="mouse">
+      <h2 class="text-2xl font-bold neon mb-4">Mouse</h2>
+      <img src="https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=800" alt="Mouse RGB" class="rounded-lg mb-4 w-full max-w-md mx-auto">
+      <p class="text-center">Mouses gamers, ergonómicos, con luces LED y más.</p>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto">
+      <h2 class="text-2xl font-bold neon mb-4">Contacto</h2>
+      <p class="text-center">Contáctanos vía WhatsApp o redes sociales.</p>
+    </section>
+  </main>
 
   <!-- Footer -->
-  <footer class="bg-gray-900 text-center text-gray-400 py-6">
-    <p>&copy; 2025 Crackio Store | contacto@crackio.com</p>
+  <footer class="text-center p-4 bg-gray-900 mt-16">
+    <p class="text-sm text-gray-400">© 2025 Crackio Store. Todos los derechos reservados.</p>
   </footer>
+
+  <!-- Script para el menú responsive -->
+  <script>
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    btn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  </script>
+
 </body>
 </html>
 

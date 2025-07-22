@@ -3,65 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Crackio Store</title>
-  <link rel="stylesheet" href="style.css"/>
+  <title>Crakcio Store</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1 class="titulo">Crackio Store</h1>
-    <p class="descripcion">Tu tienda de tecnología, iluminación RGB y más.</p>
-    <nav>
-      <ul class="menu">
-        <li><a href="#">Inicio</a></li>
-        <li class="submenu">
-          <a href="#">Productos</a>
-          <ul class="submenu-items">
-            <li><a href="#">Iluminación</a></li>
-            <li><a href="#">Audio</a></li>
-            <li><a href="#">Mouse</a></li>
-            <li><a href="#">Teclado</a></li>
-          </ul>
-        </li>
-        <li><a href="#">Contacto</a></li>
-      </ul>
-    </nav>
+    <h1>Crakcio Store</h1>
+    <p>Tu tienda de tecnología, iluminación RGB y más.</p>
   </header>
 
-  <main>
-    <section class="banner">
-      <img src="images/banner-crackio.png" alt="Banner Crackio Store"/>
-    </section>
+  <section id="banner">
+    <img src="images/banner-crackio.webp" alt="Banner Crakcio Store" />
+  </section>
 
-    <section class="productos" id="productos">
-      <!-- Productos cargados dinámicamente -->
+  <nav>
+    <ul>
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#">Luces LED</a></li>
+      <li><a href="#">Smart Home</a></li>
+      <li><a href="#">Mouse</a></li>
+      <li><a href="#">Teclado</a></li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section id="productos-container" class="productos-grid">
+      <!-- Aquí se cargarán los productos desde productos.json -->
     </section>
   </main>
 
   <footer>
-    <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
-    <div class="redes">
-      <a href="https://www.facebook.com/people/Crakcio-Store/61578344680156/" target="_blank">Facebook</a>
-      <a href="https://www.instagram.com/crakcio.store/" target="_blank">Instagram</a>
-    </div>
+    <p>&copy; 2025 Crakcio Store. Todos los derechos reservados.</p>
   </footer>
 
   <script>
-    fetch('productos.json')
-      .then(response => response.json())
-      .then(data => {
-        const productosContainer = document.getElementById('productos');
-        data.forEach(producto => {
-          const card = document.createElement('div');
-          card.classList.add('producto');
-          card.innerHTML = `
-            <img src="${producto.imagen}" alt="${producto.nombre}">
-            <h3>${producto.nombre}</h3>
-            <p>S/ ${producto.precio.toFixed(2)}</p>
+    async function cargarProductos() {
+      try {
+        const response = await fetch('productos.json');
+        const productos = await response.json();
+
+        const contenedor = document.getElementById('productos-container');
+        productos.forEach(producto => {
+          const div = document.createElement('div');
+          div.className = 'producto';
+
+          div.innerHTML = `
+            <img src="images/${producto.imagen}" alt="${producto.nombre}">
+            <h2>${producto.nombre}</h2>
+            <p>${producto.precio}</p>
           `;
-          productosContainer.appendChild(card);
+
+          contenedor.appendChild(div);
         });
-      });
+      } catch (error) {
+        console.error('Error al cargar los productos:', error);
+      }
+    }
+
+    cargarProductos();
   </script>
 </body>
 </html>
+
 

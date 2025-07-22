@@ -1,13 +1,13 @@
 [
   {
     "nombre": "Luces RGB",
-    "descripcion": "Tira de luces LED RGB con control remoto.",
-    "imagen": "images/luces-rgb.webp"
+    "imagen": "images/luces-rgb.webp",
+    "precio": "S/ 30.00"
   },
   {
     "nombre": "Luces RGB Inteligentes",
-    "descripcion": "Tira de luces LED inteligente compatible con Google Home.",
-    "imagen": "images/luces-rgbit.webp"
+    "imagen": "images/luces-rgbit.webp",
+    "precio": "S/ 50.00"
   }
 ]
 

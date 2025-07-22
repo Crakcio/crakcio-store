@@ -2,13 +2,13 @@
   {
     "nombre": "Luces RGB",
     "precio": "30.00",
-    "descripcion": "Tira LED RGB de 10 metros con control remoto"
+    "descripcion": "Tira LED RGB de 10 metros con control remoto",
     "imagen": "images/luces-rgb.webp"
   },
   {
     "nombre": "Luces RGB Inteligentes",
     "precio": "50.00",
-    "descripcion": "Tira LED RGB inteligente compatible con Google Home"
+    "descripcion": "Tira LED RGB inteligente compatible con Google Home",
     "imagen": "images/luces-rgbit.webp"
   }
 ]

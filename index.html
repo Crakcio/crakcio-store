@@ -1,59 +1,74 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crakcio Store</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-  <header>
-    <img src="images/Banner2.png" alt="Banner Crakcio Store" class="banner" />
-    <h1>Bienvenido a Crakcio Store</h1>
-    <p>Tu tienda de tecnología, iluminación RGB y más.</p>
-  </header>
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="logo">Crakcio Store</div>
+    <ul class="nav-links">
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#productos">Productos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
 
-  <main>
-    <h2>Productos destacados</h2>
-    <div id="productos-container" class="productos"></div>
-  </main>
+  <!-- BANNER -->
+  <div class="banner">
+    <img src="images/Banner2.png" alt="Banner Crakcio Store" />
+  </div>
 
+  <!-- PRODUCTOS -->
+  <section class="productos" id="productos">
+    <h2>Nuestros Productos</h2>
+    <div id="contenedor-productos" class="contenedor-productos"></div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="contacto">
+    <h2>Contáctanos</h2>
+    <p>¿Tienes dudas? Escríbenos a nuestro WhatsApp o por redes sociales.</p>
+    <p><strong>Email:</strong> contacto@crakciostore.com</p>
+    <p><strong>WhatsApp:</strong> +51 999 999 999</p>
+  </section>
+
+  <!-- FOOTER -->
   <footer>
-    <p>&copy; 2025 Crakcio Store - Todos los derechos reservados</p>
+    <div class="redes-sociales">
+      <a href="#" target="_blank"><img src="images/facebook.png" alt="Facebook" /></a>
+      <a href="#" target="_blank"><img src="images/instagram.png" alt="Instagram" /></a>
+      <a href="#" target="_blank"><img src="images/whatsapp.png" alt="WhatsApp" /></a>
+    </div>
+    <p>&copy; 2025 Crakcio Store. Todos los derechos reservados.</p>
   </footer>
 
   <script>
-    fetch('productos.json')
-      .then(response => response.json())
-      .then(data => {
-        const productosContainer = document.getElementById('productos-container');
-
-        data.forEach(producto => {
-          const card = document.createElement('div');
-          card.className = 'producto-card';
-
-          const img = document.createElement('img');
-          img.src = producto.imagen;
-          img.alt = producto.nombre;
-
-          const nombre = document.createElement('h3');
-          nombre.textContent = producto.nombre;
-
-          const precio = document.createElement('p');
-          precio.textContent = `S/ ${producto.precio}`;
-
-          card.appendChild(img);
-          card.appendChild(nombre);
-          card.appendChild(precio);
-
-          productosContainer.appendChild(card);
+    fetch("productos.json")
+      .then((response) => response.json())
+      .then((productos) => {
+        const contenedor = document.getElementById("contenedor-productos");
+        productos.forEach((producto) => {
+          const div = document.createElement("div");
+          div.classList.add("producto");
+          div.innerHTML = `
+            <img src="images/${producto.imagen}" alt="${producto.nombre}" />
+            <h3>${producto.nombre}</h3>
+            <p>${producto.descripcion}</p>
+            <p class="precio">S/ ${producto.precio}</p>
+          `;
+          contenedor.appendChild(div);
         });
-      })
-      .catch(error => {
-        console.error('Error al cargar los productos:', error);
       });
   </script>
 </body>
+
 </html>
+
 
 

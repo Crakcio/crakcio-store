@@ -1,0 +1,14 @@
+[
+  {
+    "nombre": "Luces RGB",
+    "descripcion": "Tira de luces LED RGB con control remoto.",
+    "imagen": "images/luces-rgb.webp"
+  },
+  {
+    "nombre": "Luces RGB Inteligentes",
+    "descripcion": "Tira de luces LED inteligente compatible con Google Home.",
+    "imagen": "images/luces-rgbit.webp"
+  }
+]
+
+

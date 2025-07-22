@@ -1,80 +1,78 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Crackio Store - Tecnología gamer e inteligente a precios accesibles" />
-    <meta name="robots" content="index, follow" />
-    <title>Crackio Store</title>
-    <link rel="icon" href="/images/favicon.ico" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      .neon {
-        color: #0ff;
-        text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
-      }
-      .dropdown:hover .dropdown-menu {
-        display: block;
-      }
-    </style>
-  </head>
-  <body class="bg-black text-white font-sans">
-    <!-- Header -->
-    <header class="bg-gray-900 p-4 flex justify-between items-center">
-      <h1 class="text-3xl font-bold neon">Crackio Store</h1>
-      <nav class="space-x-4">
-        <a href="#inicio" class="hover:underline">Inicio</a>
-        <div class="relative inline-block dropdown">
-          <button class="hover:underline">Productos</button>
-          <div class="dropdown-menu absolute hidden bg-gray-800 mt-2 py-2 w-40 z-10">
-            <a href="#iluminacion" class="block px-4 py-2 hover:bg-gray-700">Iluminación</a>
-            <a href="#teclados" class="block px-4 py-2 hover:bg-gray-700">Teclados</a>
-            <a href="#mouse" class="block px-4 py-2 hover:bg-gray-700">Mouse</a>
-            <a href="#audio" class="block px-4 py-2 hover:bg-gray-700">Audio</a>
-          </div>
-        </div>
-        <a href="#contacto" class="hover:underline">Contacto</a>
-      </nav>
-    </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crackio Store</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+</head>
+<body class="bg-black text-white font-sans">
 
-    <!-- Banner principal -->
-    <section id="inicio" class="mt-4 text-center">
-      <img
-        src="images/banner-crackio.jpeg"
-        alt="Banner Crackio"
-        class="mx-auto w-full max-h-80 object-cover"
-      />
-      <h2 class="text-2xl mt-4 font-semibold">¡Bienvenido a Crackio Store!</h2>
-      <p class="text-gray-400">Tecnología gamer e inteligente a precios accesibles</p>
-    </section>
+  <!-- Redes sociales arriba -->
+  <div class="bg-gray-900 text-white flex justify-end items-center px-6 py-2 text-sm space-x-4">
+    <a href="https://wa.me/51999207025" target="_blank" class="hover:text-green-400 transition transform hover:scale-125 duration-300 ease-in-out" title="WhatsApp">
+      <i class="fab fa-whatsapp text-green-500 text-lg"></i>
+    </a>
+    <a href="https://www.facebook.com/crackio" target="_blank" class="hover:text-blue-400 transition transform hover:scale-125 duration-300 ease-in-out" title="Facebook">
+      <i class="fab fa-facebook text-blue-500 text-lg"></i>
+    </a>
+    <a href="https://www.instagram.com/crackio" target="_blank" class="hover:text-pink-400 transition transform hover:scale-125 duration-300 ease-in-out" title="Instagram">
+      <i class="fab fa-instagram text-pink-500 text-lg"></i>
+    </a>
+  </div>
 
-    <!-- Productos destacados -->
-    <section id="productos" class="p-4">
-      <h3 class="text-xl font-bold neon text-center mb-6">Productos Destacados</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <div class="bg-gray-800 p-4 rounded-lg shadow-md">
-          <img src="images/luces-rgb.webp" alt="Luces RGB" class="w-full h-40 object-cover mb-4" />
-          <h4 class="text-lg font-semibold">Tira LED RGB</h4>
-          <p class="text-gray-400">Ideal para ambientar tu setup gamer</p>
-        </div>
-        <div class="bg-gray-800 p-4 rounded-lg shadow-md">
-          <img src="images/luces-rgbit.webp" alt="Luces RGB Inteligente" class="w-full h-40 object-cover mb-4" />
-          <h4 class="text-lg font-semibold">Tira LED Inteligente</h4>
-          <p class="text-gray-400">Control por voz compatible con Google Assistant</p>
-        </div>
+  <!-- Navegación -->
+  <nav class="bg-gray-800 p-4 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="text-xl font-bold text-blue-400">Crackio Store</div>
+      <ul class="flex space-x-6 relative">
+        <li class="relative group">
+          <a href="#" class="hover:text-blue-300">Productos</a>
+          <ul class="absolute left-0 mt-2 bg-gray-700 text-white w-40 rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300 z-10">
+            <li><a href="#" class="block px-4 py-2 hover:bg-gray-600">Iluminación</a></li>
+            <li><a href="#" class="block px-4 py-2 hover:bg-gray-600">Teclado</a></li>
+            <li><a href="#" class="block px-4 py-2 hover:bg-gray-600">Mouse</a></li>
+            <li><a href="#" class="block px-4 py-2 hover:bg-gray-600">Audio</a></li>
+          </ul>
+        </li>
+        <li><a href="#" class="hover:text-blue-300">Ofertas</a></li>
+        <li><a href="#contacto" class="hover:text-blue-300">Contacto</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Banner principal -->
+  <section class="mt-6">
+    <img src="images/banner-crackio.jpeg" alt="Banner Crackio" class="w-full max-h-[400px] object-cover rounded-lg shadow-md" />
+  </section>
+
+  <!-- Productos destacados -->
+  <section class="container mx-auto px-4 py-8">
+    <h2 class="text-2xl font-bold mb-4 text-blue-300">Productos Destacados</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div class="bg-gray-800 p-4 rounded-lg shadow hover:shadow-xl transition duration-300">
+        <img src="images/luces-rgb.webp" alt="Luces RGB" class="w-full h-48 object-cover rounded" />
+        <h3 class="text-lg mt-2 font-semibold">Tira LED RGB</h3>
+        <p class="text-gray-400">Iluminación para tu setup gamer</p>
       </div>
-    </section>
+      <div class="bg-gray-800 p-4 rounded-lg shadow hover:shadow-xl transition duration-300">
+        <img src="images/luces-rgbit.webp" alt="Luces RGB Inteligente" class="w-full h-48 object-cover rounded" />
+        <h3 class="text-lg mt-2 font-semibold">Tira LED Smart</h3>
+        <p class="text-gray-400">Compatible con Google Home</p>
+      </div>
+      <!-- Puedes agregar más productos aquí -->
+    </div>
+  </section>
 
-    <!-- Contacto -->
-    <section id="contacto" class="bg-gray-900 p-6 mt-8">
-      <h3 class="text-xl font-bold mb-4 text-center">Contacto</h3>
-      <p class="text-center">¿Tienes dudas o quieres hacer un pedido?</p>
-      <p class="text-center text-gray-400">Teléfono: 999207025</p>
-      <p class="text-center text-gray-400">Correo: contacto@crakcio.com</p>
-    </section>
+  <!-- Contacto -->
+  <section id="contacto" class="bg-gray-900 py-8 px-4">
+    <div class="container mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-4 text-blue-300">Contacto</h2>
+      <p class="mb-2">WhatsApp: <a href="https://wa.me/51999207025" class="text-green-400 hover:underline">+51 999 207 025</a></p>
+      <p>Email: <a href="mailto:contacto@crackio.com" class="text-blue-400 hover:underline">contacto@crackio.com</a></p>
+    </div>
+  </section>
 
-    <footer class="bg-gray-950 p-4 text-center text-gray-500 mt-6">
-      © 2025 Crackio Store - Todos los derechos reservados
-    </footer>
-  </body>
+</body>
 </html>

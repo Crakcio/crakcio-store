@@ -1,0 +1,73 @@
+/* style.css para Crakcio Store */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0a0a0a;
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #111827;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  color: #3b82f6;
+  font-size: 36px;
+  margin: 0;
+}
+
+nav {
+  background-color: #1f2937;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #3b82f6;
+}
+
+main {
+  padding: 20px;
+  text-align: center;
+}
+
+footer {
+  background-color: #111827;
+  text-align: center;
+  padding: 15px;
+  font-size: 14px;
+  margin-top: 30px;
+  color: #9ca3af;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  margin: 20px 0;
+}
+
+a {
+  color: #3b82f6;
+}
+
+a:hover {
+  text-decoration: underline;
+}

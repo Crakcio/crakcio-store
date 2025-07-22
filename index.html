@@ -2,45 +2,51 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crakcio Store</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1>Crakcio Store</h1>
-    <p>¡Tecnología y estilo a precios inteligentes!</p>
+    <img src="images/Banner2.png" alt="Banner Crakcio Store" class="banner" />
+    <h1>Bienvenido a Crakcio Store</h1>
+    <p>Tu tienda de tecnología, iluminación RGB y más.</p>
   </header>
 
-  <img src="images/Banner2.png" alt="Crakcio Store" class="banner" />
-
-  <nav>
-    <a href="#">Inicio</a>
-    <a href="#">Accesorios</a>
-    <a href="#">Smart Home</a>
-    <a href="#">Ofertas</a>
-  </nav>
-
-  <main id="contenedor-productos">
-    <!-- Los productos se cargarán desde productos.json -->
+  <main>
+    <h2>Productos destacados</h2>
+    <div id="productos-container" class="productos"></div>
   </main>
 
+  <footer>
+    <p>&copy; 2025 Crakcio Store - Todos los derechos reservados</p>
+  </footer>
+
   <script>
-    // Carga de productos desde productos.json
     fetch('productos.json')
       .then(response => response.json())
       .then(data => {
-        const contenedor = document.getElementById('contenedor-productos');
+        const productosContainer = document.getElementById('productos-container');
+
         data.forEach(producto => {
           const card = document.createElement('div');
-          card.className = 'producto';
-          card.innerHTML = `
-           img.src = producto.imagen;
-            <h2>${producto.nombre}</h2>
-            <p>${producto.descripcion}</p>
-            <p class="precio">S/ ${producto.precio}</p>
-          `;
-          contenedor.appendChild(card);
+          card.className = 'producto-card';
+
+          const img = document.createElement('img');
+          img.src = producto.imagen;
+          img.alt = producto.nombre;
+
+          const nombre = document.createElement('h3');
+          nombre.textContent = producto.nombre;
+
+          const precio = document.createElement('p');
+          precio.textContent = `S/ ${producto.precio}`;
+
+          card.appendChild(img);
+          card.appendChild(nombre);
+          card.appendChild(precio);
+
+          productosContainer.appendChild(card);
         });
       })
       .catch(error => {

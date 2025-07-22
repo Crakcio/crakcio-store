@@ -110,4 +110,26 @@ footer .social-icons a:hover {
   color: white;
   text-decoration: none;
 }
+.menu {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  gap: 20px; /* Espacio entre los elementos */
+  list-style: none; /* Quita los puntitos */
+  padding: 0;
+  margin: 0;
+}
+
+.menu li a {
+  text-decoration: none;
+  color: #fff; /* Puedes ajustar el color */
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.menu li a:hover {
+  background-color: #1e90ff; /* Efecto al pasar el mouse */
+}
+
 

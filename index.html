@@ -3,65 +3,78 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="index, follow">
-    <meta name="description" content="Crackio Store - Tienda gamer y tecnología smart a precios bajos. Importamos desde China para ti." />
+    <meta name="description" content="Crackio Store - Tecnología gamer e inteligente a precios accesibles" />
+    <meta name="robots" content="index, follow" />
     <title>Crackio Store</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="icon" href="/images/favicon.ico" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      /* Solución para mantener visible el menú desplegable */
-      .group:hover .group-hover\:block {
+      .neon {
+        color: #0ff;
+        text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff;
+      }
+      .dropdown:hover .dropdown-menu {
         display: block;
       }
     </style>
   </head>
-  <body class="bg-gray-900 text-white font-sans">
+  <body class="bg-black text-white font-sans">
     <!-- Header -->
-    <header class="bg-gray-950 p-4 shadow-lg">
-      <div class="container mx-auto flex justify-between items-center">
-        <h1 class="text-2xl font-bold text-blue-500">Crackio Store</h1>
-        <nav class="relative">
-          <ul class="flex gap-6">
-            <li class="relative group">
-              <a href="#" class="hover:text-blue-400">Productos</a>
-              <ul class="absolute hidden group-hover:block bg-gray-800 mt-2 rounded shadow-lg z-50">
-                <li><a href="#iluminacion" class="block px-4 py-2 hover:bg-gray-700">Iluminación</a></li>
-                <li><a href="#teclado" class="block px-4 py-2 hover:bg-gray-700">Teclado</a></li>
-                <li><a href="#mouse" class="block px-4 py-2 hover:bg-gray-700">Mouse</a></li>
-              </ul>
-            </li>
-            <li><a href="#nosotros" class="hover:text-blue-400">Nosotros</a></li>
-            <li><a href="#contacto" class="hover:text-blue-400">Contacto</a></li>
-          </ul>
-        </nav>
-      </div>
+    <header class="bg-gray-900 p-4 flex justify-between items-center">
+      <h1 class="text-3xl font-bold neon">Crackio Store</h1>
+      <nav class="space-x-4">
+        <a href="#inicio" class="hover:underline">Inicio</a>
+        <div class="relative inline-block dropdown">
+          <button class="hover:underline">Productos</button>
+          <div class="dropdown-menu absolute hidden bg-gray-800 mt-2 py-2 w-40 z-10">
+            <a href="#iluminacion" class="block px-4 py-2 hover:bg-gray-700">Iluminación</a>
+            <a href="#teclados" class="block px-4 py-2 hover:bg-gray-700">Teclados</a>
+            <a href="#mouse" class="block px-4 py-2 hover:bg-gray-700">Mouse</a>
+            <a href="#audio" class="block px-4 py-2 hover:bg-gray-700">Audio</a>
+          </div>
+        </div>
+        <a href="#contacto" class="hover:underline">Contacto</a>
+      </nav>
     </header>
 
-    <!-- Banner -->
-    <section class="container mx-auto mt-6 px-4">
-      <img src="images/banner-crackio.jpeg" alt="Banner Crackio Store" class="rounded-xl shadow-xl w-full">
+    <!-- Banner principal -->
+    <section id="inicio" class="mt-4 text-center">
+      <img
+        src="images/banner-crackio.jpeg"
+        alt="Banner Crackio"
+        class="mx-auto w-full max-h-80 object-cover"
+      />
+      <h2 class="text-2xl mt-4 font-semibold">¡Bienvenido a Crackio Store!</h2>
+      <p class="text-gray-400">Tecnología gamer e inteligente a precios accesibles</p>
     </section>
 
-    <!-- Productos -->
-    <section id="productos" class="container mx-auto mt-10 px-4">
-      <h2 class="text-3xl font-bold text-blue-400 mb-6">Productos Destacados</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-          <img src="images/luces-rgb.webp" alt="Luces RGB" class="rounded-lg mb-3">
-          <h3 class="text-xl font-semibold">Luces LED RGB</h3>
-          <p class="text-gray-300">Cambia el ambiente de tu cuarto con estas luces RGB inteligentes.</p>
+    <!-- Productos destacados -->
+    <section id="productos" class="p-4">
+      <h3 class="text-xl font-bold neon text-center mb-6">Productos Destacados</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div class="bg-gray-800 p-4 rounded-lg shadow-md">
+          <img src="images/luces-rgb.webp" alt="Luces RGB" class="w-full h-40 object-cover mb-4" />
+          <h4 class="text-lg font-semibold">Tira LED RGB</h4>
+          <p class="text-gray-400">Ideal para ambientar tu setup gamer</p>
         </div>
-        <div class="bg-gray-800 p-4 rounded-lg shadow-lg">
-          <img src="images/luces-rgbit.webp" alt="Luces RGB IT" class="rounded-lg mb-3">
-          <h3 class="text-xl font-semibold">Luces Gamer RGB IT</h3>
-          <p class="text-gray-300">Iluminación intensa y vibrante ideal para tu setup gamer.</p>
+        <div class="bg-gray-800 p-4 rounded-lg shadow-md">
+          <img src="images/luces-rgbit.webp" alt="Luces RGB Inteligente" class="w-full h-40 object-cover mb-4" />
+          <h4 class="text-lg font-semibold">Tira LED Inteligente</h4>
+          <p class="text-gray-400">Control por voz compatible con Google Assistant</p>
         </div>
       </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-950 mt-12 py-6 text-center text-gray-500">
-      <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
+    <!-- Contacto -->
+    <section id="contacto" class="bg-gray-900 p-6 mt-8">
+      <h3 class="text-xl font-bold mb-4 text-center">Contacto</h3>
+      <p class="text-center">¿Tienes dudas o quieres hacer un pedido?</p>
+      <p class="text-center text-gray-400">Teléfono: 999207025</p>
+      <p class="text-center text-gray-400">Correo: contacto@crakcio.com</p>
+    </section>
+
+    <footer class="bg-gray-950 p-4 text-center text-gray-500 mt-6">
+      © 2025 Crackio Store - Todos los derechos reservados
     </footer>
   </body>
 </html>
-

@@ -7,6 +7,8 @@
   <title>Crakcio Store</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
@@ -56,12 +58,13 @@
     <p>&copy; 2025 Crakcio Store. Todos los derechos reservados.</p>
   </footer>
 
-  <!-- SUPABASE -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script>
-    const supabaseUrl = 'https://twznikjjvtoedfaxbuvf.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3em5pa2pqdnRvZWRmYXhidXZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyOTI1NDAsImV4cCI6MjA2ODg2ODU0MH0.aOQ10hq-syYqrenvFxveBQj6wKqdDtsDKfykSm42MFE';
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+  <!-- SCRIPT -->
+  <script type="module">
+    // ✅ Reemplaza con tus claves reales de Supabase
+    const SUPABASE_URL = 'https://xxxxxxxx.supabase.co';
+    const SUPABASE_KEY = 'eyxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
     async function cargarProductos() {
       const { data: productos, error } = await supabase.from('productos').select('*');
@@ -78,10 +81,11 @@
         const div = document.createElement("div");
         div.classList.add("producto");
         div.innerHTML = `
-          <img src="${producto.imagen}" alt="${producto.nombre}" />
+          <img src="${producto.imagen_url || 'images/default.jpg'}" alt="${producto.nombre}" />
           <h3>${producto.nombre}</h3>
           <p>${producto.descripcion}</p>
-          <p class="precio">S/ ${producto.precio}</p>
+          <p class="precio">S/ ${producto.precio.toFixed(2)}</p>
+          <p class="stock">${producto.stock > 0 ? `Stock: ${producto.stock}` : '<span style="color:red">Agotado</span>'}</p>
         `;
         contenedor.appendChild(div);
       });
@@ -90,6 +94,9 @@
     cargarProductos();
   </script>
 </body>
+
+</html>
+
 
 </html>
 

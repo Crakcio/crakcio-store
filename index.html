@@ -12,6 +12,7 @@
 
   <!-- NAV -->
   <nav class="navbar">
+    <li><a href="#" onclick="mostrarCarrito()"><i class="fas fa-shopping-cart"></i> Carrito (<span id="cantidad-carrito">0</span>)</a></li>
     <ul class="nav-links">
       <li><a href="#">Inicio</a></li>
       <li class="submenu">
@@ -37,6 +38,12 @@
     <h2>Nuestros Productos</h2>
     <div id="contenedor-productos" class="contenedor-productos"></div>
   </section>
+  <div id="carrito-popup" class="carrito-popup oculto">
+  <h3>Tu carrito</h3>
+  <ul id="lista-carrito"></ul>
+  <p id="total-carrito">Total: S/ 0.00</p>
+  <button onclick="cerrarCarrito()">Cerrar</button>
+</div>
 
   <!-- CONTACTO -->
   <section id="contacto" class="contacto">

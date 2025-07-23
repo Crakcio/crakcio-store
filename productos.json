@@ -10,6 +10,13 @@
     "precio": "50.00",
     "descripcion": "Tira LED RGB inteligente compatible con Google Home",
     "imagen": "images/luces-rgbit.webp"
+  },
+  {
+  "nombre": "Enchufe Inteligente",
+  "descripcion": "Controla tus dispositivos por voz o desde el celular. Compatible con Google Home.",
+  "precio": 64,
+  "imagen": "images/enchufe-inteligente.webp",
+  "categoria": "Smart"
   }
 ]
 

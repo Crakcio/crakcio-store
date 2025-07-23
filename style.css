@@ -208,10 +208,12 @@ footer .social-icons a:hover {
 
 .producto {
   background-color: #f4f4f4;
+  color: #111; /* Texto oscuro para fondo claro */
   padding: 15px;
   border-radius: 10px;
   text-align: center;
 }
+
 
 footer {
   background-color: #000;

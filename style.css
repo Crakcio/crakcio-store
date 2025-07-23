@@ -269,6 +269,32 @@ footer {
     font-size: 1.5em;
   }
 }
+.carrito-popup {
+  position: fixed;
+  right: 0;
+  top: 70px;
+  width: 300px;
+  background: #fff;
+  border-left: 2px solid #ccc;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  z-index: 999;
+  transition: right 0.3s ease-in-out;
+}
+.carrito-popup.oculto {
+  right: -350px;
+}
+#lista-carrito {
+  list-style: none;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+#lista-carrito li {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
 
 
 

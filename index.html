@@ -1,69 +1,117 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crackio Store</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body>
-  <header>
-    <h1>Crackio Store</h1>
-    <nav>
-      <a href="#">Inicio</a>
-      <a href="#">Productos</a>
-      <a href="admin.html">Panel Admin</a>
-    </nav>
-  </header>
+  <!-- NAV -->
+  <nav class="navbar">
+    <ul class="nav-links">
+      <li><a href="#">Inicio</a></li>
+      <li class="submenu">
+        <a href="#productos">Productos</a>
+        <ul class="dropdown">
+          <li><a href="#iluminacion">Iluminación</a></li>
+          <li><a href="#smart">Smart</a></li>
+          <li><a href="#teclado">Teclado</a></li>
+          <li><a href="#mouse">Mouse</a></li>
+        </ul>
+      </li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
 
-  <main>
-    <section id="productos" class="productos-container">
-      <!-- Productos se cargan desde Supabase -->
-    </section>
-  </main>
+  <!-- BANNER -->
+  <div class="banner">
+    <img src="images/Banner2.png" alt="Banner Crackio Store" />
+  </div>
 
+  <!-- PRODUCTOS -->
+  <section class="productos" id="productos">
+    <h2>Nuestros Productos</h2>
+    <div id="contenedor-productos" class="contenedor-productos"></div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="contacto">
+    <h2>Contáctanos</h2>
+    <p>¿Tienes dudas? Escríbenos a nuestro WhatsApp o por redes sociales.</p>
+    <p><strong>Email:</strong> contacto@crackio.com</p>
+    <p><strong>WhatsApp:</strong> +51 999 999 999</p>
+  </section>
+
+  <!-- FOOTER -->
   <footer>
+    <div class="redes-sociales">
+      <a href="https://www.facebook.com/people/Crakcio-Store/61578344680156/?locale=es_LA" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://wa.me/tu-numero" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://www.instagram.com/crakciostore/" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
     <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
   </footer>
 
-  <script>
-    const supabaseUrl = 'https://twznikjjvtoedfaxbuvf.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3em5pa2pqdnRvZWRmYXhidXZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyOTI1NDAsImV4cCI6MjA2ODg2ODU0MH0.aOQ10hq-syYqrenvFxveBQj6wKqdDtsDKfykSm42MFE';
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+  <!-- SCRIPT -->
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const SUPABASE_URL = 'https://twznikjjvtoedfaxbuvf.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3em5pa2pqdnRvZWRmYXhidXZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyOTI1NDAsImV4cCI6MjA2ODg2ODU0MH0.aOQ10hq-syYqrenvFxveBQj6wKqdDtsDKfykSm42MFE';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
     async function cargarProductos() {
-      const { data: productos, error } = await supabase
-        .from('productos')
-        .select('*')
-        .order('creado_en', { ascending: false });
+      // Datos fijos con las imágenes reales
+      const productos = [
+        {
+          nombre: "Tira LED RGB 10m",
+          descripcion: "Tira LED inteligente de 10 metros con control.",
+          precio: 30.00,
+          stock: 10,
+          imagen_url: "https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/luces-rgb.webp"
+        },
+        {
+          nombre: "Tira LED RGB Inteligente",
+          descripcion: "Tira led inteligente compatible con Google Home",
+          precio: 50.00,
+          stock: 5,
+          imagen_url: "https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/luces-rgbit.webp"
+        },
+        {
+          nombre: "Enchufe inteligente",
+          descripcion: "Enchufe inteligente compatible con Google Home",
+          precio: 40.00,
+          stock: 8,
+          imagen_url: "https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/enchufe-inteligente.webp"
+        }
+      ];
 
-      const contenedor = document.getElementById('productos');
-      contenedor.innerHTML = '';
+      const contenedor = document.getElementById("contenedor-productos");
+      contenedor.innerHTML = "";
 
-      if (error) {
-        contenedor.innerHTML = '<p>Error al cargar productos.</p>';
-        console.error('Error:', error);
-        return;
-      }
-
-      productos.forEach(producto => {
-        const card = document.createElement('div');
-        card.className = 'producto-card';
-
-        card.innerHTML = `
-          <img src="${producto.imagen_url}" alt="${producto.nombre}" class="producto-img"/>
+      productos.forEach((producto) => {
+        const div = document.createElement("div");
+        div.classList.add("producto");
+        div.innerHTML = `
+          <img src="${producto.imagen_url}" alt="${producto.nombre}" />
           <h3>${producto.nombre}</h3>
           <p>${producto.descripcion}</p>
-          <p><strong>S/ ${producto.precio.toFixed(2)}</strong></p>
-          <button>Añadir al carrito</button>
+          <p class="precio">S/ ${producto.precio.toFixed(2)}</p>
+          <p class="stock">${producto.stock > 0 ? `Stock: ${producto.stock}` : '<span style="color:red">Agotado</span>'}</p>
         `;
-
-        contenedor.appendChild(card);
+        contenedor.appendChild(div);
       });
     }
 
-    document.addEventListener('DOMContentLoaded', cargarProductos);
+    cargarProductos();
   </script>
 </body>
+
 </html>

@@ -7,7 +7,6 @@
   <title>Crackio Store</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
@@ -58,7 +57,7 @@
     <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
   </footer>
 
-  <!-- SCRIPT -->
+  <!-- SCRIPT: Productos desde Supabase -->
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
@@ -68,30 +67,14 @@
     const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
     async function cargarProductos() {
-      // Datos fijos con las imágenes reales
-      const productos = [
-        {
-          nombre: "Tira LED RGB 10m",
-          descripcion: "Tira LED inteligente de 10 metros con control.",
-          precio: 30.00,
-          stock: 10,
-          imagen_url: "https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/luces-rgb.webp"
-        },
-        {
-          nombre: "Tira LED RGB Inteligente",
-          descripcion: "Tira led inteligente compatible con Google Home",
-          precio: 50.00,
-          stock: 5,
-          imagen_url: "https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/luces-rgbit.webp"
-        },
-        {
-          nombre: "Enchufe inteligente",
-          descripcion: "Enchufe inteligente compatible con Google Home",
-          precio: 40.00,
-          stock: 8,
-          imagen_url: "https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/enchufe-inteligente.webp"
-        }
-      ];
+      const { data: productos, error } = await supabase
+        .from('productos')
+        .select('*');
+
+      if (error) {
+        console.error("Error al cargar productos:", error);
+        return;
+      }
 
       const contenedor = document.getElementById("contenedor-productos");
       contenedor.innerHTML = "";

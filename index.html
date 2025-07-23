@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Crakcio Store</title>
+  <title>Crackio Store</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-
 <body>
+
   <!-- NAV -->
   <nav class="navbar">
     <ul class="nav-links">
@@ -31,7 +29,7 @@
 
   <!-- BANNER -->
   <div class="banner">
-    <img src="images/Banner2.png" alt="Banner Crakcio Store" />
+    <img src="images/Banner2.png" alt="Banner Crackio Store" />
   </div>
 
   <!-- PRODUCTOS -->
@@ -55,12 +53,13 @@
       <a href="https://wa.me/tu-numero" target="_blank"><i class="fab fa-whatsapp"></i></a>
       <a href="https://www.instagram.com/crakciostore/" target="_blank"><i class="fab fa-instagram"></i></a>
     </div>
-    <p>&copy; 2025 Crakcio Store. Todos los derechos reservados.</p>
+    <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
   </footer>
 
-  <!-- SCRIPT -->
+  <!-- SCRIPT: Supabase carga de productos -->
   <script type="module">
-    // ✅ Reemplaza con tus claves reales de Supabase
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
     const SUPABASE_URL = 'https://twznikjjvtoedfaxbuvf.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3em5pa2pqdnRvZWRmYXhidXZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyOTI1NDAsImV4cCI6MjA2ODg2ODU0MH0.aOQ10hq-syYqrenvFxveBQj6wKqdDtsDKfykSm42MFE';
 
@@ -94,11 +93,4 @@
     cargarProductos();
   </script>
 </body>
-
 </html>
-
-
-</html>
-
-
-

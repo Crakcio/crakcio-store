@@ -2,101 +2,117 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Crackio Store</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
+  <header>
+    <h1>Crackio Store</h1>
+    <nav>
+      <ul>
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#" onclick="mostrarCarrito()">
+          <i class="fas fa-shopping-cart"></i> Carrito (<span id="cantidad-carrito">0</span>)
+        </a></li>
+      </ul>
+    </nav>
+  </header>
 
-  <!-- NAV -->
-  <nav class="navbar">
-    <li><a href="#" onclick="mostrarCarrito()"><i class="fas fa-shopping-cart"></i> Carrito (<span id="cantidad-carrito">0</span>)</a></li>
-    <ul class="nav-links">
-      <li><a href="#">Inicio</a></li>
-      <li class="submenu">
-        <a href="#productos">Productos</a>
-        <ul class="dropdown">
-          <li><a href="#iluminacion">Iluminación</a></li>
-          <li><a href="#smart">Smart</a></li>
-          <li><a href="#teclado">Teclado</a></li>
-          <li><a href="#mouse">Mouse</a></li>
-        </ul>
-      </li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul>
-  </nav>
+  <main>
+    <section id="productos" class="productos">
+      <!-- Productos serán cargados dinámicamente aquí -->
+    </section>
+  </main>
 
-  <!-- BANNER -->
-  <div class="banner">
-    <img src="images/Banner2.png" alt="Banner Crackio Store" />
+  <!-- Carrito de compras -->
+  <div id="carrito-popup" class="carrito-popup oculto">
+    <h3>Tu carrito</h3>
+    <ul id="lista-carrito"></ul>
+    <p id="total-carrito">Total: S/ 0.00</p>
+    <button onclick="cerrarCarrito()">Cerrar</button>
   </div>
 
-  <!-- PRODUCTOS -->
-  <section class="productos" id="productos">
-    <h2>Nuestros Productos</h2>
-    <div id="contenedor-productos" class="contenedor-productos"></div>
-  </section>
-  <div id="carrito-popup" class="carrito-popup oculto">
-  <h3>Tu carrito</h3>
-  <ul id="lista-carrito"></ul>
-  <p id="total-carrito">Total: S/ 0.00</p>
-  <button onclick="cerrarCarrito()">Cerrar</button>
-</div>
-
-  <!-- CONTACTO -->
-  <section id="contacto" class="contacto">
-    <h2>Contáctanos</h2>
-    <p>¿Tienes dudas? Escríbenos a nuestro WhatsApp o por redes sociales.</p>
-    <p><strong>Email:</strong> contacto@crakcio.com</p>
-    <p><strong>WhatsApp:</strong> +51 999 999 999</p>
-  </section>
-
-  <!-- FOOTER -->
   <footer>
-    <div class="redes-sociales">
-      <a href="https://www.facebook.com/people/Crakcio-Store/61578344680156/?locale=es_LA" target="_blank"><i class="fab fa-facebook"></i></a>
-      <a href="https://wa.me/tu-numero" target="_blank"><i class="fab fa-whatsapp"></i></a>
-      <a href="https://www.instagram.com/crakciostore/" target="_blank"><i class="fab fa-instagram"></i></a>
-    </div>
     <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
   </footer>
 
-  <!-- SCRIPT: Supabase carga de productos -->
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  <script>
+    const supabaseUrl = 'https://TU_PROYECTO.supabase.co';
+    const supabaseKey = 'TU_PUBLIC_KEY';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    const SUPABASE_URL = 'https://twznikjjvtoedfaxbuvf.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3em5pa2pqdnRvZWRmYXhidXZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyOTI1NDAsImV4cCI6MjA2ODg2ODU0MH0.aOQ10hq-syYqrenvFxveBQj6wKqdDtsDKfykSm42MFE';
-
-    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    const contenedorProductos = document.getElementById("productos");
 
     async function cargarProductos() {
       const { data: productos, error } = await supabase.from('productos').select('*');
 
       if (error) {
-        console.error('Error cargando productos:', error.message);
+        console.error("Error al cargar productos:", error.message);
+        contenedorProductos.innerHTML = "<p>Error al cargar productos</p>";
         return;
       }
 
-      const contenedor = document.getElementById("contenedor-productos");
-      contenedor.innerHTML = "";
+      contenedorProductos.innerHTML = "";
 
-      productos.forEach((producto) => {
+      productos.forEach(producto => {
         const div = document.createElement("div");
-        div.classList.add("producto");
+        div.className = "producto";
         div.innerHTML = `
           <img src="${producto.imagen_url || 'images/default.jpg'}" alt="${producto.nombre}" />
           <h3>${producto.nombre}</h3>
           <p>${producto.descripcion}</p>
           <p class="precio">S/ ${producto.precio.toFixed(2)}</p>
           <p class="stock">${producto.stock > 0 ? `Stock: ${producto.stock}` : '<span style="color:red">Agotado</span>'}</p>
+          ${producto.stock > 0 ? `<button onclick='agregarAlCarrito(${JSON.stringify(producto)})'>Agregar al carrito</button>` : ''}
         `;
-        contenedor.appendChild(div);
+        contenedorProductos.appendChild(div);
       });
     }
 
+    // ----- CARRITO -----
+    let carrito = [];
+
+    function agregarAlCarrito(producto) {
+      const existe = carrito.find(item => item.id === producto.id);
+      if (existe) {
+        existe.cantidad += 1;
+      } else {
+        carrito.push({ ...producto, cantidad: 1 });
+      }
+      actualizarCarrito();
+    }
+
+    function actualizarCarrito() {
+      const lista = document.getElementById("lista-carrito");
+      const cantidadSpan = document.getElementById("cantidad-carrito");
+      const totalSpan = document.getElementById("total-carrito");
+
+      lista.innerHTML = "";
+      let total = 0;
+
+      carrito.forEach(item => {
+        total += item.precio * item.cantidad;
+        const li = document.createElement("li");
+        li.textContent = `${item.nombre} x${item.cantidad} - S/ ${(item.precio * item.cantidad).toFixed(2)}`;
+        lista.appendChild(li);
+      });
+
+      cantidadSpan.textContent = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+      totalSpan.textContent = `Total: S/ ${total.toFixed(2)}`;
+    }
+
+    function mostrarCarrito() {
+      document.getElementById("carrito-popup").classList.remove("oculto");
+    }
+
+    function cerrarCarrito() {
+      document.getElementById("carrito-popup").classList.add("oculto");
+    }
+
+    // Iniciar carga
     cargarProductos();
   </script>
 </body>

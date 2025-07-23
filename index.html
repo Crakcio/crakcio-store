@@ -6,34 +6,22 @@
   <title>Crackio Store</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
     <h1>Crackio Store</h1>
     <nav>
-      <ul>
-        <li><a href="#">Inicio</a></li>
-        <li><a href="#" onclick="mostrarCarrito()">
-          <i class="fas fa-shopping-cart"></i> Carrito (<span id="cantidad-carrito">0</span>)
-        </a></li>
-      </ul>
+      <a href="#">Inicio</a>
+      <a href="#">Productos</a>
+      <a href="admin.html">Panel Admin</a>
     </nav>
   </header>
 
   <main>
-    <section id="productos" class="productos">
-      <!-- Productos serán cargados dinámicamente aquí -->
+    <section id="productos" class="productos-container">
+      <!-- Productos se cargan desde Supabase -->
     </section>
   </main>
-
-  <!-- Carrito de compras -->
-  <div id="carrito-popup" class="carrito-popup oculto">
-    <h3>Tu carrito</h3>
-    <ul id="lista-carrito"></ul>
-    <p id="total-carrito">Total: S/ 0.00</p>
-    <button onclick="cerrarCarrito()">Cerrar</button>
-  </div>
 
   <footer>
     <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
@@ -44,76 +32,38 @@
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3em5pa2pqdnRvZWRmYXhidXZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyOTI1NDAsImV4cCI6MjA2ODg2ODU0MH0.aOQ10hq-syYqrenvFxveBQj6wKqdDtsDKfykSm42MFE';
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    const contenedorProductos = document.getElementById("productos");
-
     async function cargarProductos() {
-      const { data: productos, error } = await supabase.from('productos').select('*');
+      const { data: productos, error } = await supabase
+        .from('productos')
+        .select('*')
+        .order('creado_en', { ascending: false });
+
+      const contenedor = document.getElementById('productos');
+      contenedor.innerHTML = '';
 
       if (error) {
-        console.error("Error al cargar productos:", error.message);
-        contenedorProductos.innerHTML = "<p>Error al cargar productos</p>";
+        contenedor.innerHTML = '<p>Error al cargar productos.</p>';
+        console.error('Error:', error);
         return;
       }
 
-      contenedorProductos.innerHTML = "";
-
       productos.forEach(producto => {
-        const div = document.createElement("div");
-        div.className = "producto";
-        div.innerHTML = `
-          <img src="${producto.imagen_url || 'images/default.jpg'}" alt="${producto.nombre}" />
+        const card = document.createElement('div');
+        card.className = 'producto-card';
+
+        card.innerHTML = `
+          <img src="${producto.imagen_url}" alt="${producto.nombre}" class="producto-img"/>
           <h3>${producto.nombre}</h3>
           <p>${producto.descripcion}</p>
-          <p class="precio">S/ ${producto.precio.toFixed(2)}</p>
-          <p class="stock">${producto.stock > 0 ? `Stock: ${producto.stock}` : '<span style="color:red">Agotado</span>'}</p>
-          ${producto.stock > 0 ? `<button onclick='agregarAlCarrito(${JSON.stringify(producto)})'>Agregar al carrito</button>` : ''}
+          <p><strong>S/ ${producto.precio.toFixed(2)}</strong></p>
+          <button>Añadir al carrito</button>
         `;
-        contenedorProductos.appendChild(div);
+
+        contenedor.appendChild(card);
       });
     }
 
-    // ----- CARRITO -----
-    let carrito = [];
-
-    function agregarAlCarrito(producto) {
-      const existe = carrito.find(item => item.id === producto.id);
-      if (existe) {
-        existe.cantidad += 1;
-      } else {
-        carrito.push({ ...producto, cantidad: 1 });
-      }
-      actualizarCarrito();
-    }
-
-    function actualizarCarrito() {
-      const lista = document.getElementById("lista-carrito");
-      const cantidadSpan = document.getElementById("cantidad-carrito");
-      const totalSpan = document.getElementById("total-carrito");
-
-      lista.innerHTML = "";
-      let total = 0;
-
-      carrito.forEach(item => {
-        total += item.precio * item.cantidad;
-        const li = document.createElement("li");
-        li.textContent = `${item.nombre} x${item.cantidad} - S/ ${(item.precio * item.cantidad).toFixed(2)}`;
-        lista.appendChild(li);
-      });
-
-      cantidadSpan.textContent = carrito.reduce((sum, item) => sum + item.cantidad, 0);
-      totalSpan.textContent = `Total: S/ ${total.toFixed(2)}`;
-    }
-
-    function mostrarCarrito() {
-      document.getElementById("carrito-popup").classList.remove("oculto");
-    }
-
-    function cerrarCarrito() {
-      document.getElementById("carrito-popup").classList.add("oculto");
-    }
-
-    // Iniciar carga
-    cargarProductos();
+    document.addEventListener('DOMContentLoaded', cargarProductos);
   </script>
 </body>
 </html>

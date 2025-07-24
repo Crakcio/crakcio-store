@@ -1,56 +1,100 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crackio Store</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body>
-  <header>
-    <h1>Crackio Store</h1>
-  </header>
+  <!-- NAV -->
+  <nav class="navbar">
+    <ul class="nav-links">
+      <li><a href="#">Inicio</a></li>
+      <li class="submenu">
+        <a href="#productos">Productos</a>
+        <ul class="dropdown">
+          <li><a href="#iluminacion">Iluminación</a></li>
+          <li><a href="#smart">Smart</a></li>
+          <li><a href="#teclado">Teclado</a></li>
+          <li><a href="#mouse">Mouse</a></li>
+        </ul>
+      </li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
 
-  <main>
-    <section>
-      <h2 style="text-align: center">Nuestros Productos</h2>
-      <div id="productos" class="productos-container"></div>
-    </section>
-  </main>
+  <!-- BANNER -->
+  <div class="banner">
+    <img src="images/Banner2.png" alt="Banner Crackio Store" />
+  </div>
 
+  <!-- PRODUCTOS -->
+  <section class="productos" id="productos">
+    <h2>Nuestros Productos</h2>
+    <div id="contenedor-productos" class="contenedor-productos"></div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="contacto">
+    <h2>Contáctanos</h2>
+    <p>¿Tienes dudas? Escríbenos a nuestro WhatsApp o por redes sociales.</p>
+    <p><strong>Email:</strong> contacto@crackio.com</p>
+    <p><strong>WhatsApp:</strong> +51 999 999 999</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="redes-sociales">
+      <a href="https://www.facebook.com/people/Crakcio-Store/61578344680156/?locale=es_LA" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://wa.me/tu-numero" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://www.instagram.com/crakciostore/" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+    <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- SCRIPT: Productos desde Supabase -->
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-    const supabaseUrl = 'https://twznikjjvtoedfaxbuvf.supabase.co';
-    const supabaseKey = 'tu-api-key-aqui'; // ⚠️ Reemplaza por tu API KEY real
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    const SUPABASE_URL = 'https://twznikjjvtoedfaxbuvf.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3em5pa2pqdnRvZWRmYXhidXZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyOTI1NDAsImV4cCI6MjA2ODg2ODU0MH0.aOQ10hq-syYqrenvFxveBQj6wKqdDtsDKfykSm42MFE';
 
-    const contenedor = document.getElementById('productos');
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
     async function cargarProductos() {
-      const { data, error } = await supabase.from('productos').select('*');
+      const { data: productos, error } = await supabase
+        .from('productos')
+        .select('*');
+
       if (error) {
-        console.error('Error al cargar productos:', error);
+        console.error("Error al cargar productos:", error);
         return;
       }
 
-      data.forEach((producto) => {
-        const card = document.createElement('div');
-        card.classList.add('producto');
+      const contenedor = document.getElementById("contenedor-productos");
+      contenedor.innerHTML = "";
 
-        card.innerHTML = `
-          <img src="${producto.imagen_url}" alt="${producto.nombre}" class="producto-img" />
+      productos.forEach((producto) => {
+        const div = document.createElement("div");
+        div.classList.add("producto");
+        div.innerHTML = `
+          <img class="producto-img" src="${producto.imagen_url}" alt="${producto.nombre}" />
           <h3>${producto.nombre}</h3>
           <p>${producto.descripcion}</p>
-          <p>S/ ${parseFloat(producto.precio).toFixed(2)}</p>
-          <p>Stock: ${producto.stock}</p>
+          <p class="precio">S/ ${producto.precio.toFixed(2)}</p>
+          <p class="stock">${producto.stock > 0 ? `Stock: ${producto.stock}` : '<span style="color:red">Agotado</span>'}</p>
         `;
-
-        contenedor.appendChild(card);
+        contenedor.appendChild(div);
       });
     }
 
     cargarProductos();
   </script>
 </body>
+
 </html>

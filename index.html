@@ -313,6 +313,23 @@
 <!-- Incluye Supabase (si no lo has hecho ya) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 <script>
+      function validarFormulario() {
+  const nombre = document.getElementById("nombreCliente").value.trim();
+  const telefono = document.getElementById("telefonoCliente").value.trim();
+  const direccion = document.getElementById("direccionCliente").value.trim();
+
+  if (!nombre || !telefono || !direccion) {
+    alert("Por favor, completa todos los campos obligatorios.");
+    return false;
+  }
+
+  if (!/^[9]\d{8}$/.test(telefono)) {
+    alert("Ingresa un número de teléfono válido de 9 dígitos (Ej: 999123456).");
+    return false;
+  }
+
+  return true;
+}
 function enviarPedidoWhatsApp() {
   const nombre = document.getElementById("nombreCliente").value;
   const direccion = document.getElementById("direccionCliente").value;
@@ -350,13 +367,20 @@ function enviarPedidoWhatsApp() {
 document.addEventListener("DOMContentLoaded", () => {
   const boton = document.getElementById("btn-enviar-pedido");
   if (boton) {
-    boton.addEventListener("click", enviarPedidoWhatsApp);
+    boton.addEventListener("click", () => {
+  if (validarFormulario()) {
+    enviarPedidoWhatsApp();
+  }
+});
+
   }
 });
 </script>
 <script>
   function mostrarFormularioPedido() {
     document.getElementById("formulario-pedido").style.display = "block";
+
+
   }
 </script>
 </body>

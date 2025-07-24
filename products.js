@@ -2,34 +2,6 @@
 import { supabase } from './app.js';
 import { agregarAlCarrito } from './ui.js';
 const baseUrl = "https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos";
-const img.src = `${baseUrl}/${producto.imagen}`;
-
-export const productos = [
-  {
-    id: 1,
-    nombre: "Luces LED RGB",
-    precio: 30.00,
-    imagen: "images/luces-rgb.webp",
-  },
-  {
-    id: 2,
-    nombre: "Luces LED RGB Inteligente",
-    precio: 50.00,
-    imagen: "images/luces-rgbit.webp",
-  },
-  {
-    id: 3,
-    nombre: "Enchufe Inteligente",
-    precio: 40.00,
-    imagen: "images/enchufe-inteligente.webp",
-  },
-  {
-    id: 4,
-    nombre: "Webcam HD",
-    precio: 59.9,
-    imagen: "images/webcam1.jpg",
-  }
-];
 
 // products.js
 

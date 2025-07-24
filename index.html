@@ -546,6 +546,99 @@ async function verificarSesion() {
     }
   }
 </script>
+<!-- FORMULARIO DE AUTENTICACIÓN -->
+<div id="auth-container">
+  <div id="login-form" style="display: none;">
+    <h3>Iniciar Sesión</h3>
+    <input type="email" id="loginEmail" placeholder="Email" required><br><br>
+    <input type="password" id="loginPassword" placeholder="Contraseña" required><br><br>
+    <button onclick="login()">Iniciar Sesión</button>
+  </div>
+
+  <div id="registro-form" style="display: none;">
+    <h3>Crear Cuenta</h3>
+    <input type="email" id="registroEmail" placeholder="Email" required><br><br>
+    <input type="password" id="registroPassword" placeholder="Contraseña" required><br><br>
+    <button onclick="registrar()">Crear Cuenta</button>
+  </div>
+
+  <div id="logout-container" style="display: none;">
+    <p id="usuario-logueado"></p>
+    <button onclick="logout()">Cerrar Sesión</button>
+  </div>
+
+  <!-- Botones para abrir los formularios -->
+  <button onclick="mostrarLogin()">Iniciar Sesión</button>
+  <button onclick="mostrarRegistro()">Crear Cuenta</button>
+</div>
+<script>
+  const supabase = supabase.createClient('https://<TU-PROYECTO>.supabase.co', 'TU_PUBLIC_ANON_KEY');
+
+  function mostrarLogin() {
+    document.getElementById('login-form').style.display = 'block';
+    document.getElementById('registro-form').style.display = 'none';
+  }
+
+  function mostrarRegistro() {
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('registro-form').style.display = 'block';
+  }
+
+  async function registrar() {
+    const email = document.getElementById('registroEmail').value;
+    const password = document.getElementById('registroPassword').value;
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: '', // vacío desactiva confirmación por email
+      }
+    });
+
+    if (error) {
+      alert("Error al registrar: " + error.message);
+    } else {
+      alert("Cuenta creada con éxito.");
+      mostrarLogin();
+    }
+  }
+
+  async function login() {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      alert("Error al iniciar sesión: " + error.message);
+    } else {
+      alert("Sesión iniciada correctamente");
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('logout-container').style.display = 'block';
+      document.getElementById('usuario-logueado').textContent = `Bienvenido, ${email}`;
+    }
+  }
+
+  async function logout() {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      alert("Error al cerrar sesión: " + error.message);
+    } else {
+      alert("Sesión cerrada");
+      document.getElementById('logout-container').style.display = 'none';
+    }
+  }
+
+  // Verificar si hay usuario logueado al cargar
+  window.addEventListener('DOMContentLoaded', async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      document.getElementById('logout-container').style.display = 'block';
+      document.getElementById('usuario-logueado').textContent = `Bienvenido, ${session.user.email}`;
+    }
+  });
+</script>
 
 </body>
 

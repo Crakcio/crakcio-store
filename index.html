@@ -27,6 +27,20 @@
       <li><a href="#contacto">Contacto</a></li>
     </ul>
   </nav>
+<!-- ÍCONO DE CARRITO -->
+<div class="carrito-icono" onclick="mostrarCarrito()">
+  🛒 <span id="contador-carrito">0</span>
+</div>
+
+<!-- MODAL DEL CARRITO -->
+<div id="modal-carrito" class="modal-carrito">
+  <div class="modal-contenido">
+    <span class="cerrar" onclick="cerrarCarrito()">&times;</span>
+    <h2>Tu Carrito</h2>
+    <div id="lista-carrito"></div>
+    <p id="total-carrito">Total: S/ 0.00</p>
+  </div>
+</div>
 
   <!-- BANNER -->
   <div class="banner">
@@ -82,19 +96,78 @@
       productos.forEach((producto) => {
         const div = document.createElement("div");
         div.classList.add("producto-card");
-        div.innerHTML = `
-          <img class="producto-img" src="${producto.imagen_url}" alt="${producto.nombre}" />
-          <h3>${producto.nombre}</h3>
-          <p>${producto.descripcion}</p>
-          <p class="precio">S/ ${producto.precio.toFixed(2)}</p>
-          <p class="stock">${producto.stock > 0 ? `Stock: ${producto.stock}` : '<span style="color:red">Agotado</span>'}</p>
-        `;
+       div.innerHTML = `
+  <img class="producto-img" src="${producto.imagen_url}" alt="${producto.nombre}" />
+  <h3>${producto.nombre}</h3>
+  <p>${producto.descripcion}</p>
+  <p class="precio">S/ ${producto.precio.toFixed(2)}</p>
+  <p class="stock">${producto.stock > 0 ? `Stock: ${producto.stock}` : '<span style="color:red">Agotado</span>'}</p>
+  ${producto.stock > 0 ? `<button onclick='agregarAlCarrito(${JSON.stringify(producto)})'>Agregar al carrito</button>` : ''}
+`;
+
         contenedor.appendChild(div);
       });
     }
 
     cargarProductos();
   </script>
+  <script>
+  let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+  function agregarAlCarrito(producto) {
+    const index = carrito.findIndex(p => p.id === producto.id);
+    if (index > -1) {
+      carrito[index].cantidad += 1;
+    } else {
+      carrito.push({ ...producto, cantidad: 1 });
+    }
+    actualizarCarrito();
+  }
+
+  function mostrarCarrito() {
+    document.getElementById('modal-carrito').style.display = 'block';
+    renderizarCarrito();
+  }
+
+  function cerrarCarrito() {
+    document.getElementById('modal-carrito').style.display = 'none';
+  }
+
+  function eliminarDelCarrito(id) {
+    carrito = carrito.filter(p => p.id !== id);
+    actualizarCarrito();
+  }
+
+  function actualizarCarrito() {
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+    document.getElementById('contador-carrito').innerText = carrito.reduce((acc, p) => acc + p.cantidad, 0);
+    renderizarCarrito();
+  }
+
+  function renderizarCarrito() {
+    const lista = document.getElementById('lista-carrito');
+    const total = document.getElementById('total-carrito');
+    lista.innerHTML = '';
+
+    let totalPrecio = 0;
+    carrito.forEach(p => {
+      totalPrecio += p.precio * p.cantidad;
+      const div = document.createElement('div');
+      div.classList.add('item-carrito');
+      div.innerHTML = `
+        <p><strong>${p.nombre}</strong> (x${p.cantidad}) - S/ ${(p.precio * p.cantidad).toFixed(2)}</p>
+        <button onclick="eliminarDelCarrito(${p.id})">Eliminar</button>
+      `;
+      lista.appendChild(div);
+    });
+
+    total.innerText = `Total: S/ ${totalPrecio.toFixed(2)}`;
+  }
+
+  // Al cargar la página
+  actualizarCarrito();
+</script>
+
 </body>
 
 </html>

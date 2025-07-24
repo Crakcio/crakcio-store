@@ -175,6 +175,11 @@
     const lista = document.getElementById('lista-carrito');
     const total = document.getElementById('total-carrito');
     lista.innerHTML = '';
+    if (carrito.length === 0) {
+    lista.innerHTML = "<p>Tu carrito está vacío.</p>";
+    total.innerText = "Total: S/ 0.00";
+    return;
+  }
 
     let totalPrecio = 0;
     carrito.forEach(p => {
@@ -183,33 +188,20 @@
       div.classList.add('item-carrito');
       div.innerHTML = `
         <p><strong>${p.nombre}</strong> (x${p.cantidad}) - S/ ${(p.precio * p.cantidad).toFixed(2)}</p>
-        
-        <button id="vaciar-carrito" class="btn btn-danger">Vaciar carrito</button>
         <button onclick="eliminarDelCarrito(${p.id})">Eliminar</button>
       `;
       lista.appendChild(div);
     });
-
+ // Botón para vaciar carrito
+  const btnVaciar = document.createElement("button");
+  btnVaciar.innerText = "Vaciar carrito";
+  btnVaciar.onclick = () => {
+    carrito = [];
+    actualizarCarrito();
+  };
+  lista.appendChild(btnVaciar);
     total.innerText = `Total: S/ ${totalPrecio.toFixed(2)}`;
   }
-
-  if (carrito.length === 0) {
-    alert("Tu carrito está vacío.");
-    return;
-  }
-
-  mensaje += `📦 *Productos:*%0A`;
-  carrito.forEach((item, index) => {
-    mensaje += `• ${item.nombre} - S/ ${item.precio} x${item.cantidad}%0A`;
-  });
-
-  const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
-  mensaje += `%0A💵 *Total:* S/ ${total.toFixed(2)}`;
-
-  const numeroWhatsApp = "51999207025"; // ← reemplaza con tu número sin +
-  const url = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
-
-  window.open(url, "_blank");
 });
 
   // Al cargar la página

@@ -1,6 +1,32 @@
 
 import { supabase } from './app.js';
 import { agregarAlCarrito } from './ui.js';
+export const productos = [
+  {
+    id: 1,
+    nombre: "Luces LED RGB",
+    precio: 30.00,
+    imagen: "images/luces-rgb.webp",
+  },
+  {
+    id: 2,
+    nombre: "Luces LED RGB Inteligente",
+    precio: 50.00,
+    imagen: "images/luces-rgbit.webp",
+  },
+  {
+    id: 3,
+    nombre: "Enchufe Inteligente",
+    precio: 40.00,
+    imagen: "images/enchufe-inteligente.webp",
+  },
+  {
+    id: 4,
+    nombre: "Webcam HD",
+    precio: 59.9,
+    imagen: "images/webcam1.jpg",
+  }
+];
 
 export async function cargarProductos() {
   const { data: productos, error } = await supabase.from('productos').select('*');

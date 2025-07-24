@@ -35,15 +35,12 @@ main {
 }
 
 .productos-container {
-  display: flex;
+  display: flex !important;
   flex-wrap: wrap;
   gap: 1.5rem;
   justify-content: center;
   padding: 1rem;
 }
-
-
-
 
 .producto-card {
   background-color: #1e1e1e;
@@ -52,22 +49,14 @@ main {
   box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   text-align: center;
   transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 230px;
 }
 
 .producto-card:hover {
   transform: scale(1.03);
-}
-.producto {
-  background-color: #1e1e1e;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-  width: 230px; /* clave para mantener proporciones */
-  text-align: center;
-  transition: transform 0.2s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .producto-img {
@@ -76,6 +65,7 @@ main {
   object-fit: cover;
   border-radius: 8px;
 }
+
 
 button {
   margin-top: 0.8rem;

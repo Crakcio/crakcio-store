@@ -214,8 +214,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const supabase = createClient(
-    'https://TU_URL_SUPABASE.supabase.co',
-    'TU_PUBLIC_ANON_KEY'
+    'https://twznikjjvtoedfaxbuvf.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3em5pa2pqdnRvZWRmYXhidXZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyOTI1NDAsImV4cCI6MjA2ODg2ODU0MH0.aOQ10hq-syYqrenvFxveBQj6wKqdDtsDKfykSm42MFE'
   );
 
   async function enviarPedidoASupabase(pedido) {
@@ -383,6 +383,85 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+  const supabase = supabase.createClient(
+    'https://twznikjjvtoedfaxbuvf.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3em5pa2pqdnRvZWRmYXhidXZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyOTI1NDAsImV4cCI6MjA2ODg2ODU0MH0.aOQ10hq-syYqrenvFxveBQj6wKqdDtsDKfykSm42MFE'
+  );
+
+  // REGISTRO
+  async function signup(email, password) {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password
+    });
+
+    if (error) {
+      alert("Error al registrar: " + error.message);
+    } else {
+      alert("Registrado correctamente. Revisa tu correo.");
+    }
+  }
+
+
+  // INICIO DE SESIÓN
+  async function login(email, password) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) {
+      alert("Error al iniciar sesión: " + error.message);
+    } else {
+      alert("Inicio de sesión exitoso.");
+    }
+  }
+async function verificarSesion() {
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (user) {
+    console.log("🟢 Usuario logueado:", user.email);
+    // Aquí puedes mostrar el nombre o habilitar el envío de pedido
+  } else {
+    console.log("🔴 No hay usuario logueado");
+    // Podrías deshabilitar el botón de enviar o mostrar formulario
+  }
+}
+  // OBTENER USUARIO ACTUAL
+  async function obtenerUsuarioActual() {
+    const { data: { user } } = await supabase.auth.getUser();
+    console.log("Usuario actual:", user);
+  }
+
+  // CERRAR SESIÓN
+  async function logout() {
+    await supabase.auth.signOut();
+    alert("Sesión cerrada");
+  }
+  async function registroDesdeFormulario() {
+  const email = document.getElementById('auth-email').value;
+  const password = document.getElementById('auth-password').value;
+
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password
+  });
+
+  if (error) {
+    alert("❌ Error al registrarse: " + error.message);
+  } else {
+    alert("✅ Registrado correctamente. Verifica tu correo.");
+  }
+}
+  window.addEventListener("DOMContentLoaded", () => {
+    verificarSesion(); // al cargar la página
+  });
+
+</script>
+
 </body>
 
 </html>

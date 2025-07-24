@@ -163,6 +163,34 @@
 
     total.innerText = `Total: S/ ${totalPrecio.toFixed(2)}`;
   }
+document.getElementById('formularioPedido').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const nombre = document.getElementById('nombreCliente').value.trim();
+  const direccion = document.getElementById('direccionCliente').value.trim();
+  const referencia = document.getElementById('referenciaCliente').value.trim();
+
+  let mensaje = `🛒 *Nuevo pedido desde Crackio.com*%0A`;
+  mensaje += `👤 *Cliente:* ${nombre}%0A📍 *Dirección:* ${direccion}%0A📌 *Referencia:* ${referencia || 'Ninguna'}%0A%0A`;
+
+  if (carrito.length === 0) {
+    alert("Tu carrito está vacío.");
+    return;
+  }
+
+  mensaje += `📦 *Productos:*%0A`;
+  carrito.forEach((item, index) => {
+    mensaje += `• ${item.nombre} - S/ ${item.precio} x${item.cantidad}%0A`;
+  });
+
+  const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+  mensaje += `%0A💵 *Total:* S/ ${total.toFixed(2)}`;
+
+  const numeroWhatsApp = "51TU_NUMERO"; // ← reemplaza con tu número sin +
+  const url = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
+
+  window.open(url, "_blank");
+});
 
   // Al cargar la página
   actualizarCarrito();

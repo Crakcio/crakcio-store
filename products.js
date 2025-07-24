@@ -49,3 +49,15 @@ export async function cargarProductos() {
     contenedor.appendChild(div);
   });
 }
+import { supabase } from './supabaseClient.js';
+
+export async function obtenerProductos() {
+  const { data, error } = await supabase.from("productos").select("*");
+
+  if (error) {
+    console.error("Error al obtener productos:", error.message);
+    return [];
+  }
+
+  return data;
+}

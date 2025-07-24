@@ -41,6 +41,32 @@
     <p id="total-carrito">Total: S/ 0.00</p>
   </div>
 </div>
+<!-- FORMULARIO DE PEDIDO -->
+<div id="formulario-pedido" style="display: none;">
+  <h3>Finalizar pedido</h3>
+  <form id="pedidoForm">
+    <label>Nombre:</label><br>
+    <input type="text" id="nombreCliente" required><br><br>
+
+    <label>Teléfono:</label><br>
+    <input type="text" id="telefonoCliente" required><br><br>
+
+    <label>Dirección:</label><br>
+    <input type="text" id="direccionCliente" required><br><br>
+
+    <label>Método de pago:</label><br>
+    <select id="metodoPago">
+      <option value="Yape">Yape</option>
+      <option value="Plin">Plin</option>
+      <option value="Efectivo">Efectivo</option>
+    </select><br><br>
+
+    <label>Notas (opcional):</label><br>
+    <textarea id="notasCliente" rows="3"></textarea><br><br>
+
+    <button type="submit">Enviar Pedido</button>
+  </form>
+</div>
 
   <!-- BANNER -->
   <div class="banner">
@@ -279,6 +305,56 @@ document.getElementById('formularioPedido').addEventListener('submit', function(
   <a href="politica.html">Política de Privacidad</a> | 
   <a href="condiciones.html">Condiciones de Compra</a>
 </footer>
+<script type="module">
+  // Configuración de Supabase
+  const supabaseUrl = 'https://TU-PROYECTO.supabase.co';
+  const supabaseKey = 'TU-API-KEY-PUBLICA';
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+  // Función para obtener productos del carrito (ajusta según cómo los almacenes)
+  function obtenerCarrito() {
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    return carrito;
+  }
+
+  document.getElementById('pedidoForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const nombre = document.getElementById('nombreCliente').value;
+    const telefono = document.getElementById('telefonoCliente').value;
+    const direccion = document.getElementById('direccionCliente').value;
+    const metodoPago = document.getElementById('metodoPago').value;
+    const notas = document.getElementById('notasCliente').value;
+    const productos = obtenerCarrito();
+
+    const total = productos.reduce((acc, prod) => acc + (prod.precio * prod.cantidad), 0);
+
+    const { data, error } = await supabase
+      .from('pedidos')
+      .insert([{
+        nombre_cliente: nombre,
+        telefono,
+        direccion,
+        metodo_pago: metodoPago,
+        notas,
+        productos,
+        total,
+        estado: 'pendiente'
+      }]);
+
+    if (error) {
+      alert('Error al registrar pedido: ' + error.message);
+      console.error(error);
+    } else {
+      alert('¡Pedido enviado con éxito!');
+      localStorage.removeItem('carrito');
+      location.reload(); // o redirigir a una página de éxito
+    }
+  });
+</script>
+
+<!-- Incluye Supabase (si no lo has hecho ya) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
 </body>
 

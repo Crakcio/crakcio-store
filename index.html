@@ -482,6 +482,34 @@ async function verificarSesion() {
   });
 
 </script>
+<!-- FORMULARIO DE REGISTRO -->
+<div id="registro">
+  <h3>Crear cuenta</h3>
+  <input type="email" id="registroEmail" placeholder="Correo electrónico" required><br><br>
+  <input type="password" id="registroPassword" placeholder="Contraseña" required><br><br>
+  <button onclick="registrar()">Registrarse</button>
+</div>
+<script>
+  const supabase = supabase.createClient("https://twznikjjvtoedfaxbuvf.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3em5pa2pqdnRvZWRmYXhidXZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyOTI1NDAsImV4cCI6MjA2ODg2ODU0MH0.aOQ10hq-syYqrenvFxveBQj6wKqdDtsDKfykSm42MFE");
+
+  async function registrar() {
+    const email = document.getElementById("registroEmail").value;
+    const password = document.getElementById("registroPassword").value;
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    if (error) {
+      console.error("Error al registrar:", error.message);
+      alert("Error: " + error.message);
+    } else {
+      alert("¡Registro exitoso!");
+      console.log("Usuario creado:", data);
+    }
+  }
+</script>
 
 </body>
 

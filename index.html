@@ -182,7 +182,9 @@
       div.classList.add('item-carrito');
       div.innerHTML = `
         <p><strong>${p.nombre}</strong> (x${p.cantidad}) - S/ ${(p.precio * p.cantidad).toFixed(2)}</p>
-        
+        <button id="btn-enviar-pedido" class="boton-pedido">
+  Enviar pedido por WhatsApp
+</button>
 <button id="vaciar-carrito" class="btn btn-danger">Vaciar carrito</button>
 
         <button onclick="eliminarDelCarrito(${p.id})">Eliminar</button>
@@ -192,6 +194,13 @@
 
     total.innerText = `Total: S/ ${totalPrecio.toFixed(2)}`;
   }
+document.getElementById('formularioPedido').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const nombre = document.getElementById('nombreCliente').value.trim();
+  const direccion = document.getElementById('direccionCliente').value.trim();
+  const referencia = document.getElementById('referenciaCliente').value.trim();
+
   let mensaje = `🛒 *Nuevo pedido desde Crackio.com*%0A`;
   mensaje += `👤 *Cliente:* ${nombre}%0A📍 *Dirección:* ${direccion}%0A📌 *Referencia:* ${referencia || 'Ninguna'}%0A%0A`;
 
@@ -219,6 +228,12 @@
 </script>
 <section class="formulario-pedido">
   <h2>Finalizar compra</h2>
+  <form id="formularioPedido">
+    <input type="text" id="nombreCliente" placeholder="Tu nombre completo" required>
+    <input type="text" id="direccionCliente" placeholder="Dirección de entrega" required>
+    <input type="text" id="referenciaCliente" placeholder="Referencia (opcional)">
+    <button type="submit">Enviar pedido por WhatsApp</button>
+  </form>
 </section>
 <!-- Supabase JS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -254,13 +269,13 @@
     });
 
     mensaje += `%0A💵 *Total:* S/ ${pedido.total.toFixed(2)}`;
-    const numero = "+51999207025"; // Cambia por tu número con código país
+    const numero = "51999207025"; // Cambia por tu número con código país
     const url = `https://wa.me/${numero}?text=${mensaje}`;
     window.open(url, "_blank");
   }
 
   document.getElementById("btn-enviar-pedido").addEventListener("click", () => {
-  
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
     if (carrito.length === 0) {
       alert("Tu carrito está vacío");
@@ -280,7 +295,6 @@
     const pedido = {
       productos,
       total
-    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
     };
 
     enviarPedidoASupabase(pedido);
@@ -302,18 +316,6 @@
     const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     return carrito;
   }
-const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-let mensaje = "¡Hola! Quiero hacer un pedido:\n\n";
-
-carrito.forEach((item, index) => {
-  mensaje += `${index + 1}. ${item.nombre} - Cantidad: ${item.cantidad}\n`;
-});
-
-mensaje += "\nMi nombre es: " + document.getElementById("nombreCliente").value;
-mensaje += "\nMi dirección es: " + document.getElementById("direccionCliente").value;
-
-const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
-window.open(url, "_blank");
 
   document.getElementById('pedidoForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -353,26 +355,7 @@ window.open(url, "_blank");
 
 <!-- Incluye Supabase (si no lo has hecho ya) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-<!-- Script final -->
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("btn-enviar-pedido").addEventListener("click", function () {
-    const numeroWhatsApp = "51999207025";
-    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-    let mensaje = "¡Hola! Quiero hacer un pedido:\n\n";
 
-    carrito.forEach((item, index) => {
-      mensaje += `${index + 1}. ${item.nombre} - Cantidad: ${item.cantidad}\n`;
-    });
-
-    mensaje += "\nMi nombre es: " + document.getElementById("nombreCliente").value;
-    mensaje += "\nMi dirección es: " + document.getElementById("direccionCliente").value;
-
-    const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, "_blank");
-  });
-});
-</script>
 </body>
 
 </html>

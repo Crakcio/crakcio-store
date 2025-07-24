@@ -1,5 +1,17 @@
 // ui.js
 
+export function mostrarSeccion(id) {
+  const secciones = document.querySelectorAll('section');
+  secciones.forEach((seccion) => {
+    seccion.style.display = 'none';
+  });
+
+  const seccionActiva = document.getElementById(id);
+  if (seccionActiva) {
+    seccionActiva.style.display = 'block';
+  }
+}
+
 export function mostrarElemento(id) {
   const el = document.getElementById(id);
   if (el) el.style.display = "block";

@@ -407,18 +407,24 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   // REGISTRO
-  async function signup(email, password) {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password
-    });
+ async function registrar() {
+  const email = document.getElementById("registroEmail").value;
+  const password = document.getElementById("registroPassword").value;
 
-    if (error) {
-      alert("Error al registrar: " + error.message);
-    } else {
-      alert("Registrado correctamente. Revisa tu correo.");
-    }
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password
+  });
+
+  if (error) {
+    alert("Error al registrar: " + error.message);
+  } else {
+    alert("Registro exitoso. Ya puedes iniciar sesión.");
+    document.getElementById("formRegistro").reset();
+    mostrarLogin(); // Muestra el formulario de login
   }
+}
+
 
 
   // INICIO DE SESIÓN

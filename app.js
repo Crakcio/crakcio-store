@@ -1,4 +1,7 @@
 //Productos desde Supabase 
+ // Al cargar la página
+  document.addEventListener("DOMContentLoaded", () => {
+  actualizarCarrito();
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script type="module">
@@ -106,10 +109,8 @@
   }
 
 
-  // Al cargar la página
-  document.addEventListener("DOMContentLoaded", () => {
-  actualizarCarrito();
-});
+ 
+
 
 </script>
 <!-- Supabase JS -->
@@ -515,3 +516,4 @@ async function verificarSesion() {
     }
   });
 </script>
+});

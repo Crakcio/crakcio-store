@@ -42,7 +42,7 @@ main {
   padding: 1rem;
 }
 
-.producto-card {
+.producto {
   background-color: #1e1e1e;
   padding: 1rem;
   border-radius: 12px;
@@ -54,7 +54,12 @@ main {
   align-items: center;
   width: 230px;
 }
-
+.productos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+}
 .producto-card:hover {
   transform: scale(1.03);
 }

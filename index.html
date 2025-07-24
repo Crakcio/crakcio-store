@@ -182,9 +182,7 @@
       div.classList.add('item-carrito');
       div.innerHTML = `
         <p><strong>${p.nombre}</strong> (x${p.cantidad}) - S/ ${(p.precio * p.cantidad).toFixed(2)}</p>
-        <button id="btn-enviar-pedido" class="boton-pedido">
-        Enviar pedido por WhatsApp
-        </button>
+        
 <button id="vaciar-carrito" class="btn btn-danger">Vaciar carrito</button>
 
         <button onclick="eliminarDelCarrito(${p.id})">Eliminar</button>
@@ -194,13 +192,6 @@
 
     total.innerText = `Total: S/ ${totalPrecio.toFixed(2)}`;
   }
-document.getElementById('formularioPedido').addEventListener('submit', function(e) {
-  e.preventDefault();
-
-  const nombre = document.getElementById('nombreCliente').value.trim();
-  const direccion = document.getElementById('direccionCliente').value.trim();
-  const referencia = document.getElementById('referenciaCliente').value.trim();
-
   let mensaje = `🛒 *Nuevo pedido desde Crackio.com*%0A`;
   mensaje += `👤 *Cliente:* ${nombre}%0A📍 *Dirección:* ${direccion}%0A📌 *Referencia:* ${referencia || 'Ninguna'}%0A%0A`;
 
@@ -269,7 +260,7 @@ document.getElementById('formularioPedido').addEventListener('submit', function(
   }
 
   document.getElementById("btn-enviar-pedido").addEventListener("click", () => {
-    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  
 
     if (carrito.length === 0) {
       alert("Tu carrito está vacío");
@@ -289,6 +280,7 @@ document.getElementById('formularioPedido').addEventListener('submit', function(
     const pedido = {
       productos,
       total
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
     };
 
     enviarPedidoASupabase(pedido);

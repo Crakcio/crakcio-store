@@ -12,9 +12,9 @@
   </header>
 
   <main>
-    <section class="productos-container">
-      <h2>Nuestros Productos</h2>
-      <div id="productos" class="productos-grid"></div>
+    <section>
+      <h2 style="text-align: center">Nuestros Productos</h2>
+      <div id="productos" class="productos-container"></div>
     </section>
   </main>
 
@@ -36,7 +36,7 @@
 
       data.forEach((producto) => {
         const card = document.createElement('div');
-        card.classList.add('producto');
+        card.classList.add('producto-card');
 
         card.innerHTML = `
           <img src="${producto.imagen_url}" alt="${producto.nombre}" class="producto-img" />

@@ -6,8 +6,7 @@ import { mostrarSeccion } from './ui.js';
 import { cargarProductos } from './products.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-  mostrarSeccion('inicio');
-  cargarProductos();
+  cargarProductos('contenedor-productos');
 });
 
   document.addEventListener("DOMContentLoaded", () => {

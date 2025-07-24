@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Crackio Store</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-
 <body>
-  <!-- NAV -->
+  <!-- NAVBAR -->
   <nav class="navbar">
     <ul class="nav-links">
       <li><a href="#">Inicio</a></li>
@@ -30,9 +27,7 @@
   </nav>
 
   <!-- ÍCONO DE CARRITO -->
-  <div class="carrito-icono" onclick="mostrarCarrito()">
-    🛒 <span id="contador-carrito">0</span>
-  </div>
+  <div class="carrito-icono" onclick="mostrarCarrito()">🛒 <span id="contador-carrito">0</span></div>
 
   <!-- MODAL DEL CARRITO -->
   <div id="modal-carrito" class="modal-carrito">
@@ -45,34 +40,22 @@
     </div>
   </div>
 
-  <!-- FORMULARIO DE LOGIN -->
-  <div id="form-login" style="display: none; margin-top: 20px;">
-    <h3>Iniciar sesión</h3>
-    <input type="email" id="login-email" placeholder="Correo electrónico" required />
-    <input type="password" id="login-password" placeholder="Contraseña" required />
-    <button onclick="loginDesdeFormulario()">Iniciar sesión</button>
-  </div>
-
   <!-- FORMULARIO DE PEDIDO -->
   <div id="formulario-pedido" style="display: none;">
     <h3>Finalizar pedido</h3>
     <form id="pedidoForm">
       <label>Nombre:</label><br />
-      <input type="text" id="nombreCliente" required /><br /><br />
-
+      <input type="text" id="nombreCliente" required><br /><br />
       <label>Teléfono:</label><br />
-      <input type="text" id="telefonoCliente" required /><br /><br />
-
+      <input type="text" id="telefonoCliente" required><br /><br />
       <label>Dirección:</label><br />
-      <input type="text" id="direccionCliente" required /><br /><br />
-
+      <input type="text" id="direccionCliente" required><br /><br />
       <label>Método de pago:</label><br />
       <select id="metodoPago">
         <option value="Yape">Yape</option>
         <option value="Plin">Plin</option>
         <option value="Efectivo">Efectivo</option>
       </select><br /><br />
-
       <label>Notas (opcional):</label><br />
       <textarea id="notasCliente" rows="3"></textarea><br /><br />
       <button type="button" id="btn-enviar-pedido">Enviar Pedido por WhatsApp</button>
@@ -99,17 +82,21 @@
   </section>
 
   <!-- FOOTER -->
-  <footer>
+  <footer class="footer">
     <div class="redes-sociales">
       <a href="https://www.facebook.com/people/Crakcio-Store/61578344680156/?locale=es_LA" target="_blank"><i class="fab fa-facebook"></i></a>
       <a href="https://wa.me/+51999207025" target="_blank"><i class="fab fa-whatsapp"></i></a>
       <a href="https://www.instagram.com/crakciostore/" target="_blank"><i class="fab fa-instagram"></i></a>
     </div>
+    <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
+    <a href="politica.html">Política de Privacidad</a> | 
+    <a href="condiciones.html">Condiciones de Compra</a>
   </footer>
 
   <!-- SCRIPTS -->
   <script type="module" src="app.js"></script>
+  <script src="ui.js"></script>
+  <script src="products.js"></script>
 </body>
-
 </html>
 

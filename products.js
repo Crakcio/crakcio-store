@@ -1,6 +1,9 @@
 
 import { supabase } from './app.js';
 import { agregarAlCarrito } from './ui.js';
+const baseUrl = "https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos";
+img.src = `${baseUrl}/${producto.imagen}`;
+
 export const productos = [
   {
     id: 1,
@@ -28,27 +31,66 @@ export const productos = [
   }
 ];
 
-export async function cargarProductos() {
-  const { data: productos, error } = await supabase.from('productos').select('*');
-  if (error) return console.error("Error al cargar productos:", error);
+// products.js
 
-  const contenedor = document.getElementById("contenedor-productos");
-  contenedor.innerHTML = "";
+// Asegúrate de que 'supabase' ya está declarado en app.js o supabaseClient.js
 
-  productos.forEach(producto => {
-    const div = document.createElement("div");
-    div.classList.add("producto-card");
-    div.innerHTML = `
-      <img class="producto-img" src="${producto.imagen_url}" alt="${producto.nombre}" />
-      <h3>${producto.nombre}</h3>
-      <p>${producto.descripcion}</p>
-      <p class="precio">S/ ${producto.precio.toFixed(2)}</p>
-      <p class="stock">${producto.stock > 0 ? `Stock: ${producto.stock}` : '<span style="color:red">Agotado</span>'}</p>
-      ${producto.stock > 0 ? `<button onclick='agregarAlCarrito(${JSON.stringify(producto)})'>Agregar al carrito</button>` : ''}
-    `;
-    contenedor.appendChild(div);
-  });
+const contenedorId = "contenedor-productos";
+const contenedor = document.getElementById(contenedorId);
+const baseImgUrl = "https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos";
+
+async function cargarProductos() {
+  try {
+    const { data, error } = await supabase.from("productos").select("*");
+
+    if (error) {
+      console.error("Error al obtener productos:", error.message);
+      return;
+    }
+
+    if (!contenedor) {
+      console.error(`No se encontró el contenedor con id '${contenedorId}'`);
+      return;
+    }
+
+    contenedor.innerHTML = "";
+
+    data.forEach((producto) => {
+      const card = document.createElement("div");
+      card.classList.add("producto-card");
+
+      const img = document.createElement("img");
+      img.src = `${baseImgUrl}/${producto.imagen}`; // <- Construcción limpia
+      img.alt = producto.nombre;
+      img.onerror = () => {
+        img.src = "img/error-img.jpg"; // Imagen por defecto si falla (opcional)
+      };
+
+      const nombre = document.createElement("h3");
+      nombre.textContent = producto.nombre;
+
+      const descripcion = document.createElement("p");
+      descripcion.textContent = producto.descripcion || "Sin descripción";
+
+      const precio = document.createElement("p");
+      precio.classList.add("precio");
+      precio.textContent = `S/ ${producto.precio.toFixed(2)}`;
+
+      card.appendChild(img);
+      card.appendChild(nombre);
+      card.appendChild(descripcion);
+      card.appendChild(precio);
+
+      contenedor.appendChild(card);
+    });
+  } catch (err) {
+    console.error("Error inesperado al cargar productos:", err);
+  }
 }
+
+// Ejecutar la carga de productos cuando se cargue el DOM
+document.addEventListener("DOMContentLoaded", cargarProductos);
+
 import { supabase } from './supabaseClient.js';
 
 export async function obtenerProductos() {

@@ -1,5 +1,15 @@
 //Productos desde Supabase 
  // Al cargar la página
+// app.js
+
+import { mostrarSeccion } from './ui.js';
+import { cargarProductos } from './products.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  mostrarSeccion('inicio');
+  cargarProductos();
+});
+
   document.addEventListener("DOMContentLoaded", () => {
   actualizarCarrito();
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -107,13 +117,8 @@
   lista.appendChild(btnVaciar);
     total.innerText = `Total: S/ ${totalPrecio.toFixed(2)}`;
   }
-
-
- 
-
-
 </script>
-<!-- Supabase JS -->
+//<!-- Supabase JS -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   
@@ -301,9 +306,6 @@ document.addEventListener("DOMContentLoaded", () => {
     mostrarLogin(); // Muestra el formulario de login
   }
 }
-
-
-
   // INICIO DE SESIÓN
   async function login(email, password) {
     const { data, error } = await supabase.auth.signInWithPassword({

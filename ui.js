@@ -1,55 +1,103 @@
-// ui.js
-// ui.js
-export function renderizarProductos(productos, contenedorId = 'contenedor-productos') {
-  const contenedor = document.getElementById(contenedorId);
-  if (!contenedor) {
-    console.warn(`No se encontró el contenedor con id: ${contenedorId}`);
+export let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+export function agregarAlCarrito(producto) {
+  const index = carrito.findIndex(p => p.id === producto.id);
+  if (index > -1) {
+    carrito[index].cantidad += 1;
+  } else {
+    carrito.push({ ...producto, cantidad: 1 });
+  }
+  actualizarCarrito();
+}
+
+export function mostrarCarrito() {
+  document.getElementById('modal-carrito').style.display = 'block';
+  renderizarCarrito();
+}
+
+export function cerrarCarrito() {
+  document.getElementById('modal-carrito').style.display = 'none';
+}
+
+export function actualizarCarrito() {
+  localStorage.setItem('carrito', JSON.stringify(carrito));
+  document.getElementById('contador-carrito').innerText = carrito.reduce((acc, p) => acc + p.cantidad, 0);
+  renderizarCarrito();
+}
+
+function renderizarCarrito() {
+  const lista = document.getElementById('lista-carrito');
+  const total = document.getElementById('total-carrito');
+  lista.innerHTML = '';
+
+  if (carrito.length === 0) {
+    lista.innerHTML = "<p>Tu carrito está vacío.</p>";
+    total.innerText = "Total: S/ 0.00";
     return;
   }
 
-  contenedor.innerHTML = ''; // Limpiar el contenedor
-  productos.forEach(producto => {
-    const productoHTML = document.createElement('div');
-    productoHTML.classList.add('producto');
-    productoHTML.innerHTML = `
-      <img src="${producto.imagen}" alt="${producto.nombre}" />
-      <h3>${producto.nombre}</h3>
-      <p>${producto.descripcion}</p>
-      <p class="precio">S/ ${producto.precio.toFixed(2)}</p>
-      <button onclick="agregarAlCarrito('${producto.id}')">Agregar al carrito</button>
+  let totalPrecio = 0;
+  carrito.forEach(p => {
+    totalPrecio += p.precio * p.cantidad;
+    const div = document.createElement('div');
+    div.classList.add('item-carrito');
+    div.innerHTML = `
+      <p><strong>${p.nombre}</strong> (x${p.cantidad}) - S/ ${(p.precio * p.cantidad).toFixed(2)}</p>
+      <button onclick="eliminarDelCarrito(${p.id})">Eliminar</button>
     `;
-    contenedor.appendChild(productoHTML);
+    lista.appendChild(div);
   });
+
+  const btnVaciar = document.createElement("button");
+  btnVaciar.innerText = "Vaciar carrito";
+  btnVaciar.onclick = () => {
+    carrito = [];
+    actualizarCarrito();
+  };
+  lista.appendChild(btnVaciar);
+  total.innerText = `Total: S/ ${totalPrecio.toFixed(2)}`;
 }
 
-export function mostrarSeccion(id) {
-  const secciones = document.querySelectorAll('section');
-  secciones.forEach((seccion) => {
-    seccion.style.display = 'none';
-  });
+export function validarFormulario() {
+  const nombre = document.getElementById("nombreCliente").value.trim();
+  const telefono = document.getElementById("telefonoCliente").value.trim();
+  const direccion = document.getElementById("direccionCliente").value.trim();
 
-  const seccionActiva = document.getElementById(id);
-  if (seccionActiva) {
-    seccionActiva.style.display = 'block';
+  if (!nombre || !telefono || !direccion) {
+    alert("Por favor, completa todos los campos obligatorios.");
+    return false;
   }
+  if (!/^[9]\d{8}$/.test(telefono)) {
+    alert("Número de teléfono inválido.");
+    return false;
+  }
+  return true;
 }
 
-export function mostrarElemento(id) {
-  const el = document.getElementById(id);
-  if (el) el.style.display = "block";
+export function enviarPedidoWhatsApp() {
+  const nombre = document.getElementById("nombreCliente").value;
+  const direccion = document.getElementById("direccionCliente").value;
+  const telefono = document.getElementById("telefonoCliente").value;
+  const metodoPago = document.getElementById("metodoPago").value;
+  const notas = document.getElementById("notasCliente").value;
+
+  let mensaje = "*🛒 Nuevo pedido desde Crackio Store*%0A";
+  mensaje += `👤 *Nombre:* ${nombre}%0A`;
+  mensaje += `📞 *Teléfono:* ${telefono}%0A`;
+  mensaje += `📍 *Dirección:* ${direccion}%0A`;
+  mensaje += `💳 *Método de pago:* ${metodoPago}%0A`;
+  if (notas) mensaje += `📝 *Notas:* ${notas}%0A`;
+
+  mensaje += `%0A*Productos:*%0A`;
+  carrito.forEach((item, index) => {
+    mensaje += `${index + 1}. ${item.nombre} x${item.cantidad} - S/ ${item.precio}%0A`;
+  });
+
+  const total = carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
+  mensaje += `%0A💵 *Total:* S/ ${total.toFixed(2)}`;
+
+  const numeroWhatsApp = "51999207025";
+  const url = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
+  window.open(url, "_blank");
 }
 
-export function ocultarElemento(id) {
-  const el = document.getElementById(id);
-  if (el) el.style.display = "none";
-}
-
-export function cambiarTexto(id, texto) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = texto;
-}
-
-export function limpiarFormulario(idFormulario) {
-  const form = document.getElementById(idFormulario);
-  if (form) form.reset();
-}

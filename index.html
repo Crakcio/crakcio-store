@@ -36,6 +36,10 @@
     <button onclick="cerrarCarrito()">Cerrar</button>
   </div>
 
+  <footer>
+    <p><a href="#">Política de privacidad</a> | <a href="#">Términos y condiciones</a> | <a href="#">Reembolsos</a></p>
+  </footer>
+
   <script>
     const supabase = supabase.createClient('https://twznikjjvtoedfaxbuvf.supabase.co', 'YOUR_PUBLIC_ANON_KEY');
 
@@ -60,7 +64,12 @@
     }
 
     function agregarAlCarrito(producto) {
-      carrito.push(producto);
+      const existente = carrito.find(p => p.id === producto.id);
+      if (existente) {
+        existente.cantidad++;
+      } else {
+        carrito.push({ ...producto, cantidad: 1 });
+      }
       alert('Producto agregado');
     }
 
@@ -69,7 +78,7 @@
       lista.innerHTML = '';
       carrito.forEach(p => {
         const item = document.createElement('div');
-        item.innerText = `${p.nombre} - S/.${p.precio.toFixed(2)}`;
+        item.innerText = `${p.nombre} x${p.cantidad} - S/.${(p.precio * p.cantidad).toFixed(2)}`;
         lista.appendChild(item);
       });
       document.getElementById('carrito').style.display = 'block';
@@ -86,14 +95,20 @@
 
     document.getElementById('formularioPedido').addEventListener('submit', async e => {
       e.preventDefault();
-      const nombre = document.getElementById('nombre').value;
-      const telefono = document.getElementById('telefono').value;
-      const direccion = document.getElementById('direccion').value;
-      const metodoPago = document.getElementById('metodoPago').value;
-      const notas = document.getElementById('notas').value;
 
-      const total = carrito.reduce((acc, item) => acc + item.precio, 0);
-      const productos = carrito.map(p => ({ nombre: p.nombre, precio: p.precio }));
+      const nombre = document.getElementById('nombre').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+      const direccion = document.getElementById('direccion').value.trim();
+      const metodoPago = document.getElementById('metodoPago').value;
+      const notas = document.getElementById('notas').value.trim();
+
+      if (!nombre || !telefono || !direccion || !metodoPago) {
+        alert('Por favor, completa todos los campos requeridos.');
+        return;
+      }
+
+      const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+      const productos = carrito.map(p => ({ nombre: p.nombre, precio: p.precio, cantidad: p.cantidad }));
 
       const { error } = await supabase.from('pedidos').insert([
         {
@@ -115,7 +130,10 @@
       }
 
       const numeroWhatsApp = '51999999999';
-      const mensaje = `Hola, soy ${nombre}.\nQuiero pedir:\n${productos.map(p => `- ${p.nombre} (S/.${p.precio.toFixed(2)})`).join('\n')}\n\nTotal: S/.${total.toFixed(2)}\nDirección: ${direccion}\nPago por: ${metodoPago}\nNotas: ${notas}`;
+      const mensaje = `Hola, soy ${nombre}.
+Quiero pedir:
+${productos.map(p => `- ${p.nombre} x${p.cantidad} (S/.${(p.precio * p.cantidad).toFixed(2)})`).join('\n')}
+\nTotal: S/.${total.toFixed(2)}\nDirección: ${direccion}\nPago por: ${metodoPago}\nNotas: ${notas}`;
       const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
       window.open(url, '_blank');
 

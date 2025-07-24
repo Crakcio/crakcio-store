@@ -572,7 +572,7 @@ async function verificarSesion() {
   <button onclick="mostrarRegistro()">Crear Cuenta</button>
 </div>
 <script>
-  const supabase = supabase.createClient('https://<TU-PROYECTO>.supabase.co', 'TU_PUBLIC_ANON_KEY');
+  const supabase = supabase.createClient('https://twznikjjvtoedfaxbuvf.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3em5pa2pqdnRvZWRmYXhidXZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyOTI1NDAsImV4cCI6MjA2ODg2ODU0MH0.aOQ10hq-syYqrenvFxveBQj6wKqdDtsDKfykSm42MFE');
 
   function mostrarLogin() {
     document.getElementById('login-form').style.display = 'block';
@@ -634,8 +634,10 @@ async function verificarSesion() {
   window.addEventListener('DOMContentLoaded', async () => {
     const { data: { session } } = await supabase.auth.getSession();
     if (session) {
+      document.getElementById("btnCrearCuenta").addEventListener("click", registrar);
       document.getElementById('logout-container').style.display = 'block';
       document.getElementById('usuario-logueado').textContent = `Bienvenido, ${session.user.email}`;
+      
     }
   });
 </script>

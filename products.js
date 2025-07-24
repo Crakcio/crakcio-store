@@ -2,7 +2,7 @@
 import { supabase } from './app.js';
 import { agregarAlCarrito } from './ui.js';
 const baseUrl = "https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos";
-img.src = `${baseUrl}/${producto.imagen}`;
+const img.src = `${baseUrl}/${producto.imagen}`;
 
 export const productos = [
   {

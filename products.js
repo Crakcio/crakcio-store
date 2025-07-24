@@ -1,86 +1,25 @@
-// products.js
 
-export const productos = [
-  {
-    id: 1,
-    nombre: "Mouse Gamer RGB",
-    precio: 59.90,
-    imagen: "img/mouse.jpg",
-  },
-  {
-    id: 2,
-    nombre: "Teclado Mecánico",
-    precio: 129.00,
-    imagen: "img/teclado.jpg",
-  },
-  {
-    id: 3,
-    nombre: "Auriculares con Micrófono",
-    precio: 89.90,
-    imagen: "img/auriculares.jpg",
-  }
-  // Puedes agregar más productos aquí
-];
-// products.js
-export async function obtenerProductos() {
-  try {
-    const response = await fetch('productos.json');
-    if (!response.ok) {
-      throw new Error('No se pudo cargar el archivo de productos');
-    }
-    const productos = await response.json();
-    return productos;
-  } catch (error) {
-    console.error('Error al obtener productos:', error);
-    return [];
-  }
-}
+import { supabase } from './app.js';
+import { agregarAlCarrito } from './ui.js';
 
-export async function cargarProductos(contenedorId) {
-  const contenedor = document.getElementById(contenedorId);
-  if (!contenedor) {
-    console.error(`No se encontró el contenedor con ID "${contenedorId}"`);
-    return;
-  }
+export async function cargarProductos() {
+  const { data: productos, error } = await supabase.from('productos').select('*');
+  if (error) return console.error("Error al cargar productos:", error);
 
-  try {
-    const respuesta = await fetch('products.json');
-    const productos = await respuesta.json();
+  const contenedor = document.getElementById("contenedor-productos");
+  contenedor.innerHTML = "";
 
-    contenedor.innerHTML = '';
-    productos.forEach(producto => {
-      const productoDiv = document.createElement('div');
-      productoDiv.classList.add('producto');
-      productoDiv.innerHTML = `
-        <h3>${producto.nombre}</h3>
-        <p>${producto.descripcion}</p>
-        <span>S/ ${producto.precio}</span>
-      `;
-      contenedor.appendChild(productoDiv);
-    });
-  } catch (error) {
-    console.error('Error al cargar productos:', error);
-  }
-}
-
-
-export function renderizarProductos(contenedorId = "productos") {
-  const contenedor = document.getElementById(contenedorId);
-  if (!contenedor) return;
-
-  contenedor.innerHTML = ""; // Limpiar antes de insertar
-
-  productos.forEach((producto) => {
-    const card = document.createElement("div");
-    card.className = "producto-card";
-
-    card.innerHTML = `
-      <img src="${producto.imagen}" alt="${producto.nombre}" />
+  productos.forEach(producto => {
+    const div = document.createElement("div");
+    div.classList.add("producto-card");
+    div.innerHTML = `
+      <img class="producto-img" src="${producto.imagen_url}" alt="${producto.nombre}" />
       <h3>${producto.nombre}</h3>
-      <p>S/ ${producto.precio.toFixed(2)}</p>
-      <button>Agregar al carrito</button>
+      <p>${producto.descripcion}</p>
+      <p class="precio">S/ ${producto.precio.toFixed(2)}</p>
+      <p class="stock">${producto.stock > 0 ? `Stock: ${producto.stock}` : '<span style="color:red">Agotado</span>'}</p>
+      ${producto.stock > 0 ? `<button onclick='agregarAlCarrito(${JSON.stringify(producto)})'>Agregar al carrito</button>` : ''}
     `;
-
-    contenedor.appendChild(card);
+    contenedor.appendChild(div);
   });
 }

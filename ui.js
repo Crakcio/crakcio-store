@@ -100,4 +100,22 @@ export function enviarPedidoWhatsApp() {
   const url = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
   window.open(url, "_blank");
 }
+export function mostrarProductos(productos, contenedorId) {
+  const contenedor = document.getElementById(contenedorId);
+  contenedor.innerHTML = "";
+
+  productos.forEach(producto => {
+    const div = document.createElement("div");
+    div.classList.add("producto");
+
+    div.innerHTML = `
+      <img src="${producto.imagen}" alt="${producto.nombre}" />
+      <h3>${producto.nombre}</h3>
+      <p>S/ ${producto.precio.toFixed(2)}</p>
+      <button>Agregar al carrito</button>
+    `;
+
+    contenedor.appendChild(div);
+  });
+}
 

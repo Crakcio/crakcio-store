@@ -1,361 +1,130 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Crackio Store</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-
 <body>
-  <!-- NAV -->
-  <nav class="navbar">
-    <ul class="nav-links">
-      <li><a href="#">Inicio</a></li>
-      <li class="submenu">
-        <a href="#productos">Productos</a>
-        <ul class="dropdown">
-          <li><a href="#iluminacion">Iluminación</a></li>
-          <li><a href="#smart">Smart</a></li>
-          <li><a href="#teclado">Teclado</a></li>
-          <li><a href="#mouse">Mouse</a></li>
-        </ul>
-      </li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul>
-  </nav>
-<!-- ÍCONO DE CARRITO -->
-<div class="carrito-icono" onclick="mostrarCarrito()">
-  🛒 <span id="contador-carrito">0</span>
-</div>
+  <header>
+    <h1>Crackio Store</h1>
+  </header>
 
-<!-- MODAL DEL CARRITO -->
-<div id="modal-carrito" class="modal-carrito">
-  <div class="modal-contenido">
-    <span class="cerrar" onclick="cerrarCarrito()">&times;</span>
-    <h2>Tu Carrito</h2>
+  <section id="productos"></section>
+
+  <div class="carrito-icono" onclick="mostrarCarrito()">🛒</div>
+
+  <div id="carrito" class="modal-carrito" style="display: none;">
+    <h2>Carrito</h2>
     <div id="lista-carrito"></div>
-    <p id="total-carrito">Total: S/ 0.00</p>
-  </div>
-</div>
-<!-- FORMULARIO DE PEDIDO -->
-<div id="formulario-pedido" style="display: none;">
-  <h3>Finalizar pedido</h3>
-  <form id="pedidoForm">
-    <label>Nombre:</label><br>
-    <input type="text" id="nombreCliente" required><br><br>
-
-    <label>Teléfono:</label><br>
-    <input type="text" id="telefonoCliente" required><br><br>
-
-    <label>Dirección:</label><br>
-    <input type="text" id="direccionCliente" required><br><br>
-
-    <label>Método de pago:</label><br>
-    <select id="metodoPago">
-      <option value="Yape">Yape</option>
-      <option value="Plin">Plin</option>
-      <option value="Efectivo">Efectivo</option>
-    </select><br><br>
-
-    <label>Notas (opcional):</label><br>
-    <textarea id="notasCliente" rows="3"></textarea><br><br>
-
-    <button type="submit">Enviar Pedido</button>
-  </form>
-</div>
-
-  <!-- BANNER -->
-  <div class="banner">
-    <img src="images/Banner2.png" alt="Banner Crackio Store" />
+    <form id="formularioPedido">
+      <input type="text" id="nombre" placeholder="Nombre" required>
+      <input type="text" id="telefono" placeholder="Teléfono" required>
+      <input type="text" id="direccion" placeholder="Dirección" required>
+      <select id="metodoPago" required>
+        <option value="">Método de pago</option>
+        <option value="Yape">Yape</option>
+        <option value="Plin">Plin</option>
+        <option value="Efectivo">Efectivo</option>
+      </select>
+      <textarea id="notas" placeholder="Notas adicionales"></textarea>
+      <button type="submit">Enviar pedido</button>
+    </form>
+    <button onclick="vaciarCarrito()">Vaciar carrito</button>
+    <button onclick="cerrarCarrito()">Cerrar</button>
   </div>
 
-  <!-- PRODUCTOS -->
-  <section class="productos" id="productos">
-    <h2>Nuestros Productos</h2>
-    <div id="contenedor-productos" class="contenedor-productos"></div>
-  </section>
+  <script>
+    const supabase = supabase.createClient('https://twznikjjvtoedfaxbuvf.supabase.co', 'YOUR_PUBLIC_ANON_KEY');
 
-  <!-- CONTACTO -->
-  <section id="contacto" class="contacto">
-    <h2>Contáctanos</h2>
-    <p>¿Tienes dudas? Escríbenos a nuestro WhatsApp o por redes sociales.</p>
-    <p><strong>Email:</strong> contacto@crackio.com</p>
-    <p><strong>WhatsApp:</strong> +51 999 207 025</p>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="redes-sociales">
-      <a href="https://www.facebook.com/people/Crakcio-Store/61578344680156/?locale=es_LA" target="_blank"><i class="fab fa-facebook"></i></a>
-      <a href="https://wa.me/+51999207025" target="_blank"><i class="fab fa-whatsapp"></i></a>
-      <a href="https://www.instagram.com/crakciostore/" target="_blank"><i class="fab fa-instagram"></i></a>
-    </div>
-    <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
-  </footer>
-
-  <!-- SCRIPT: Productos desde Supabase -->
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
-    const SUPABASE_URL = 'https://twznikjjvtoedfaxbuvf.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3em5pa2pqdnRvZWRmYXhidXZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyOTI1NDAsImV4cCI6MjA2ODg2ODU0MH0.aOQ10hq-syYqrenvFxveBQj6wKqdDtsDKfykSm42MFE';
-
-    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    let carrito = [];
 
     async function cargarProductos() {
-      const { data: productos, error } = await supabase
-        .from('productos')
-        .select('*');
+      const { data, error } = await supabase.from('productos').select('*');
+      const contenedor = document.getElementById('productos');
+      if (error) return console.error('Error cargando productos:', error);
 
-      if (error) {
-        console.error("Error al cargar productos:", error);
-        return;
-      }
-
-      const contenedor = document.getElementById("contenedor-productos");
-      contenedor.innerHTML = "";
-
-      productos.forEach((producto) => {
-        const div = document.createElement("div");
-        div.classList.add("producto-card");
-       div.innerHTML = `
-  <img class="producto-img" src="${producto.imagen_url}" alt="${producto.nombre}" />
-  <h3>${producto.nombre}</h3>
-  <p>${producto.descripcion}</p>
-  <p class="precio">S/ ${producto.precio.toFixed(2)}</p>
-  <p class="stock">${producto.stock > 0 ? `Stock: ${producto.stock}` : '<span style="color:red">Agotado</span>'}</p>
-  ${producto.stock > 0 ? `<button onclick='agregarAlCarrito(${JSON.stringify(producto)})'>Agregar al carrito</button>` : ''}
-`;
-
+      data.forEach(p => {
+        const div = document.createElement('div');
+        div.className = 'producto-card';
+        div.innerHTML = `
+          <img src="${p.imagen}" alt="${p.nombre}" width="200">
+          <h3>${p.nombre}</h3>
+          <p>S/.${p.precio.toFixed(2)}</p>
+          <button onclick='agregarAlCarrito(${JSON.stringify(p)})'>Agregar al carrito</button>
+        `;
         contenedor.appendChild(div);
       });
     }
 
+    function agregarAlCarrito(producto) {
+      carrito.push(producto);
+      alert('Producto agregado');
+    }
+
+    function mostrarCarrito() {
+      const lista = document.getElementById('lista-carrito');
+      lista.innerHTML = '';
+      carrito.forEach(p => {
+        const item = document.createElement('div');
+        item.innerText = `${p.nombre} - S/.${p.precio.toFixed(2)}`;
+        lista.appendChild(item);
+      });
+      document.getElementById('carrito').style.display = 'block';
+    }
+
+    function cerrarCarrito() {
+      document.getElementById('carrito').style.display = 'none';
+    }
+
+    function vaciarCarrito() {
+      carrito = [];
+      mostrarCarrito();
+    }
+
+    document.getElementById('formularioPedido').addEventListener('submit', async e => {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value;
+      const telefono = document.getElementById('telefono').value;
+      const direccion = document.getElementById('direccion').value;
+      const metodoPago = document.getElementById('metodoPago').value;
+      const notas = document.getElementById('notas').value;
+
+      const total = carrito.reduce((acc, item) => acc + item.precio, 0);
+      const productos = carrito.map(p => ({ nombre: p.nombre, precio: p.precio }));
+
+      const { error } = await supabase.from('pedidos').insert([
+        {
+          nombre_cliente: nombre,
+          telefono,
+          direccion,
+          metodo_pago: metodoPago,
+          notas,
+          productos,
+          total,
+          estado: 'pendiente'
+        }
+      ]);
+
+      if (error) {
+        alert('Error al registrar pedido');
+        console.error(error);
+        return;
+      }
+
+      const numeroWhatsApp = '51999999999';
+      const mensaje = `Hola, soy ${nombre}.\nQuiero pedir:\n${productos.map(p => `- ${p.nombre} (S/.${p.precio.toFixed(2)})`).join('\n')}\n\nTotal: S/.${total.toFixed(2)}\nDirección: ${direccion}\nPago por: ${metodoPago}\nNotas: ${notas}`;
+      const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
+
+      alert('Pedido registrado. Se abrirá WhatsApp');
+      vaciarCarrito();
+      cerrarCarrito();
+    });
+
     cargarProductos();
   </script>
-  <script>
-  let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-
-  function agregarAlCarrito(producto) {
-    const index = carrito.findIndex(p => p.id === producto.id);
-    if (index > -1) {
-      carrito[index].cantidad += 1;
-    } else {
-      carrito.push({ ...producto, cantidad: 1 });
-    }
-    actualizarCarrito();
-  }
-
-  function mostrarCarrito() {
-    document.getElementById('modal-carrito').style.display = 'block';
-    renderizarCarrito();
-  }
-
-  function cerrarCarrito() {
-    document.getElementById('modal-carrito').style.display = 'none';
-  }
-
-  function eliminarDelCarrito(id) {
-    carrito = carrito.filter(p => p.id !== id);
-    actualizarCarrito();
-  }
-
-  function actualizarCarrito() {
-    localStorage.setItem('carrito', JSON.stringify(carrito));
-    document.getElementById('contador-carrito').innerText = carrito.reduce((acc, p) => acc + p.cantidad, 0);
-    renderizarCarrito();
-  }
-
-  function renderizarCarrito() {
-    const lista = document.getElementById('lista-carrito');
-    const total = document.getElementById('total-carrito');
-    lista.innerHTML = '';
-
-    let totalPrecio = 0;
-    carrito.forEach(p => {
-      totalPrecio += p.precio * p.cantidad;
-      const div = document.createElement('div');
-      div.classList.add('item-carrito');
-      div.innerHTML = `
-        <p><strong>${p.nombre}</strong> (x${p.cantidad}) - S/ ${(p.precio * p.cantidad).toFixed(2)}</p>
-        <button id="btn-enviar-pedido" class="boton-pedido">
-  Enviar pedido por WhatsApp
-</button>
-<button id="vaciar-carrito" class="btn btn-danger">Vaciar carrito</button>
-
-        <button onclick="eliminarDelCarrito(${p.id})">Eliminar</button>
-      `;
-      lista.appendChild(div);
-    });
-
-    total.innerText = `Total: S/ ${totalPrecio.toFixed(2)}`;
-  }
-document.getElementById('formularioPedido').addEventListener('submit', function(e) {
-  e.preventDefault();
-
-  const nombre = document.getElementById('nombreCliente').value.trim();
-  const direccion = document.getElementById('direccionCliente').value.trim();
-  const referencia = document.getElementById('referenciaCliente').value.trim();
-
-  let mensaje = `🛒 *Nuevo pedido desde Crackio.com*%0A`;
-  mensaje += `👤 *Cliente:* ${nombre}%0A📍 *Dirección:* ${direccion}%0A📌 *Referencia:* ${referencia || 'Ninguna'}%0A%0A`;
-
-  if (carrito.length === 0) {
-    alert("Tu carrito está vacío.");
-    return;
-  }
-
-  mensaje += `📦 *Productos:*%0A`;
-  carrito.forEach((item, index) => {
-    mensaje += `• ${item.nombre} - S/ ${item.precio} x${item.cantidad}%0A`;
-  });
-
-  const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
-  mensaje += `%0A💵 *Total:* S/ ${total.toFixed(2)}`;
-
-  const numeroWhatsApp = "51TU_NUMERO"; // ← reemplaza con tu número sin +
-  const url = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
-
-  window.open(url, "_blank");
-});
-
-  // Al cargar la página
-  actualizarCarrito();
-</script>
-<section class="formulario-pedido">
-  <h2>Finalizar compra</h2>
-  <form id="formularioPedido">
-    <input type="text" id="nombreCliente" placeholder="Tu nombre completo" required>
-    <input type="text" id="direccionCliente" placeholder="Dirección de entrega" required>
-    <input type="text" id="referenciaCliente" placeholder="Referencia (opcional)">
-    <button type="submit">Enviar pedido por WhatsApp</button>
-  </form>
-</section>
-<!-- Supabase JS -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  const supabase = createClient(
-    'https://TU_URL_SUPABASE.supabase.co',
-    'TU_PUBLIC_ANON_KEY'
-  );
-
-  async function enviarPedidoASupabase(pedido) {
-    const { data, error } = await supabase
-      .from('pedidos')
-      .insert([{
-        total: pedido.total,
-        estado: 'pendiente',
-        detalles: pedido.productos // Debes crear este campo tipo JSONB en Supabase
-      }]);
-
-    if (error) {
-      console.error('❌ Error al guardar el pedido en Supabase:', error);
-      alert("Hubo un error al guardar tu pedido. Intenta nuevamente.");
-    } else {
-      console.log('✅ Pedido guardado en Supabase:', data);
-      abrirWhatsApp(pedido); // Abrimos WhatsApp después de guardar
-    }
-  }
-
-  function abrirWhatsApp(pedido) {
-    let mensaje = `🛒 *Nuevo pedido Crackio Store*:%0A`;
-
-    pedido.productos.forEach(p => {
-      mensaje += `- ${p.nombre} x${p.cantidad} (S/ ${p.precio_unitario})%0A`;
-    });
-
-    mensaje += `%0A💵 *Total:* S/ ${pedido.total.toFixed(2)}`;
-    const numero = "+51999207025"; // Cambia por tu número con código país
-    const url = `https://wa.me/${numero}?text=${mensaje}`;
-    window.open(url, "_blank");
-  }
-
-  document.getElementById("btn-enviar-pedido").addEventListener("click", () => {
-    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-    if (carrito.length === 0) {
-      alert("Tu carrito está vacío");
-      return;
-    }
-
-    const productos = carrito.map(p => ({
-      producto_id: p.id,
-      nombre: p.nombre,
-      precio_unitario: p.precio,
-      cantidad: p.cantidad,
-      subtotal: p.precio * p.cantidad
-    }));
-
-    const total = productos.reduce((sum, p) => sum + p.subtotal, 0);
-
-    const pedido = {
-      productos,
-      total
-    };
-
-    enviarPedidoASupabase(pedido);
-  });
-</script>
-<footer class="footer">
-  <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
-  <a href="politica.html">Política de Privacidad</a> | 
-  <a href="condiciones.html">Condiciones de Compra</a>
-</footer>
-<script type="module">
-  // Configuración de Supabase
-  const supabaseUrl = 'https://TU-PROYECTO.supabase.co';
-  const supabaseKey = 'TU-API-KEY-PUBLICA';
-  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-  // Función para obtener productos del carrito (ajusta según cómo los almacenes)
-  function obtenerCarrito() {
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    return carrito;
-  }
-
-  document.getElementById('pedidoForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const nombre = document.getElementById('nombreCliente').value;
-    const telefono = document.getElementById('telefonoCliente').value;
-    const direccion = document.getElementById('direccionCliente').value;
-    const metodoPago = document.getElementById('metodoPago').value;
-    const notas = document.getElementById('notasCliente').value;
-    const productos = obtenerCarrito();
-
-    const total = productos.reduce((acc, prod) => acc + (prod.precio * prod.cantidad), 0);
-
-    const { data, error } = await supabase
-      .from('pedidos')
-      .insert([{
-        nombre_cliente: nombre,
-        telefono,
-        direccion,
-        metodo_pago: metodoPago,
-        notas,
-        productos,
-        total,
-        estado: 'pendiente'
-      }]);
-
-    if (error) {
-      alert('Error al registrar pedido: ' + error.message);
-      console.error(error);
-    } else {
-      alert('¡Pedido enviado con éxito!');
-      localStorage.removeItem('carrito');
-      location.reload(); // o redirigir a una página de éxito
-    }
-  });
-</script>
-
-<!-- Incluye Supabase (si no lo has hecho ya) -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-
 </body>
-
 </html>

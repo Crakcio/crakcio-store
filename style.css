@@ -34,7 +34,7 @@ main {
   padding: 2rem;
 }
 
-.productos-container {
+.contenedor-productos {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 1.5rem;

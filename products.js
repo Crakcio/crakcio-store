@@ -21,6 +21,21 @@ export const productos = [
   }
   // Puedes agregar más productos aquí
 ];
+// products.js
+export async function obtenerProductos() {
+  try {
+    const response = await fetch('productos.json');
+    if (!response.ok) {
+      throw new Error('No se pudo cargar el archivo de productos');
+    }
+    const productos = await response.json();
+    return productos;
+  } catch (error) {
+    console.error('Error al obtener productos:', error);
+    return [];
+  }
+}
+
 export async function cargarProductos(contenedorId) {
   const contenedor = document.getElementById(contenedorId);
   if (!contenedor) {

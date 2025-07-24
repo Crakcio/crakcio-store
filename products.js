@@ -21,29 +21,33 @@ export const productos = [
   }
   // Puedes agregar más productos aquí
 ];
-export function cargarProductos() {
-  fetch('productos.json')
-    .then((response) => response.json())
-    .then((data) => {
-      const productosContainer = document.getElementById('productosContainer');
-      productosContainer.innerHTML = '';
+export async function cargarProductos(contenedorId) {
+  const contenedor = document.getElementById(contenedorId);
+  if (!contenedor) {
+    console.error(`No se encontró el contenedor con ID "${contenedorId}"`);
+    return;
+  }
 
-      data.forEach((producto) => {
-        const card = document.createElement('div');
-        card.className = 'producto-card';
-        card.innerHTML = `
-          <img src="${producto.imagen}" alt="${producto.nombre}" />
-          <h3>${producto.nombre}</h3>
-          <p>${producto.descripcion}</p>
-          <p class="precio">S/ ${producto.precio}</p>
-        `;
-        productosContainer.appendChild(card);
-      });
-    })
-    .catch((error) => {
-      console.error('Error al cargar productos:', error);
+  try {
+    const respuesta = await fetch('products.json');
+    const productos = await respuesta.json();
+
+    contenedor.innerHTML = '';
+    productos.forEach(producto => {
+      const productoDiv = document.createElement('div');
+      productoDiv.classList.add('producto');
+      productoDiv.innerHTML = `
+        <h3>${producto.nombre}</h3>
+        <p>${producto.descripcion}</p>
+        <span>S/ ${producto.precio}</span>
+      `;
+      contenedor.appendChild(productoDiv);
     });
+  } catch (error) {
+    console.error('Error al cargar productos:', error);
+  }
 }
+
 
 export function renderizarProductos(contenedorId = "productos") {
   const contenedor = document.getElementById(contenedorId);

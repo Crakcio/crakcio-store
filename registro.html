@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crear cuenta - Crackio Store</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #00aaff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .registro-container {
+      background-color: #111;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #00aaff44;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .registro-container h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #00aaff;
+    }
+
+    .registro-container label {
+      display: block;
+      margin-top: 1rem;
+      color: #ccc;
+    }
+
+    .registro-container input {
+      width: 100%;
+      padding: 0.6rem;
+      border: none;
+      border-radius: 6px;
+      margin-top: 0.5rem;
+      background-color: #222;
+      color: white;
+    }
+
+    .registro-container button {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 0.8rem;
+      background-color: #00aaff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .registro-container button:hover {
+      background-color: #0077cc;
+    }
+
+    .mensaje {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    .mensaje.error {
+      color: #ff5555;
+    }
+
+    .mensaje.exito {
+      color: #00ffcc;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+
+  <div class="registro-container">
+    <h2>Crear cuenta</h2>
+    <form id="registro-form">
+      <label for="email">Correo electrónico:</label>
+      <input type="email" id="email" required />
+
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" required />
+
+      <button type="submit">Registrarse</button>
+    </form>
+
+    <div class="mensaje" id="mensaje"></div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = "https://twznikjjvtoedfaxbuvf.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3em5pa2pqdnRvZWRmYXhidXZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyOTI1NDAsImV4cCI6MjA2ODg2ODU0MH0.aOQ10hq-syYqrenvFxveBQj6wKqdDtsDKfykSm42MFE";
+
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const form = document.getElementById("registro-form");
+    const mensaje = document.getElementById("mensaje");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = form.email.value.trim();
+      const password = form.password.value;
+
+      const { data, error } = await supabase.auth.signUp({ email, password });
+
+      if (error) {
+        mensaje.textContent = error.message;
+        mensaje.className = "mensaje error";
+      } else {
+        mensaje.textContent = "Cuenta creada. Revisa tu correo para confirmar.";
+        mensaje.className = "mensaje exito";
+        form.reset();
+      }
+    });
+  </script>
+
+</body>
+</html>

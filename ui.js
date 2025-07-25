@@ -4,7 +4,14 @@ import {
   obtenerMasRecientes,
   obtenerProductos
 } from "./products.js";
-import { mostrarProductos } from "./helpers.js";
+import {
+  mostrarProductos,
+  formatearPrecio,
+  mostrarAlerta,
+  guardarEnLocalStorage,
+  obtenerDeLocalStorage,
+  limpiarContenedor
+} from './helpers.js';
 
 // Mostrar productos más vendidos
 async function mostrarProductosMasVendidos() {

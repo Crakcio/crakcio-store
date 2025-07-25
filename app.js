@@ -103,6 +103,8 @@ function renderizarCarrito() {
   const contenedor = document.getElementById('carritoContainer');
   if (!contenedor) return; // Evita error si no existe
   contenedor.innerHTML = '';
+
+  const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
   let total = 0;
 
   carrito.forEach((item, index) => {
@@ -124,6 +126,7 @@ function renderizarCarrito() {
     totalElem.textContent = 'Total: S/ ' + total.toFixed(2);
   }
 }
+
 
 
 function agregarAlCarrito(producto) {

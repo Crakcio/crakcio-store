@@ -151,3 +151,20 @@ function agregarAlCarrito(producto) {
   actualizarContadorCarrito(carrito.length);
   mostrarMensaje("Producto agregado al carrito", "success");
 }
+document.addEventListener('DOMContentLoaded', () => {
+  const botonCarrito = document.getElementById('boton-carrito');
+  const cerrarCarrito = document.getElementById('cerrarCarrito');
+  const modal = document.getElementById('modal');
+
+  if (botonCarrito && cerrarCarrito && modal) {
+    botonCarrito.addEventListener('click', () => {
+      modal.classList.add('activo');
+      modal.classList.remove('oculto');
+    });
+
+    cerrarCarrito.addEventListener('click', () => {
+      modal.classList.remove('activo');
+      modal.classList.add('oculto');
+    });
+  }
+});

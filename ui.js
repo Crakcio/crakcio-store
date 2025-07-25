@@ -41,10 +41,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 import { obtenerProductosMasVendidos, obtenerProductosMasRecientes } from "./products.js";
 
 // Función auxiliar para obtener la URL de imagen desde Supabase
-function obtenerUrlImagen(nombreArchivo) {
-  if (!nombreArchivo) return "images/placeholder.png"; // imagen por defecto local
-  return `https://twznikjjvtoedfaxbuvf.supabase.co//storage/v1/object/public/imgproductos/${nombreArchivo}`;
-}
+
 
 // Mostrar productos genéricos
 export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") {

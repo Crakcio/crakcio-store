@@ -20,8 +20,10 @@ async function cargarProductos() {
       return;
     }
 
+    const contenedor = document.getElementById("contenedor-productos");
+
     if (!contenedor) {
-      console.error(`No se encontró el contenedor con id '${contenedorId}'`);
+      console.error("No se encontró el contenedor con id 'contenedor-productos'");
       return;
     }
 
@@ -32,16 +34,15 @@ async function cargarProductos() {
       card.classList.add("producto-card");
 
       const img = document.createElement("img");
-img.src = `${baseImgUrl}/${producto.imagen}`;
-img.alt = producto.nombre;
+      img.src = `${baseImgUrl}/${producto.imagen}`;
+      img.alt = producto.nombre;
 
-// Manejo de error si la imagen falla al cargar
-img.onerror = () => {
-  if (!img.dataset.fallback) {
-    img.src = "img/error-img.webp"; // Ruta de imagen local de respaldo
-    img.dataset.fallback = "true";
-  }
-};
+      img.onerror = () => {
+        if (!img.dataset.fallback) {
+          img.src = "img/error-img.webp"; // asegúrate de tener esta imagen en /public/img/
+          img.dataset.fallback = "true";
+        }
+      };
 
       const nombre = document.createElement("h3");
       nombre.textContent = producto.nombre;
@@ -64,6 +65,7 @@ img.onerror = () => {
     console.error("Error inesperado al cargar productos:", err);
   }
 }
+
 
 // Ejecutar la carga de productos cuando se cargue el DOM
 document.addEventListener("DOMContentLoaded", cargarProductos);

@@ -136,18 +136,6 @@ export function mostrarMensaje(mensaje, tipo = "info") {
 function agregarAlCarrito(producto) {
   let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-  const productoExistente = carrito.find(item => item.id === producto.id);
-
-  if (productoExistente) {
-    productoExistente.cantidad += 1;
-  } else {
-    carrito.push({ ...producto, cantidad: 1 });
-  }
-
-  localStorage.setItem('carrito', JSON.stringify(carrito));
-  actualizarContadorCarrito();
-}
-
   // Verificar si ya está en el carrito
   const index = carrito.findIndex(item => item.id === producto.id);
   if (index !== -1) {
@@ -163,12 +151,14 @@ function agregarAlCarrito(producto) {
     nombre: producto.nombre,
     precio: producto.precio,
     imagen,
+    cantidad: 1
   });
 
-  guardarEnLocalStorage("carrito", carrito);
+  localStorage.setItem('carrito', JSON.stringify(carrito));
   actualizarContadorCarrito(carrito.length);
   mostrarMensaje("Producto agregado al carrito", "success");
 }
+
 document.addEventListener('DOMContentLoaded', () => {
   actualizarContadorCarrito();
 });

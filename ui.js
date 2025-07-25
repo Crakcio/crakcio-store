@@ -57,7 +57,8 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
       const imagen = document.createElement("img");
       imagen.src = producto.imagen || obtenerUrlImagen(producto.imagen_url);
       imagen.alt = producto.nombre;
-
+      imagen.classList.add("producto-img");
+      
       const nombre = document.createElement("h3");
       nombre.textContent = producto.nombre;
 

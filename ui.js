@@ -112,18 +112,19 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
 
   productos
     .filter(producto =>
+      categoriaFiltro === "" ||
       (producto.categoria || "").toLowerCase().includes(categoriaFiltro.toLowerCase())
     )
     .forEach(producto => {
       const imagenURL = producto.imagen.includes("https://")
         ? producto.imagen
-        : `https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imagenes/${producto.imagen}`;
+        : `https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/${producto.imagen}`;
 
       const div = document.createElement("div");
       div.classList.add("producto");
 
       div.innerHTML = `
-        <img src="${imagenURL}" alt="${producto.nombre}" />
+        <img src="${imagenURL}" alt="${producto.nombre}" onerror="this.onerror=null;this.src='/img/error-img.jpg';">
         <h3>${producto.nombre}</h3>
         <p>S/ ${producto.precio.toFixed(2)}</p>
         <button>Agregar al carrito</button>

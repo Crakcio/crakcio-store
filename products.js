@@ -58,3 +58,4 @@ export async function obtenerMasRecientes(limit = 4) {
     return [];
   }
 }
+export { obtenerUrlImagen };

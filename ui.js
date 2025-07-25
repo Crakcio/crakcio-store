@@ -56,11 +56,12 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
       div.classList.add("producto");
 
       // ✅ Aquí agregamos la imagen correctamente
-      const img = document.createElement("img");
-      img.src = obtenerUrlImagen(producto.imagen); // Usa la función del bucket
-      img.alt = producto.nombre;
-      img.classList.add("producto-img");
-      div.appendChild(img);
+    const img = document.createElement("img");
+        img.src = obtenerUrlImagen(producto.imagen);
+        img.alt = producto.nombre;
+        img.classList.add("producto-img");
+        div.appendChild(img); // ✅ Aquí corregimos de "card" a "div"
+
 
       const nombre = document.createElement("h3");
       nombre.textContent = producto.nombre;

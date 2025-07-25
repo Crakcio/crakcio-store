@@ -122,6 +122,28 @@
 
   // Cerrar el modal (el botón ya tiene el onclick directo en el HTML)
 </script>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('modal');
+    const botonCarrito = document.getElementById('boton-carrito');
+    const cerrarCarrito = document.getElementById('cerrarCarrito');
+
+    if (botonCarrito && modal) {
+      botonCarrito.addEventListener('click', () => {
+        modal.classList.remove('oculto');
+        modal.classList.add('activo');
+      });
+    }
+
+    if (cerrarCarrito && modal) {
+      cerrarCarrito.addEventListener('click', () => {
+        modal.classList.remove('activo');
+        modal.classList.add('oculto');
+      });
+    }
+  });
+</script>
+
 
 <script type="module" src="supabaseClient.js"></script>
 <script type="module" src="products.js"></script>

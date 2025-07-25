@@ -111,7 +111,7 @@ export function mostrarProductos(productos, contenedorId) {
   contenedor.innerHTML = "";
 
   productos.forEach(producto => {
-    const imagenURL = producto.imagen.includes("https://")
+    const imagenURL = (producto.imagen || "").includes("https://")
       ? producto.imagen
       : `https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imagenes/${producto.imagen}`;
 

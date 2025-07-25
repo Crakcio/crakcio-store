@@ -129,6 +129,11 @@ export function mostrarMensaje(mensaje, tipo = "info") {
 }
 function agregarAlCarrito(producto) {
   let carrito = obtenerDeLocalStorage("carrito") || [];
+function actualizarContadorCarrito() {
+  const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+  const totalCantidad = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+  document.getElementById('contador-carrito').textContent = totalCantidad;
+}
 
   // Verificar si ya está en el carrito
   const index = carrito.findIndex(item => item.id === producto.id);
@@ -151,6 +156,9 @@ function agregarAlCarrito(producto) {
   actualizarContadorCarrito(carrito.length);
   mostrarMensaje("Producto agregado al carrito", "success");
 }
+document.addEventListener('DOMContentLoaded', () => {
+  actualizarContadorCarrito();
+});
 document.addEventListener("DOMContentLoaded", () => {
   const botonCarrito = document.getElementById('boton-carrito');
   const modal = document.getElementById('modal');

@@ -5,7 +5,6 @@ import {
   obtenerProductos
 } from "./products.js";
 import {
-  mostrarProductos,
   formatearPrecio,
   mostrarAlerta,
   guardarEnLocalStorage,

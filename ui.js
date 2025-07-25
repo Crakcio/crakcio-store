@@ -1,4 +1,35 @@
 // ui.js
+import {
+  obtenerMasVendidos,
+  obtenerMasRecientes,
+  obtenerProductos
+} from "./products.js";
+import { mostrarProductos } from "./helpers.js";
+
+// Mostrar productos más vendidos
+async function mostrarProductosMasVendidos() {
+  const productos = await obtenerMasVendidos();
+  mostrarProductos(productos, "productos-mas-vendidos");
+}
+
+// Mostrar productos más recientes
+async function mostrarProductosMasRecientes() {
+  const productos = await obtenerMasRecientes();
+  mostrarProductos(productos, "productos-mas-recientes");
+}
+
+// Mostrar todos los productos (opcional, si tienes una vista de todos)
+async function mostrarTodosLosProductos() {
+  const productos = await obtenerProductos();
+  mostrarProductos(productos, "contenedor-productos");
+}
+
+// Ejecutar funciones al cargar la página
+document.addEventListener("DOMContentLoaded", async () => {
+  await mostrarProductosMasVendidos();
+  await mostrarProductosMasRecientes();
+  // await mostrarTodosLosProductos(); // Si deseas mostrar todos también
+});
 
 export function mostrarCarrito(carrito, contenedorId) {
   const contenedor = document.getElementById(contenedorId);

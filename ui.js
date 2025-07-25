@@ -11,6 +11,7 @@ import {
   guardarEnLocalStorage,
   obtenerDeLocalStorage,
   limpiarContenedor
+  obtenerUrlImagen
 } from './helpers.js';
 // Función auxiliar para obtener la URL de imagen desde Supabase
 function obtenerUrlImagen(nombreArchivo) {

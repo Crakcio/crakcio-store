@@ -57,11 +57,12 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
       div.classList.add("producto");
 
       // Crear imagen
-      const img = document.createElement("img");
-      img.src = obtenerUrlImagen(producto.imagen); // ✅ producto definido aquí
+     const img = document.createElement("img");
+      img.src = obtenerUrlImagen(producto.imagen_url); // ← Aquí está el cambio
       img.alt = producto.nombre;
       img.classList.add("producto-img");
-      div.appendChild(img); // ✅ corregido de "card" a "div"
+      div.appendChild(img);
+
 
       const nombre = document.createElement("h3");
       nombre.textContent = producto.nombre;

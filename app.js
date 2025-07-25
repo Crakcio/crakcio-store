@@ -73,15 +73,7 @@ function verificarSesion() {
 
 verificarSesion();
 
-if (user) {
-  if (btnLogin) btnLogin.style.display = "none";
-  if (btnRegistro) btnRegistro.style.display = "none";
-  if (btnCerrarSesion) btnCerrarSesion.style.display = "inline-block";
-} else {
-  if (btnLogin) btnLogin.style.display = "inline-block";
-  if (btnRegistro) btnRegistro.style.display = "inline-block";
-  if (btnCerrarSesion) btnCerrarSesion.style.display = "none";
-}
+
 
 // ------------------------- CARRITO DE COMPRAS -----------------------------
 
@@ -97,6 +89,16 @@ if (botonCarrito) {
   botonCarrito.addEventListener("click", () => {
     mostrarModalCarrito();
     modal.classList.remove("oculto");
+  });
+}
+botonCarrito.addEventListener("click", () => {
+  modal.classList.remove("oculto");
+  renderizarCarrito(); // Esto asegura que se actualice cuando se abra
+});
+const cerrarModal = document.getElementById("cerrarModal");
+if (cerrarModal) {
+  cerrarModal.addEventListener("click", () => {
+    modal.classList.add("oculto");
   });
 }
 

@@ -152,20 +152,26 @@ function calcularTotalCarrito(carrito) {
 // ------------------------- FINALIZAR COMPRA -----------------------------
 
 const finalizarBtn = document.getElementById('finalizarCompra');
+
 if (finalizarBtn) {
   finalizarBtn.addEventListener('click', async () => {
+    // Verificar sesión iniciada
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       alert('Debes iniciar sesión para finalizar la compra.');
       return;
     }
 
+    // Obtener carrito actualizado
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
     if (carrito.length === 0) {
       alert('Tu carrito está vacío.');
       return;
     }
 
-    let mensaje = '🛒 *Nueva orden desde Crakcio Store*\n\n';
+    // Crear mensaje para WhatsApp
+    let mensaje = '🛒 *Nueva orden desde Crackio Store*\n\n';
     let total = 0;
     carrito.forEach(item => {
       mensaje += `🔹 ${item.nombre} x${item.cantidad} - S/ ${item.precio}\n`;
@@ -174,11 +180,15 @@ if (finalizarBtn) {
     mensaje += `\n💰 Total: S/ ${total.toFixed(2)}\n`;
     mensaje += `📧 Cliente: ${user.email}`;
 
-    const numero = '51999207025'; // Tu número de WhatsApp con código de país
+    // Abrir WhatsApp
+    const numero = '51999207025'; // Número del vendedor con código de país
     const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
+
+    // Limpiar carrito después de enviar
+    localStorage.removeItem('carrito');
+    actualizarContadorCarrito(0);
+    renderizarCarrito();
   });
 }
 
-renderizarCarrito();
-});

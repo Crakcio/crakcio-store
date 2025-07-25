@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Crackio Store</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="login-container">
+    <h1>Iniciar Sesión</h1>
+    <form id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Correo electrónico" required>
+      <input type="password" id="loginPassword" placeholder="Contraseña" required>
+      <button type="submit">Entrar</button>
+    </form>
+
+    <p>¿No tienes cuenta? <a href="#" id="mostrarRegistro">Regístrate aquí</a></p>
+
+    <div id="registroModal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-modal" id="cerrarRegistro">&times;</span>
+        <h2>Crear cuenta</h2>
+        <form id="registerForm">
+          <input type="email" id="registerEmail" placeholder="Correo electrónico" required>
+          <input type="password" id="registerPassword" placeholder="Contraseña" required>
+          <button type="submit">Registrarse</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="supabaseClient.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>

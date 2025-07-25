@@ -10,7 +10,9 @@ const baseUrl = "https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/publ
 const contenedorId = "contenedor-productos";
 const contenedor = document.getElementById(contenedorId);
 const baseImgUrl = "https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos";
-
+ img.src = producto.imagen
+    ? `${baseImgUrl}/${producto.imagen}`
+    : "img/error-img.webp";
 async function cargarProductos() {
   try {
     const { data, error } = await supabase.from("productos").select("*");
@@ -34,9 +36,7 @@ async function cargarProductos() {
   card.classList.add("producto-card");
 
   const img = document.createElement("img");
-  img.src = producto.imagen
-    ? `${baseImgUrl}/${producto.imagen}`
-    : "img/error-img.webp";
+ 
 
   img.alt = producto.nombre;
   img.onerror = () => {

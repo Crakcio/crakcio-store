@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Admin | Crackio Store</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="admin-header">
+    <h1>Panel de Administración</h1>
+    <button id="cerrarSesionAdmin">Cerrar sesión</button>
+  </header>
+
+  <main class="admin-main">
+    <section class="admin-agregar">
+      <h2>Agregar Producto</h2>
+      <form id="agregarProductoForm">
+        <input type="text" id="nombre" placeholder="Nombre" required />
+        <input type="text" id="categoria" placeholder="Categoría" required />
+        <input type="text" id="descripcion" placeholder="Descripción" required />
+        <input type="number" id="precio" placeholder="Precio" required />
+        <input type="number" id="stock" placeholder="Stock" required />
+        <input type="text" id="imagen" placeholder="URL de la imagen (Supabase)" required />
+        <button type="submit">Agregar</button>
+      </form>
+    </section>
+
+    <section class="admin-productos">
+      <h2>Mis Productos</h2>
+      <div id="adminListaProductos"></div>
+    </section>
+  </main>
+
+  <script type="module" src="admin.js"></script>
+  <script type="module" src="supabaseClient.js"></script>
+</body>
+</html>

@@ -114,33 +114,36 @@
       ¿No tienes cuenta? <a href="registro.html">Crea una aquí</a>
     </div>
   </div>
-  <script>
-    const form = document.getElementById("login-form");
-    const mensaje = document.getElementById("mensaje");
+  <script type="module">
+  import { supabase } from './supabaseClient.js';
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+  const form = document.getElementById("login-form");
+  const mensaje = document.getElementById("mensaje");
 
-      const email = form.email.value.trim();
-      const password = form.password.value;
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
 
-      if (error) {
-        mensaje.textContent = error.message;
-        mensaje.className = "mensaje error";
-      } else {
-        mensaje.textContent = "Inicio de sesión exitoso. Redirigiendo...";
-        mensaje.className = "mensaje exito";
-        setTimeout(() => {
-          window.location.href = "index.html"; // Puedes cambiarlo por otra página
-        }, 1500);
-      }
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
     });
-  </script>
+
+    if (error) {
+      mensaje.textContent = error.message;
+      mensaje.className = "mensaje error";
+    } else {
+      mensaje.textContent = "Inicio de sesión exitoso. Redirigiendo...";
+      mensaje.className = "mensaje exito";
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1500);
+    }
+  });
+</script>
+
 <script type="module" src="supabaseClient.js"></script>
 <script type="module" src="app.js"></script> <!-- si aquí está el login -->
 

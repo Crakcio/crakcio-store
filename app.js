@@ -87,14 +87,11 @@ const botonCarrito = document.getElementById("boton-carrito");
 
 if (botonCarrito) {
   botonCarrito.addEventListener("click", () => {
-    mostrarModalCarrito();
     modal.classList.remove("oculto");
+    renderizarCarrito(); // ✅ Ya tienes esta función para actualizar el contenido
   });
 }
-botonCarrito.addEventListener("click", () => {
-  modal.classList.remove("oculto");
-  renderizarCarrito(); // Esto asegura que se actualice cuando se abra
-});
+
 const cerrarModal = document.getElementById("cerrarModal");
 if (cerrarModal) {
   cerrarModal.addEventListener("click", () => {

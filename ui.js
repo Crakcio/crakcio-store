@@ -1,5 +1,5 @@
 const SUPABASE_URL = 'https://twznikjjvtoedfaxbuvf.supabase.co';
-const BUCKET = 'imagenes'; // o el nombre de tu bucket
+const BUCKET = 'imgproductos'; // o el nombre de tu bucket
 const RUTA = 'luces-rgb.webp'; // la ruta que guardaste
 
 const urlPublica = `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${RUTA}`;

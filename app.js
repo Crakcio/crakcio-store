@@ -1,5 +1,5 @@
 // app.js
-
+document.addEventListener("DOMContentLoaded", () => {
 import { supabase } from './supabaseClient.js';
 
 // ------------------------- AUTENTICACIÓN -----------------------------
@@ -145,3 +145,4 @@ if (finalizarBtn) {
 }
 
 renderizarCarrito();
+});

@@ -231,4 +231,16 @@ footer .redes {
   transform: scale(1.2);
   box-shadow: 0 0 10px #00bfff;
 }
+#banner {
+  width: 100vw;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+#banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
 

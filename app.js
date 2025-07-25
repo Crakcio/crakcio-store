@@ -3,13 +3,12 @@ import { supabase } from "./supabaseClient.js";
 import { actualizarCarrito, enviarPedidoWhatsApp, validarFormulario } from './ui.js';
 import { mostrarProductos } from './ui.js';
 import { cargarProductos } from './products.js';
-cargarProductos();
 cargarProductos().then(productos => {
   mostrarProductos(productos, 'contenedor-productos'); // <--- ID correcto aquí
 });
 document.addEventListener("DOMContentLoaded", cargarProductos);
 document.addEventListener("DOMContentLoaded", async () => {
-  const productos = await obtenerProductos();
+  const productos = await cargarProductos();
   mostrarProductos(productos, "contenedor-productos");
 console.log("Productos recibidos:", productos);
 

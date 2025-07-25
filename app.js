@@ -3,7 +3,6 @@ import { supabase } from "./supabaseClient.js";
 import { cargarProductos } from './products.js';
 import { actualizarCarrito, enviarPedidoWhatsApp, validarFormulario } from './ui.js';
 import { mostrarProductos } from './ui.js';
-import { obtenerProductos } from './products.js';
 obtenerProductos().then(productos => {
   mostrarProductos(productos, 'contenedor-productos'); // <--- ID correcto aquí
 });
@@ -48,3 +47,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+export { cargarProductos };

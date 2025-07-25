@@ -55,14 +55,6 @@
     </section>
         
         <!-- Productos dinámicos desde Supabase -->
-    
-    <section id="carrito">
-      <h2>Carrito de compras</h2>
-      <div id="items-carrito"></div>
-      <div id="total-carrito">Total: S/ <span>0.00</span></div>
-      <div id="carrito-contenedor"></div>
-      <button id="checkout-btn">Finalizar compra</button>
-    </section>
     <div id="productos-container"></div>
    <!-- <div id="menu"></div> -->
 
@@ -119,6 +111,14 @@
   } else {
     window.location.href = 'login.html';
   }
+</script>
+<script>
+  // Mostrar el modal del carrito
+  document.getElementById("boton-carrito").addEventListener("click", () => {
+    document.getElementById("modal").classList.remove("oculto");
+  });
+
+  // Cerrar el modal (el botón ya tiene el onclick directo en el HTML)
 </script>
 
 <script type="module" src="supabaseClient.js"></script>

@@ -128,7 +128,20 @@ export function mostrarMensaje(mensaje, tipo = "info") {
   }, 3000);
 }
 function agregarAlCarrito(producto) {
-  let carrito = obtenerDeLocalStorage("carrito") || [];
+  let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+  const productoExistente = carrito.find(item => item.id === producto.id);
+
+  if (productoExistente) {
+    productoExistente.cantidad += 1;
+  } else {
+    carrito.push({ ...producto, cantidad: 1 });
+  }
+
+  localStorage.setItem('carrito', JSON.stringify(carrito));
+  actualizarContadorCarrito();
+}
+
 function actualizarContadorCarrito() {
   const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
   const totalCantidad = carrito.reduce((sum, item) => sum + item.cantidad, 0);

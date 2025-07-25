@@ -42,50 +42,41 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Mostrar productos genéricos
 export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") {
   const contenedor = document.getElementById(contenedorId);
-  if (!contenedor) return;
-
   contenedor.innerHTML = "";
 
   productos
     .filter(producto =>
       categoriaFiltro === "" ||
-      (producto.categoria || "").toLowerCase() === categoriaFiltro.toLowerCase()
+      (producto.categoria || "").toLowerCase().includes(categoriaFiltro.toLowerCase())
     )
     .forEach(producto => {
-      console.log(producto);
-      const div = document.createElement("div");
-      div.classList.add("producto");
+      const card = document.createElement("div");
+      card.classList.add("producto");
 
-      // Crear imagen
-     const img = document.createElement("img");
-      img.src = obtenerUrlImagen(producto.imagen_url); // ← Aquí está el cambio
-      img.alt = producto.nombre;
-      img.classList.add("producto-img");
-      div.appendChild(img);
-
+      // Aquí va lo que preguntaste
+      const imagen = document.createElement("img");
+      imagen.src = producto.imagen || obtenerUrlImagen(producto.imagen_url);
+      imagen.alt = producto.nombre;
 
       const nombre = document.createElement("h3");
       nombre.textContent = producto.nombre;
-      div.appendChild(nombre);
 
       const precio = document.createElement("p");
       precio.textContent = `S/ ${producto.precio}`;
-      div.appendChild(precio);
-
-      const stock = document.createElement("p");
-      stock.textContent = `Stock: ${producto.stock ?? 0}`;
-      div.appendChild(stock);
 
       const boton = document.createElement("button");
       boton.textContent = "Agregar al carrito";
-      boton.addEventListener("click", () => {
-        agregarAlCarrito(producto);
-      });
-      div.appendChild(boton);
+      boton.addEventListener("click", () => agregarAlCarrito(producto));
 
-      contenedor.appendChild(div);
+      card.appendChild(imagen);
+      card.appendChild(nombre);
+      card.appendChild(precio);
+      card.appendChild(boton);
+
+      contenedor.appendChild(card);
     });
 }
+
 
 
 export function mostrarCarrito(carrito, contenedorId) {

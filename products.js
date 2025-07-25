@@ -1,5 +1,14 @@
 import { supabase } from "./supabaseClient.js";
 
+const BUCKET_URL = "https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/";
+
+// Reemplaza "xyz" con tu subdominio real de Supabase
+
+function obtenerUrlImagen(nombreArchivo) {
+  if (!nombreArchivo) return "images/placeholder.webp"; // una imagen de respaldo local
+  return BUCKET_URL + nombreArchivo;
+}
+
 // Función para obtener los productos
 export async function obtenerProductos() {
   try {

@@ -143,6 +143,11 @@ window.eliminarDelCarrito = function(index) {
   guardarCarrito();
   renderizarCarrito();
 };
+function calcularTotalCarrito(carrito) {
+  return carrito.reduce((total, producto) => {
+    return total + (producto.precio * (producto.cantidad || 1));
+  }, 0);
+}
 
 // ------------------------- FINALIZAR COMPRA -----------------------------
 

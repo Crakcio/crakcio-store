@@ -17,7 +17,11 @@ async function cargarProductos() {
     const { data, error } = await supabase.from("productos").select("*");
 
     if (error) throw error;
-
+    return data;
+    } catch (err) {
+    console.error("Error al cargar productos:", err.message);
+    return []; // ⛑️ Devuelve lista vacía en caso de error
+  }
     contenedor.innerHTML = ""; // Limpia el contenedor antes de agregar nuevos
 
     data.forEach((producto) => {

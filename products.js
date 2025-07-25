@@ -1,5 +1,5 @@
 
-import { supabase } from './app.js';
+import { supabase } from './supabaseClient.js';
 import { agregarAlCarrito } from './ui.js';
 const baseUrl = "https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos";
 
@@ -63,7 +63,6 @@ async function cargarProductos() {
 // Ejecutar la carga de productos cuando se cargue el DOM
 document.addEventListener("DOMContentLoaded", cargarProductos);
 
-import { supabase } from './supabaseClient.js';
 
 export async function obtenerProductos() {
   const { data, error } = await supabase.from("productos").select("*");

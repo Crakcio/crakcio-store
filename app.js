@@ -90,6 +90,15 @@ let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 function guardarCarrito() {
   localStorage.setItem('carrito', JSON.stringify(carrito));
 }
+const modal = document.getElementById("modal");
+const botonCarrito = document.getElementById("boton-carrito");
+
+if (botonCarrito) {
+  botonCarrito.addEventListener("click", () => {
+    mostrarModalCarrito();
+    modal.classList.remove("oculto");
+  });
+}
 
 function renderizarCarrito() {
   const contenedor = document.getElementById('carritoContainer');

@@ -3,118 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Crackio Store</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>Crakcio Store</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module" src="supabaseClient.js"></script>
+  <script type="module" src="app.js"></script>
+  <script type="module" src="ui.js"></script>
+  <script type="module" src="products.js"></script>
 </head>
 <body>
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <ul class="nav-links">
-      <li><a href="#">Inicio</a></li>
-      <li class="submenu">
-        <a href="#productos">Productos</a>
-        <ul class="dropdown">
-          <li><a href="#iluminacion">Iluminación</a></li>
-          <li><a href="#smart">Smart</a></li>
-          <li><a href="#teclado">Teclado</a></li>
-          <li><a href="#mouse">Mouse</a></li>
-        </ul>
-      </li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul>
-  </nav>
-  <!-- botones de categoría -->
-<div id="filtros-categorias">
-  <button class="btn-categoria" data-categoria="">Todos</button>
-  <button class="btn-categoria" data-categoria="gamer">Smart</button>
-  <button class="btn-categoria" data-categoria="hogar">Hogar</button>
-  <button class="btn-categoria" data-categoria="luces">Luces</button>
-</div>
+  <header>
+    <nav>
+      <div class="logo">Crakcio Store</div>
+      <ul class="nav-links">
+        <li><a href="#inicio">Inicio</a></li>
+        <li>
+          <a href="#productos">Productos</a>
+          <ul class="submenu">
+            <li><a href="#luces">Luces</a></li>
+            <li><a href="#smart">Smart</a></li>
+            <li><a href="#mouse">Mouse</a></li>
+            <li><a href="#teclado">Teclado</a></li>
+          </ul>
+        </li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+      <div id="user-controls">
+        <button id="login-btn">Iniciar sesión</button>
+        <button id="logout-btn" style="display: none;">Cerrar sesión</button>
+      </div>
+    </nav>
+  </header>
 
-  <!-- ÍCONO DE CARRITO -->
-  <div class="carrito-icono" onclick="mostrarCarrito()">🛒 <span id="contador-carrito">0</span></div>
-    
-  <!-- MODAL DEL CARRITO -->
-  <div id="modal-carrito" class="modal-carrito">
-    <div class="modal-contenido">
-      <span class="cerrar" onclick="cerrarCarrito()">&times;</span>
-      <h2>Tu Carrito</h2>
-      <div id="lista-carrito"></div>
-      <button onclick="mostrarFormularioPedido()" class="boton-pedido">Finalizar pedido</button>
-      <p id="total-carrito">Total: S/ 0.00</p>
-    </div>
-  </div>
-
-
-   <main>
-    <!-- LOGIN -->
-    <section id="login-section">
-      <h2>Iniciar sesión</h2>
-      <input type="email" id="login-email" placeholder="Correo electrónico" />
-      <input type="password" id="login-password" placeholder="Contraseña" />
-      <button id="login-btn">Ingresar</button>
+  <main>
+    <section id="banner">
+      <!-- Imagen del banner se cargará luego -->
+      <img id="banner-image" src="" alt="Banner Crakcio Store" />
     </section>
-     
+
+    <section id="mis-productos">
+      <h2>Mis productos más vendidos</h2>
+      <div class="productos-grid" id="productos-destacados">
+        <!-- Productos dinámicos desde Supabase -->
+      </div>
+    </section>
+
+    <section id="carrito">
+      <h2>Carrito de compras</h2>
+      <div id="items-carrito"></div>
+      <div id="total-carrito">Total: S/ <span>0.00</span></div>
+      <button id="checkout-btn">Finalizar compra</button>
+    </section>
   </main>
-  <!-- FORMULARIO DE PEDIDO -->
-  <div id="formulario-pedido" style="display: none;">
-    <h3>Finalizar pedido</h3>
-    <form id="pedidoForm">
-      <label>Nombre:</label><br />
-      <input type="text" id="nombreCliente" required><br /><br />
-      <label>Teléfono:</label><br />
-      <input type="text" id="telefonoCliente" required><br /><br />
-      <label>Dirección:</label><br />
-      <input type="text" id="direccionCliente" required><br /><br />
-      <label>Método de pago:</label><br />
-      <select id="metodoPago">
-        <option value="Yape">Yape</option>
-        <option value="Plin">Plin</option>
-        <option value="Efectivo">Efectivo</option>
-      </select><br /><br />
-      <label>Notas (opcional):</label><br />
-      <textarea id="notasCliente" rows="3"></textarea><br /><br />
-      <button type="button" id="btn-enviar-pedido">Enviar Pedido por WhatsApp</button>
-    </form>
-  </div>
 
-  <!-- BANNER -->
-  <div class="banner">
-    <img src="images/Banner2.png" alt="Banner Crackio Store" />
-  </div>
-
-  <!-- PRODUCTOS -->
-  <section class="productos" id="productos">
-    <h2>Nuestros Productos</h2>
-    <div id="contenedor-productos" class="contenedor-productos"></div>
-  </section>
-
-  <!-- CONTACTO -->
-  <section id="contacto" class="contacto">
-    <h2>Contáctanos</h2>
-    <p>¿Tienes dudas? Escríbenos a nuestro WhatsApp o por redes sociales.</p>
-    <p><strong>Email:</strong> contacto@crackio.com</p>
-    <p><strong>WhatsApp:</strong> +51 999 207 025</p>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
+  <footer>
     <div class="redes-sociales">
-      <a href="https://www.facebook.com/people/Crakcio-Store/61578344680156/?locale=es_LA" target="_blank"><i class="fab fa-facebook"></i></a>
-      <a href="https://wa.me/+51999207025" target="_blank"><i class="fab fa-whatsapp"></i></a>
-      <a href="https://www.instagram.com/crakciostore/" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://facebook.com/crakcio" target="_blank">Facebook</a>
+      <a href="https://wa.me/519XXXXXXX" target="_blank">WhatsApp</a>
+      <a href="https://instagram.com/crakcio" target="_blank">Instagram</a>
     </div>
-    <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
-    <a href="politica.html">Política de Privacidad</a> | 
-    <a href="condiciones.html">Condiciones de Compra</a>
+    <div class="politicas">
+      <a href="politica.html" target="_blank">Política de privacidad</a>
+      <a href="condiciones.html" target="_blank">Términos y condiciones</a>
+      <p>&copy; 2025 Crakcio Store. Todos los derechos reservados.</p>
+    </div>
   </footer>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-  <!-- SCRIPTS -->
-  <script type="module" src="app.js"></script>
-  <script type="module" src="products.js"></script>
+  <!-- Modales y ventanas para login, admin y pago -->
+  <div id="modal-login" class="modal hidden">
+    <!-- Formulario de inicio de sesión/registro -->
+  </div>
+
+  <div id="modal-pago" class="modal hidden">
+    <h3>Selecciona método de pago:</h3>
+    <ul>
+      <li><button id="pago-yape">Yape</button></li>
+      <li><button id="pago-plin">Plin</button></li>
+      <li><button id="pago-tarjeta">Tarjeta</button></li>
+    </ul>
+  </div>
 
 </body>
 </html>

@@ -116,10 +116,11 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
       (producto.categoria || "").toLowerCase().includes(categoriaFiltro.toLowerCase())
     )
     .forEach(producto => {
-     const imagenNombre = producto?.imagen?.trim() || "error-img.jpg";
+const imagenNombre = (producto && producto.imagen && producto.imagen.trim()) || "error-img.jpg";
 const imagenURL = imagenNombre.startsWith("http")
   ? imagenNombre
   : `https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/${imagenNombre}`;
+
 
 
         ? producto.imagen

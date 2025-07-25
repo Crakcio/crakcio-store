@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", cargarProductos);
 document.addEventListener("DOMContentLoaded", async () => {
   const productos = await obtenerProductos();
   mostrarProductos(productos, "contenedor-productos");
+console.log("Productos recibidos:", productos);
 
   // Activar botones de categoría
   const botones = document.querySelectorAll(".btn-categoria");

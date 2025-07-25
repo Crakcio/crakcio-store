@@ -74,3 +74,4 @@ export async function obtenerProductos() {
 
   return data;
 }
+export { cargarProductos };

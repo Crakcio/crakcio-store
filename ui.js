@@ -38,10 +38,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   await mostrarProductosMasRecientes();
   // await mostrarTodosLosProductos(); // Si deseas mostrar todos también
 });
-import { obtenerProductosMasVendidos, obtenerProductosMasRecientes } from "./products.js";
-
-// Función auxiliar para obtener la URL de imagen desde Supabase
-
 
 // Mostrar productos genéricos
 export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") {
@@ -64,7 +60,7 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
       img.src = obtenerUrlImagen(producto.imagen); // Usa la función del bucket
       img.alt = producto.nombre;
       img.classList.add("producto-img");
-      card.appendChild(img);
+      div.appendChild(img);
 
       const nombre = document.createElement("h3");
       nombre.textContent = producto.nombre;
@@ -88,13 +84,6 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
       contenedor.appendChild(div);
     });
 }
-
-// Inicializar vistas destacadas
-document.addEventListener("DOMContentLoaded", () => {
-  mostrarProductosMasVendidos();
-  mostrarProductosMasRecientes();
-});
-
 
 export function mostrarCarrito(carrito, contenedorId) {
   const contenedor = document.getElementById(contenedorId);

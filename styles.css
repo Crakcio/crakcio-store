@@ -71,10 +71,10 @@ main {
   box-shadow: 0 0 15px #00bfff;
 }
 .producto-img {
-  width: 100%;
+  width: 150px;
   height: auto;
+  object-fit: cover;
   border-radius: 8px;
-  margin-bottom: 10px;
 }
 button {
   background-color: transparent;

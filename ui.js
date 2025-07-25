@@ -142,11 +142,13 @@ function agregarAlCarrito(producto) {
   actualizarContadorCarrito();
 }
 
+
 function actualizarContadorCarrito() {
   const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
   const totalCantidad = carrito.reduce((sum, item) => sum + Number(item.cantidad || 0), 0);
   document.getElementById('contador-carrito').textContent = totalCantidad;
 }
+
 
 
   // Verificar si ya está en el carrito

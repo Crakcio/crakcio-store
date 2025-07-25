@@ -9,6 +9,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   const productos = await obtenerProductos();
   mostrarProductos(productos, "contenedor-productos");
 
+  // Activar botones de categoría
+  const botones = document.querySelectorAll(".btn-categoria");
+  botones.forEach(boton => {
+    boton.addEventListener("click", () => {
+      const categoria = boton.dataset.categoria;
+      mostrarProductos(productos, "contenedor-productos", categoria);
+    });
+  });
+
+  // Login (como ya lo tienes)
   document.getElementById("login-btn").addEventListener("click", () => {
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
@@ -20,6 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 });
+
 
 
 const SUPABASE_URL = 'https://twznikjjvtoedfaxbuvf.supabase.co';

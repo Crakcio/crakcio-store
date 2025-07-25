@@ -1,9 +1,8 @@
-// products.js
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
 // Configura Supabase
 const supabaseUrl = "https://twznikjjvtoedfaxbuvf.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3em5pa2pqdnRvZWRmYXhidXZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyOTI1NDAsImV4cCI6MjA2ODg2ODU0MH0.aOQ10hq-syYqrenvFxveBQj6wKqdDtsDKfykSm42MFE"; // <-- Reemplaza con tu clave pública si aún no lo has hecho
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."; // tu clave pública
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // URL base del bucket de imágenes
@@ -15,13 +14,8 @@ const contenedor = document.getElementById("contenedor-productos");
 async function cargarProductos() {
   try {
     const { data, error } = await supabase.from("productos").select("*");
-
     if (error) throw error;
-    return data;
-    } catch (err) {
-    console.error("Error al cargar productos:", err.message);
-    return []; // ⛑️ Devuelve lista vacía en caso de error
-  }
+
     contenedor.innerHTML = ""; // Limpia el contenedor antes de agregar nuevos
 
     data.forEach((producto) => {
@@ -62,6 +56,7 @@ async function cargarProductos() {
 
       contenedor.appendChild(card);
     });
+
   } catch (err) {
     console.error("Error al cargar productos:", err.message);
     contenedor.innerHTML = `<p class="error">No se pudieron cargar los productos.</p>`;
@@ -70,4 +65,3 @@ async function cargarProductos() {
 
 // Ejecutar al cargar
 cargarProductos();
-export { cargarProductos };

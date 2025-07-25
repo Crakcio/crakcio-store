@@ -1,9 +1,10 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 import { supabase } from "./supabaseClient.js";
-import { cargarProductos } from './products.js';
 import { actualizarCarrito, enviarPedidoWhatsApp, validarFormulario } from './ui.js';
 import { mostrarProductos } from './ui.js';
-obtenerProductos().then(productos => {
+import { cargarProductos } from './products.js';
+cargarProductos();
+cargarProductos().then(productos => {
   mostrarProductos(productos, 'contenedor-productos'); // <--- ID correcto aquí
 });
 document.addEventListener("DOMContentLoaded", cargarProductos);

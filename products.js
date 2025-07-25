@@ -30,40 +30,48 @@ async function cargarProductos() {
     contenedor.innerHTML = "";
 
     data.forEach((producto) => {
-      const card = document.createElement("div");
-      card.classList.add("producto-card");
+  const card = document.createElement("div");
+  card.classList.add("producto-card");
 
-      const img = document.createElement("img");
-     img.src = producto.imagen
-  ? `${baseImgUrl}/${producto.imagen}`
-  : "img/error-img.webp";
+  const img = document.createElement("img");
+  img.src = producto.imagen
+    ? `${baseImgUrl}/${producto.imagen}`
+    : "img/error-img.webp";
 
-      img.alt = producto.nombre;
+  img.alt = producto.nombre;
+  img.onerror = () => {
+    if (!img.dataset.fallback) {
+      img.src = "img/error-img.webp";
+      img.dataset.fallback = "true";
+    }
+  };
 
-      img.onerror = () => {
-        if (!img.dataset.fallback) {
-          img.src = "img/error-img.webp"; // asegúrate de tener esta imagen en /public/img/
-          img.dataset.fallback = "true";
-        }
-      };
+  const nombre = document.createElement("h3");
+  nombre.textContent = producto.nombre;
 
-      const nombre = document.createElement("h3");
-      nombre.textContent = producto.nombre;
+  const descripcion = document.createElement("p");
+  descripcion.textContent = producto.descripcion || "Sin descripción";
 
-      const descripcion = document.createElement("p");
-      descripcion.textContent = producto.descripcion || "Sin descripción";
+  const precio = document.createElement("p");
+  precio.classList.add("precio");
+  precio.textContent = `S/ ${parseFloat(producto.precio).toFixed(2)}`;
 
-      const precio = document.createElement("p");
-      precio.classList.add("precio");
-      precio.textContent = `S/ ${producto.precio.toFixed(2)}`;
+  // 🔹 NUEVO: Mostrar stock disponible
+  const stock = document.createElement("p");
+  stock.classList.add("stock");
+  stock.textContent = `Stock: ${producto.stock ?? 0}`;
 
-      card.appendChild(img);
-      card.appendChild(nombre);
-      card.appendChild(descripcion);
-      card.appendChild(precio);
+  // Agrega todo al card
+  card.appendChild(img);
+  card.appendChild(nombre);
+  card.appendChild(descripcion);
+  card.appendChild(precio);
+  card.appendChild(stock); // 👈 Añadir al final
 
-      contenedor.appendChild(card);
-    });
+  contenedor.appendChild(card);
+});
+
+     
   } catch (err) {
     console.error("Error inesperado al cargar productos:", err);
   }

@@ -55,16 +55,21 @@ if (logoutBtn) {
 }
 
 // Verifica si hay usuario logueado y muestra/oculta botones
-async function verificarSesion() {
-  const { data: { user } } = await supabase.auth.getUser();
-  if (user) {
-    document.getElementById('abrirLoginModal').classList.add('hidden');
-    document.getElementById('logoutBtn').classList.remove('hidden');
-  } else {
-    document.getElementById('abrirLoginModal').classList.remove('hidden');
-    document.getElementById('logoutBtn').classList.add('hidden');
-  }
+function verificarSesion() {
+  supabase.auth.getUser().then(({ data: { user } }) => {
+    const loginBtn = document.getElementById('abrirLoginModal');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    if (user) {
+      if (loginBtn) loginBtn.classList.add('hidden');
+      if (logoutBtn) logoutBtn.classList.remove('hidden');
+    } else {
+      if (loginBtn) loginBtn.classList.remove('hidden');
+      if (logoutBtn) logoutBtn.classList.add('hidden');
+    }
+  });
 }
+
 verificarSesion();
 
 // ------------------------- CARRITO DE COMPRAS -----------------------------

@@ -116,9 +116,11 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
       (producto.categoria || "").toLowerCase().includes(categoriaFiltro.toLowerCase())
     )
     .forEach(producto => {
-     const imagenURL = (producto.imagen || "").includes("https://")
-  ? producto.imagen
-  : `https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/${producto.imagen || "error-img.jpg"}`;
+     const imagenNombre = producto?.imagen?.trim() || "error-img.jpg";
+const imagenURL = imagenNombre.startsWith("http")
+  ? imagenNombre
+  : `https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/${imagenNombre}`;
+
 
         ? producto.imagen
         : `https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/${producto.imagen}`;

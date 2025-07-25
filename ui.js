@@ -111,11 +111,15 @@ export function mostrarProductos(productos, contenedorId) {
   contenedor.innerHTML = "";
 
   productos.forEach(producto => {
+    const imagenURL = producto.imagen.includes("https://")
+      ? producto.imagen
+      : `https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imagenes/${producto.imagen}`;
+
     const div = document.createElement("div");
     div.classList.add("producto");
 
     div.innerHTML = `
-      <img src="${producto.imagen}" alt="${producto.nombre}" />
+      <img src="${imagenURL}" alt="${producto.nombre}" />
       <h3>${producto.nombre}</h3>
       <p>S/ ${producto.precio.toFixed(2)}</p>
       <button>Agregar al carrito</button>
@@ -124,4 +128,5 @@ export function mostrarProductos(productos, contenedorId) {
     contenedor.appendChild(div);
   });
 }
+
 

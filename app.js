@@ -3,7 +3,7 @@ import { cargarProductos } from './products.js';
 import { actualizarCarrito, enviarPedidoWhatsApp, validarFormulario } from './ui.js';
 import { obtenerProductos } from './products.js';
 import { mostrarProductos } from './ui.js';
-
+document.addEventListener("DOMContentLoaded", cargarProductos);
 document.addEventListener("DOMContentLoaded", async () => {
   const productos = await obtenerProductos();
   mostrarProductos(productos, "contenedor-productos");

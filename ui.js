@@ -11,7 +11,11 @@ import {
   obtenerDeLocalStorage,
   limpiarContenedor
 } from './helpers.js';
-
+// Función auxiliar para obtener la URL de imagen desde Supabase
+function obtenerUrlImagen(nombreArchivo) {
+  if (!nombreArchivo) return "images/placeholder.png"; // imagen por defecto local
+  return `https://<TU-SUBDOMINIO>.supabase.co/storage/v1/object/public/imgproductos/${nombreArchivo}`;
+}
 // Mostrar productos más vendidos
 async function mostrarProductosMasVendidos() {
   const productos = await obtenerMasVendidos();
@@ -36,8 +40,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   await mostrarProductosMasRecientes();
   // await mostrarTodosLosProductos(); // Si deseas mostrar todos también
 });
+import { obtenerProductosMasVendidos, obtenerProductosMasRecientes } from "./products.js";
+
+// Función auxiliar para obtener la URL de imagen desde Supabase
+function obtenerUrlImagen(nombreArchivo) {
+  if (!nombreArchivo) return "images/placeholder.png"; // imagen por defecto local
+  return `https://twznikjjvtoedfaxbuvf.supabase.co//storage/v1/object/public/imgproductos/${nombreArchivo}`;
+}
+
+// Mostrar productos genéricos
 export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") {
   const contenedor = document.getElementById(contenedorId);
+  if (!contenedor) return;
+
   contenedor.innerHTML = "";
 
   productos
@@ -47,16 +62,54 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
     )
     .forEach(producto => {
       const div = document.createElement("div");
-      div.className = "producto";
-      div.innerHTML = `
-        <img src="${producto.imagen}" alt="${producto.nombre}" />
-        <h3>${producto.nombre}</h3>
-        <p>${producto.descripcion}</p>
-        <span>S/ ${producto.precio}</span>
-      `;
+      div.classList.add("producto");
+
+      const img = document.createElement("img");
+      img.src = obtenerUrlImagen(producto.imagen);
+      img.alt = producto.nombre;
+      div.appendChild(img);
+
+      const nombre = document.createElement("h3");
+      nombre.textContent = producto.nombre;
+      div.appendChild(nombre);
+
+      const precio = document.createElement("p");
+      precio.textContent = `S/ ${producto.precio}`;
+      div.appendChild(precio);
+
+      const stock = document.createElement("p");
+      stock.textContent = `Stock: ${producto.stock ?? 0}`;
+      div.appendChild(stock);
+
+      const boton = document.createElement("button");
+      boton.textContent = "Agregar al carrito";
+      boton.addEventListener("click", () => {
+        agregarAlCarrito(producto);
+      });
+      div.appendChild(boton);
+
       contenedor.appendChild(div);
     });
 }
+
+// Mostrar los productos más vendidos
+export async function mostrarProductosMasVendidos() {
+  const productos = await obtenerProductosMasVendidos();
+  mostrarProductos(productos, "productos-mas-vendidos");
+}
+
+// Mostrar los productos más recientes
+export async function mostrarProductosMasRecientes() {
+  const productos = await obtenerProductosMasRecientes();
+  mostrarProductos(productos, "productos-mas-recientes");
+}
+
+// Inicializar vistas destacadas
+document.addEventListener("DOMContentLoaded", () => {
+  mostrarProductosMasVendidos();
+  mostrarProductosMasRecientes();
+});
+
 
 export function mostrarCarrito(carrito, contenedorId) {
   const contenedor = document.getElementById(contenedorId);

@@ -151,12 +151,12 @@ function agregarAlCarrito(producto) {
   actualizarContadorCarrito(carrito.length);
   mostrarMensaje("Producto agregado al carrito", "success");
 }
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   const botonCarrito = document.getElementById('boton-carrito');
-  const cerrarCarrito = document.getElementById('cerrarCarrito');
   const modal = document.getElementById('modal');
+  const cerrarCarrito = document.getElementById('cerrarCarrito');
 
-  if (botonCarrito && cerrarCarrito && modal) {
+  if (botonCarrito && modal && cerrarCarrito) {
     botonCarrito.addEventListener('click', () => {
       modal.classList.add('activo');
       modal.classList.remove('oculto');
@@ -168,3 +168,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+

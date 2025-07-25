@@ -11,13 +11,9 @@ import {
   guardarEnLocalStorage,
   obtenerDeLocalStorage,
   limpiarContenedor
-  obtenerUrlImagen
 } from './helpers.js';
 // Función auxiliar para obtener la URL de imagen desde Supabase
-function obtenerUrlImagen(nombreArchivo) {
-  if (!nombreArchivo) return "images/placeholder.png"; // imagen por defecto local
-  return `https://<TU-SUBDOMINIO>.supabase.co/storage/v1/object/public/imgproductos/${nombreArchivo}`;
-}
+
 // Mostrar productos más vendidos
 async function mostrarProductosMasVendidos() {
   const productos = await obtenerMasVendidos();

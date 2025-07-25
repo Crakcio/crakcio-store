@@ -1,50 +1,55 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-import { supabase } from "./supabaseClient.js";
-import { actualizarCarrito, enviarPedidoWhatsApp, validarFormulario } from './ui.js';
-import { mostrarProductos } from './ui.js';
-import { cargarProductos } from './products.js';
-cargarProductos().then(productos => {
-  mostrarProductos(productos, 'contenedor-productos'); // <--- ID correcto aquí
-});
-document.addEventListener("DOMContentLoaded", cargarProductos);
-document.addEventListener("DOMContentLoaded", async () => {
-  const productos = await cargarProductos();
-  mostrarProductos(productos, "contenedor-productos");
-console.log("Productos recibidos:", productos);
+// app.js
+import { mostrarCarrito, actualizarContadorCarrito, mostrarMensaje } from './ui.js';
+import { supabase } from './supabaseClient.js';
 
-  // Activar botones de categoría
-  const botones = document.querySelectorAll(".btn-categoria");
-  botones.forEach(boton => {
-    boton.addEventListener("click", () => {
-      const categoria = boton.dataset.categoria;
-      mostrarProductos(productos, "contenedor-productos", categoria);
-    });
+let carrito = [];
+
+function agregarProductoAlCarrito(id, nombre, precio, imagen) {
+  carrito.push({ id, nombre, precio, imagen });
+  mostrarCarrito(carrito, 'carrito');
+  actualizarContadorCarrito(carrito.length);
+  mostrarMensaje("Producto agregado al carrito", "exito");
+}
+
+function eliminarProducto(index) {
+  carrito.splice(index, 1);
+  mostrarCarrito(carrito, 'carrito');
+  actualizarContadorCarrito(carrito.length);
+}
+
+function enviarPedidoPorWhatsApp() {
+  if (carrito.length === 0) {
+    mostrarMensaje("El carrito está vacío", "error");
+    return;
+  }
+
+  let mensaje = "¡Hola! Quiero hacer un pedido:%0A";
+  carrito.forEach((item, i) => {
+    mensaje += `${i + 1}. ${item.nombre} - S/ ${item.precio.toFixed(2)}%0A`;
   });
 
-  // Login (como ya lo tienes)
-  document.getElementById("login-btn").addEventListener("click", () => {
-    const email = document.getElementById("login-email").value;
-    const password = document.getElementById("login-password").value;
+  const total = carrito.reduce((sum, p) => sum + p.precio, 0);
+  mensaje += `%0ATotal: S/ ${total.toFixed(2)}`;
+  window.open(`https://wa.me/51999207025?text=${mensaje}`, '_blank');
+}
 
-    if (email && password) {
-      alert(`¡Bienvenido, ${email.split('@')[0]}!`);
-    } else {
-      alert("Por favor ingresa tus datos.");
-    }
-  });
-});
+// Delegación de eventos
+document.addEventListener("click", e => {
+  if (e.target.classList.contains("btn-agregar")) {
+    const tarjeta = e.target.closest(".producto-item");
+    const nombre = tarjeta.querySelector("h3").textContent;
+    const precio = parseFloat(tarjeta.querySelector("span").textContent.replace("S/", ""));
+    const imagen = tarjeta.querySelector("img").src;
+    const id = e.target.dataset.id;
+    agregarProductoAlCarrito(id, nombre, precio, imagen);
+  }
 
+  if (e.target.classList.contains("eliminar-producto")) {
+    const index = parseInt(e.target.dataset.index);
+    eliminarProducto(index);
+  }
 
-// Eventos
-document.addEventListener("DOMContentLoaded", () => {
-  cargarProductos();
-  actualizarCarrito();
-
-  const boton = document.getElementById("btn-enviar-pedido");
-  if (boton) {
-    boton.addEventListener("click", () => {
-      if (validarFormulario()) enviarPedidoWhatsApp();
-    });
+  if (e.target.id === "btn-finalizar") {
+    enviarPedidoPorWhatsApp();
   }
 });
-export { cargarProductos };

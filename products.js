@@ -66,3 +66,4 @@ async function cargarProductos() {
 
 // Ejecutar al cargar
 cargarProductos();
+export { cargarProductos };

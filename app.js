@@ -1,4 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+import { supabase } from "./supabaseClient.js";
 import { cargarProductos } from './products.js';
 import { actualizarCarrito, enviarPedidoWhatsApp, validarFormulario } from './ui.js';
 import { obtenerProductos } from './products.js';

@@ -143,11 +143,14 @@ footer .redes {
   display: none;
 }
 #contador-carrito {
-  background-color: #00bfff;
-  color: #0d0d0d;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: red;
+  color: white;
   border-radius: 50%;
-  padding: 4px 8px;
-  font-weight: bold;
+  padding: 2px 6px;
+  font-size: 12px;
 }
 .carrito-item {
   background-color: #1a1a1a;
@@ -166,7 +169,11 @@ footer .redes {
 .carrito.visible {
   display: block;
 }
-
+.carrito-icono {
+  cursor: pointer;
+  position: relative;
+  font-size: 24px;
+}
 .boton-cerrar {
   background: transparent;
   color: var(--color-texto);

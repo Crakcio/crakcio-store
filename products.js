@@ -32,11 +32,16 @@ async function cargarProductos() {
       card.classList.add("producto-card");
 
       const img = document.createElement("img");
-      img.src = `${baseImgUrl}/${producto.imagen}`; // <- Construcción limpia
-      img.alt = producto.nombre;
-      img.onerror = () => {
-        img.src = "img/error-img.jpg"; // Imagen por defecto si falla (opcional)
-      };
+img.src = `${baseImgUrl}/${producto.imagen}`;
+img.alt = producto.nombre;
+
+// Manejo de error si la imagen falla al cargar
+img.onerror = () => {
+  if (!img.dataset.fallback) {
+    img.src = "img/error-img.jpg"; // Ruta de imagen local de respaldo
+    img.dataset.fallback = "true";
+  }
+};
 
       const nombre = document.createElement("h3");
       nombre.textContent = producto.nombre;

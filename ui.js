@@ -2,6 +2,7 @@
 import {
   obtenerMasVendidos,
   obtenerMasRecientes,
+  obtenerUrlImagen,
   obtenerProductos
 } from "./products.js";
 import {
@@ -64,10 +65,12 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
       const div = document.createElement("div");
       div.classList.add("producto");
 
+      // ✅ Aquí agregamos la imagen correctamente
       const img = document.createElement("img");
-      img.src = obtenerUrlImagen(producto.imagen);
+      img.src = obtenerUrlImagen(producto.imagen); // Usa la función del bucket
       img.alt = producto.nombre;
-      div.appendChild(img);
+      img.classList.add("producto-img");
+      card.appendChild(img);
 
       const nombre = document.createElement("h3");
       nombre.textContent = producto.nombre;

@@ -223,3 +223,12 @@ footer .redes {
   background-color: #1e90ff;
   color: #fff;
 }
+.redes a i {
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.redes a:hover i {
+  transform: scale(1.2);
+  box-shadow: 0 0 10px #00bfff;
+}
+

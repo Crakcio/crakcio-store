@@ -181,6 +181,24 @@ footer .redes {
   position: relative;
   font-size: 24px;
 }
+#boton-carrito {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #000; /* Cambia el color según tu estilo */
+  color: #fff;
+  padding: 15px;
+  border-radius: 50%;
+  z-index: 999;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease;
+}
+
+#boton-carrito:hover {
+  transform: scale(1.1);
+}
+
 .boton-cerrar {
   background: transparent;
   color: var(--color-texto);

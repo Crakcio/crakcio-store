@@ -127,3 +127,27 @@ export function mostrarMensaje(mensaje, tipo = "info") {
     mensajeDiv.remove();
   }, 3000);
 }
+function agregarAlCarrito(producto) {
+  let carrito = obtenerDeLocalStorage("carrito") || [];
+
+  // Verificar si ya está en el carrito
+  const index = carrito.findIndex(item => item.id === producto.id);
+  if (index !== -1) {
+    mostrarMensaje("Este producto ya está en el carrito.", "warning");
+    return;
+  }
+
+  // Agregar imagen desde Supabase si es que la imagen no está completa
+  const imagen = obtenerUrlImagen(producto.imagen_url);
+
+  carrito.push({
+    id: producto.id,
+    nombre: producto.nombre,
+    precio: producto.precio,
+    imagen,
+  });
+
+  guardarEnLocalStorage("carrito", carrito);
+  actualizarContadorCarrito(carrito.length);
+  mostrarMensaje("Producto agregado al carrito", "success");
+}

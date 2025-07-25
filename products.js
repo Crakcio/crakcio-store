@@ -38,7 +38,7 @@ img.alt = producto.nombre;
 // Manejo de error si la imagen falla al cargar
 img.onerror = () => {
   if (!img.dataset.fallback) {
-    img.src = "img/error-img.jpg"; // Ruta de imagen local de respaldo
+    img.src = "img/error-img.webp"; // Ruta de imagen local de respaldo
     img.dataset.fallback = "true";
   }
 };

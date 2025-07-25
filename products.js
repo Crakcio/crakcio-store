@@ -22,66 +22,44 @@ async function cargarProductos() {
     contenedor.innerHTML = "";
 
     data.forEach((producto) => {
-      const card = document.createElement("div");
-      card.classList.add("producto-card");
+  const card = document.createElement("div");
+  card.classList.add("producto-card");
 
-      const img = document.createElement("img");
-      img.src = producto.imagen
-        ? `${baseImgUrl}/${producto.imagen}`
-        : "img/error-img.webp";
-      img.alt = producto.nombre;
-      img.onerror = () => {
-        if (!img.dataset.fallback) {
-          img.src = "img/error-img.webp";
-          img.dataset.fallback = "true";
-        }
-      };
+  const img = document.createElement("img");
 
-      const nombre = document.createElement("h3");
-      nombre.textContent = producto.nombre;
+  // 🔹 Aquí es donde debes establecer el src de la imagen
+  img.src = producto.imagen
+    ? `${baseImgUrl}/${producto.imagen}`
+    : "img/error-img.webp";
 
-      const descripcion = document.createElement("p");
-      descripcion.textContent = producto.descripcion || "Sin descripción";
+  img.alt = producto.nombre;
+  img.onerror = () => {
+    if (!img.dataset.fallback) {
+      img.src = "img/error-img.webp";
+      img.dataset.fallback = "true";
+    }
+  };
 
-      const precio = document.createElement("p");
-      precio.classList.add("precio");
-      precio.textContent = `S/ ${parseFloat(producto.precio).toFixed(2)}`;
+  const nombre = document.createElement("h3");
+  nombre.textContent = producto.nombre;
 
-      const stock = document.createElement("p");
-      stock.classList.add("stock");
-      stock.textContent = `Stock: ${producto.stock ?? 0}`;
+  const descripcion = document.createElement("p");
+  descripcion.textContent = producto.descripcion || "Sin descripción";
 
-      // 🔹 Botón para agregar al carrito
-      const botonAgregar = document.createElement("button");
-      botonAgregar.textContent = "Agregar al carrito";
-      botonAgregar.onclick = () => agregarAlCarrito(producto);
+  const precio = document.createElement("p");
+  precio.classList.add("precio");
+  precio.textContent = `S/ ${parseFloat(producto.precio).toFixed(2)}`;
 
-      // Agrega todo al card
-      card.appendChild(img);
-      card.appendChild(nombre);
-      card.appendChild(descripcion);
-      card.appendChild(precio);
-      card.appendChild(stock);
-      card.appendChild(botonAgregar);
+  const stock = document.createElement("p");
+  stock.classList.add("stock");
+  stock.textContent = `Stock: ${producto.stock ?? 0}`;
 
-      contenedor.appendChild(card);
-    });
-  } catch (err) {
-    console.error("Error inesperado al cargar productos:", err);
-  }
-}
+  card.appendChild(img);
+  card.appendChild(nombre);
+  card.appendChild(descripcion);
+  card.appendChild(precio);
+  card.appendChild(stock);
 
-document.addEventListener("DOMContentLoaded", cargarProductos);
+  contenedor.appendChild(card);
+});
 
-export async function obtenerProductos() {
-  const { data, error } = await supabase.from("productos").select("*");
-
-  if (error) {
-    console.error("Error al obtener productos:", error.message);
-    return [];
-  }
-
-  return data;
-}
-
-export { cargarProductos };

@@ -71,6 +71,20 @@ function verificarSesion() {
 }
 
 verificarSesion();
+const user = session?.user;
+const btnLogin = document.getElementById("btnLogin");
+const btnRegistro = document.getElementById("btnRegistro");
+const btnCerrarSesion = document.getElementById("btnCerrarSesion");
+
+if (user) {
+  if (btnLogin) btnLogin.style.display = "none";
+  if (btnRegistro) btnRegistro.style.display = "none";
+  if (btnCerrarSesion) btnCerrarSesion.style.display = "inline-block";
+} else {
+  if (btnLogin) btnLogin.style.display = "inline-block";
+  if (btnRegistro) btnRegistro.style.display = "inline-block";
+  if (btnCerrarSesion) btnCerrarSesion.style.display = "none";
+}
 
 // ------------------------- CARRITO DE COMPRAS -----------------------------
 

@@ -1,44 +1,51 @@
-// products.js
-import { supabase } from './supabaseClient.js';
+import { supabase } from "./supabaseClient.js";
 
-export async function obtenerProductosMasVendidos() {
-  const { data, error } = await supabase
-    .from('Productos')
-    .select('*')
-    .order('ventas', { ascending: false })
-    .limit(8);
+// Función para obtener los productos
+export async function obtenerProductos() {
+  try {
+    const { data, error } = await supabase
+      .from("productos")
+      .select("*")
+      .order("id", { ascending: true });
 
-  if (error) {
-    console.error('Error al obtener productos:', error);
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error("Error al obtener productos:", error.message);
     return [];
   }
-
-  return data;
 }
 
-export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") {
-  const contenedor = document.getElementById(contenedorId);
-  contenedor.innerHTML = "";
+// Función para obtener los productos más vendidos
+export async function obtenerMasVendidos(limit = 4) {
+  try {
+    const { data, error } = await supabase
+      .from("productos")
+      .select("*")
+      .order("vendidos", { ascending: false })
+      .limit(limit);
 
-  productos
-    .filter(producto =>
-      categoriaFiltro === "" ||
-      (producto.categoria || "").toLowerCase() === categoriaFiltro.toLowerCase()
-    )
-    .forEach(producto => {
-      const tarjeta = document.createElement("div");
-      tarjeta.classList.add("producto-item");
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error("Error al obtener más vendidos:", error.message);
+    return [];
+  }
+}
 
-      const imagenUrl = producto.imagen_supabase || `images/${producto.imagen_local || 'default.jpg'}`;
+// Función para obtener los productos más recientes
+export async function obtenerMasRecientes(limit = 4) {
+  try {
+    const { data, error } = await supabase
+      .from("productos")
+      .select("*")
+      .order("id", { ascending: false }) // Asumiendo que 'id' crece con cada producto
+      .limit(limit);
 
-      tarjeta.innerHTML = `
-        <img src="${imagenUrl}" alt="${producto.nombre}" />
-        <h3>${producto.nombre}</h3>
-        <span>S/ ${producto.precio.toFixed(2)}</span>
-        <p class="stock">Stock: ${producto.stock || 0}</p>
-        <button class="btn-agregar" data-id="${producto.id}" ${producto.stock <= 0 ? 'disabled' : ''}>${producto.stock <= 0 ? 'Agotado' : 'Agregar al carrito'}</button>
-      `;
-
-      contenedor.appendChild(tarjeta);
-    });
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error("Error al obtener más recientes:", error.message);
+    return [];
+  }
 }

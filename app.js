@@ -43,10 +43,10 @@ if (loginForm) {
   });
 }
 
-// Cerrar sesión
-const logoutBtn = document.getElementById('logoutBtn');
-if (logoutBtn) {
-  logoutBtn.addEventListener('click', async () => {
+// Cerrar sesión (unificado)
+const btnCerrarSesion = document.getElementById('btnCerrarSesion');
+if (btnCerrarSesion) {
+  btnCerrarSesion.addEventListener('click', async () => {
     await supabase.auth.signOut();
     localStorage.removeItem('carrito');
     alert('Sesión cerrada');
@@ -57,16 +57,17 @@ if (logoutBtn) {
 // Verifica si hay usuario logueado y muestra/oculta botones
 function verificarSesion() {
   supabase.auth.getUser().then(({ data: { user } }) => {
-    const loginBtn = document.getElementById('abrirLoginModal');
-    const logoutBtn = document.getElementById('logoutBtn');
+   const loginBtn = document.getElementById('abrirLoginModal');
+    const btnCerrarSesion = document.getElementById('btnCerrarSesion');
 
     if (user) {
       if (loginBtn) loginBtn.classList.add('hidden');
-      if (logoutBtn) logoutBtn.classList.remove('hidden');
-    } else {
+      if (btnCerrarSesion) btnCerrarSesion.style.display = "inline-block";
+} else {
       if (loginBtn) loginBtn.classList.remove('hidden');
-      if (logoutBtn) logoutBtn.classList.add('hidden');
-    }
+      if (btnCerrarSesion) btnCerrarSesion.style.display = "none";
+}
+
   });
 }
 

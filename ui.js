@@ -89,18 +89,6 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
     });
 }
 
-// Mostrar los productos más vendidos
-export async function mostrarProductosMasVendidos() {
-  const productos = await obtenerProductosMasVendidos();
-  mostrarProductos(productos, "productos-mas-vendidos");
-}
-
-// Mostrar los productos más recientes
-export async function mostrarProductosMasRecientes() {
-  const productos = await obtenerProductosMasRecientes();
-  mostrarProductos(productos, "productos-mas-recientes");
-}
-
 // Inicializar vistas destacadas
 document.addEventListener("DOMContentLoaded", () => {
   mostrarProductosMasVendidos();

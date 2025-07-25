@@ -95,6 +95,20 @@
       <li><button id="pago-tarjeta">Tarjeta</button></li>
     </ul>
   </div>
+  <p id="userEmail"></p>
+
+<script type="module">
+  import { supabase } from './supabaseClient.js';
+
+  const { data: { session } } = await supabase.auth.getSession();
+  if (session) {
+    document.getElementById('userEmail').textContent =
+      'Estás logueado como: ' + session.user.email;
+  } else {
+    window.location.href = 'login.html';
+  }
+</script>
+
 <script type="module" src="supabaseClient.js"></script>
 <script type="module" src="products.js"></script>
 <script type="module" src="ui.js"></script>

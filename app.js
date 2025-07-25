@@ -1,55 +1,147 @@
 // app.js
-import { mostrarCarrito, actualizarContadorCarrito, mostrarMensaje } from './ui.js';
+
 import { supabase } from './supabaseClient.js';
 
-let carrito = [];
+// ------------------------- AUTENTICACIÓN -----------------------------
 
-function agregarProductoAlCarrito(id, nombre, precio, imagen) {
-  carrito.push({ id, nombre, precio, imagen });
-  mostrarCarrito(carrito, 'carrito');
-  actualizarContadorCarrito(carrito.length);
-  mostrarMensaje("Producto agregado al carrito", "exito");
+// Registro de usuario
+const registerForm = document.getElementById('registerForm');
+if (registerForm) {
+  registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+
+    const { user, error } = await supabase.auth.signUp({ email, password });
+    if (error) {
+      alert('Error al registrar: ' + error.message);
+    } else {
+      alert('Registro exitoso. Revisa tu correo para confirmar tu cuenta.');
+      registerForm.reset();
+    }
+  });
 }
 
-function eliminarProducto(index) {
-  carrito.splice(index, 1);
-  mostrarCarrito(carrito, 'carrito');
-  actualizarContadorCarrito(carrito.length);
+// Inicio de sesión
+const loginForm = document.getElementById('loginForm');
+if (loginForm) {
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    const { session, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) {
+      alert('Error al iniciar sesión: ' + error.message);
+    } else {
+      alert('Bienvenido/a');
+      document.getElementById('loginModal').classList.add('hidden');
+      verificarSesion();
+    }
+  });
 }
 
-function enviarPedidoPorWhatsApp() {
-  if (carrito.length === 0) {
-    mostrarMensaje("El carrito está vacío", "error");
-    return;
+// Cerrar sesión
+const logoutBtn = document.getElementById('logoutBtn');
+if (logoutBtn) {
+  logoutBtn.addEventListener('click', async () => {
+    await supabase.auth.signOut();
+    localStorage.removeItem('carrito');
+    alert('Sesión cerrada');
+    location.reload();
+  });
+}
+
+// Verifica si hay usuario logueado y muestra/oculta botones
+async function verificarSesion() {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) {
+    document.getElementById('abrirLoginModal').classList.add('hidden');
+    document.getElementById('logoutBtn').classList.remove('hidden');
+  } else {
+    document.getElementById('abrirLoginModal').classList.remove('hidden');
+    document.getElementById('logoutBtn').classList.add('hidden');
   }
+}
+verificarSesion();
 
-  let mensaje = "¡Hola! Quiero hacer un pedido:%0A";
-  carrito.forEach((item, i) => {
-    mensaje += `${i + 1}. ${item.nombre} - S/ ${item.precio.toFixed(2)}%0A`;
+// ------------------------- CARRITO DE COMPRAS -----------------------------
+
+let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+function guardarCarrito() {
+  localStorage.setItem('carrito', JSON.stringify(carrito));
+}
+
+function renderizarCarrito() {
+  const contenedor = document.getElementById('carritoContainer');
+  contenedor.innerHTML = '';
+  let total = 0;
+
+  carrito.forEach((item, index) => {
+    total += item.precio * item.cantidad;
+    const div = document.createElement('div');
+    div.innerHTML = `
+      <div>
+        <strong>${item.nombre}</strong><br>
+        Precio: S/ ${item.precio} x ${item.cantidad}<br>
+        <button onclick="eliminarDelCarrito(${index})">Eliminar</button>
+      </div>
+      <hr>
+    `;
+    contenedor.appendChild(div);
   });
 
-  const total = carrito.reduce((sum, p) => sum + p.precio, 0);
-  mensaje += `%0ATotal: S/ ${total.toFixed(2)}`;
-  window.open(`https://wa.me/51999207025?text=${mensaje}`, '_blank');
+  document.getElementById('totalCarrito').textContent = 'Total: S/ ' + total.toFixed(2);
 }
 
-// Delegación de eventos
-document.addEventListener("click", e => {
-  if (e.target.classList.contains("btn-agregar")) {
-    const tarjeta = e.target.closest(".producto-item");
-    const nombre = tarjeta.querySelector("h3").textContent;
-    const precio = parseFloat(tarjeta.querySelector("span").textContent.replace("S/", ""));
-    const imagen = tarjeta.querySelector("img").src;
-    const id = e.target.dataset.id;
-    agregarProductoAlCarrito(id, nombre, precio, imagen);
+function agregarAlCarrito(producto) {
+  const existente = carrito.find(p => p.id === producto.id);
+  if (existente) {
+    existente.cantidad += 1;
+  } else {
+    carrito.push({ ...producto, cantidad: 1 });
   }
+  guardarCarrito();
+  renderizarCarrito();
+  alert('Producto agregado al carrito.');
+}
 
-  if (e.target.classList.contains("eliminar-producto")) {
-    const index = parseInt(e.target.dataset.index);
-    eliminarProducto(index);
-  }
+window.eliminarDelCarrito = function(index) {
+  carrito.splice(index, 1);
+  guardarCarrito();
+  renderizarCarrito();
+};
 
-  if (e.target.id === "btn-finalizar") {
-    enviarPedidoPorWhatsApp();
-  }
-});
+// ------------------------- FINALIZAR COMPRA -----------------------------
+
+const finalizarBtn = document.getElementById('finalizarCompra');
+if (finalizarBtn) {
+  finalizarBtn.addEventListener('click', async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      alert('Debes iniciar sesión para finalizar la compra.');
+      return;
+    }
+
+    if (carrito.length === 0) {
+      alert('Tu carrito está vacío.');
+      return;
+    }
+
+    let mensaje = '🛒 *Nueva orden desde Crakcio Store*\n\n';
+    let total = 0;
+    carrito.forEach(item => {
+      mensaje += `🔹 ${item.nombre} x${item.cantidad} - S/ ${item.precio}\n`;
+      total += item.precio * item.cantidad;
+    });
+    mensaje += `\n💰 Total: S/ ${total.toFixed(2)}\n`;
+    mensaje += `📧 Cliente: ${user.email}`;
+
+    const numero = '51999207025'; // Tu número de WhatsApp con código de país
+    const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
+  });
+}
+
+renderizarCarrito();

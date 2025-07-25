@@ -1,34 +1,156 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Crackio Store</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Iniciar Sesión - Crackio Store</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #00aaff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-container {
+      background-color: #111;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #00aaff44;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #00aaff;
+    }
+
+    .login-container label {
+      display: block;
+      margin-top: 1rem;
+      color: #ccc;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 0.6rem;
+      border: none;
+      border-radius: 6px;
+      margin-top: 0.5rem;
+      background-color: #222;
+      color: white;
+    }
+
+    .login-container button {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 0.8rem;
+      background-color: #00aaff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .login-container button:hover {
+      background-color: #0077cc;
+    }
+
+    .mensaje {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    .mensaje.error {
+      color: #ff5555;
+    }
+
+    .mensaje.exito {
+      color: #00ffcc;
+    }
+
+    .registro-link {
+      text-align: center;
+      margin-top: 1.2rem;
+    }
+
+    .registro-link a {
+      color: #00aaff;
+      text-decoration: none;
+    }
+
+    .registro-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
+
   <div class="login-container">
-    <h1>Iniciar Sesión</h1>
-    <form id="loginForm">
-      <input type="email" id="loginEmail" placeholder="Correo electrónico" required>
-      <input type="password" id="loginPassword" placeholder="Contraseña" required>
-      <button type="submit">Entrar</button>
+    <h2>Iniciar Sesión</h2>
+    <form id="login-form">
+      <label for="email">Correo electrónico:</label>
+      <input type="email" id="email" required />
+
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" required />
+
+      <button type="submit">Ingresar</button>
     </form>
 
-    <p>¿No tienes cuenta? <a href="#" id="mostrarRegistro">Regístrate aquí</a></p>
+    <div class="mensaje" id="mensaje"></div>
 
-    <div id="registroModal" class="modal hidden">
-      <div class="modal-content">
-        <span class="close-modal" id="cerrarRegistro">&times;</span>
-        <h2>Crear cuenta</h2>
-        <form id="registerForm">
-          <input type="email" id="registerEmail" placeholder="Correo electrónico" required>
-          <input type="password" id="registerPassword" placeholder="Contraseña" required>
-          <button type="submit">Registrarse</button>
-        </form>
-      </div>
+    <div class="registro-link">
+      ¿No tienes cuenta? <a href="registro.html">Crea una aquí</a>
     </div>
   </div>
+
+  <script>
+    const SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co";
+    const SUPABASE_ANON_KEY = "YOUR_ANON_KEY";
+
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const form = document.getElementById("login-form");
+    const mensaje = document.getElementById("mensaje");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = form.email.value.trim();
+      const password = form.password.value;
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        mensaje.textContent = error.message;
+        mensaje.className = "mensaje error";
+      } else {
+        mensaje.textContent = "Inicio de sesión exitoso. Redirigiendo...";
+        mensaje.className = "mensaje exito";
+        setTimeout(() => {
+          window.location.href = "index.html"; // Puedes cambiarlo por otra página
+        }, 1500);
+      }
+    });
+  </script>
+
+</body>
+</html>
+
 
   <script src="supabaseClient.js"></script>
   <script src="auth.js"></script>

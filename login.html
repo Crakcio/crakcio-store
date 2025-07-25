@@ -96,7 +96,7 @@
 </head>
 <body>
 
-  <div class="login-container">
+<div class="login-container">
     <h2>Iniciar Sesión</h2>
     <form id="login-form">
       <label for="email">Correo electrónico:</label>
@@ -114,13 +114,7 @@
       ¿No tienes cuenta? <a href="registro.html">Crea una aquí</a>
     </div>
   </div>
-
   <script>
-    const SUPABASE_URL = "https://twznikjjvtoedfaxbuvf.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3em5pa2pqdnRvZWRmYXhidXZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMyOTI1NDAsImV4cCI6MjA2ODg2ODU0MH0.aOQ10hq-syYqrenvFxveBQj6wKqdDtsDKfykSm42MFE";
-
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
     const form = document.getElementById("login-form");
     const mensaje = document.getElementById("mensaje");
 
@@ -149,11 +143,7 @@
   </script>
 <script type="module" src="supabaseClient.js"></script>
 <script type="module" src="app.js"></script> <!-- si aquí está el login -->
-
+<script type="module" src="auth.js"></script>
 </body>
 </html>
 
-  <script type="module" src="auth.js"></script>
-
-</body>
-</html>

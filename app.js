@@ -1,8 +1,10 @@
 // app.js
-document.addEventListener("DOMContentLoaded", () => {
+
 import { supabase } from './supabaseClient.js';
 
 // ------------------------- AUTENTICACIÓN -----------------------------
+document.addEventListener("DOMContentLoaded", () => {
+    
 
 // Registro de usuario
 const registerForm = document.getElementById('registerForm');
@@ -75,6 +77,7 @@ function guardarCarrito() {
 
 function renderizarCarrito() {
   const contenedor = document.getElementById('carritoContainer');
+  if (!contenedor) return; // Evita error si no existe
   contenedor.innerHTML = '';
   let total = 0;
 
@@ -92,8 +95,12 @@ function renderizarCarrito() {
     contenedor.appendChild(div);
   });
 
-  document.getElementById('totalCarrito').textContent = 'Total: S/ ' + total.toFixed(2);
+  const totalElem = document.getElementById('totalCarrito');
+  if (totalElem) {
+    totalElem.textContent = 'Total: S/ ' + total.toFixed(2);
+  }
 }
+
 
 function agregarAlCarrito(producto) {
   const existente = carrito.find(p => p.id === producto.id);

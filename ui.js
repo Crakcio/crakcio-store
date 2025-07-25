@@ -106,27 +106,32 @@ export function enviarPedidoWhatsApp() {
   const url = `https://wa.me/${numeroWhatsApp}?text=${mensaje}`;
   window.open(url, "_blank");
 }
-export function mostrarProductos(productos, contenedorId) {
+export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") {
   const contenedor = document.getElementById(contenedorId);
   contenedor.innerHTML = "";
 
-  productos.forEach(producto => {
-    const imagenURL = (producto.imagen || "").includes("https://")
-      ? producto.imagen
-      : `https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imagenes/${producto.imagen}`;
+  productos
+    .filter(producto =>
+      (producto.categoria || "").toLowerCase().includes(categoriaFiltro.toLowerCase())
+    )
+    .forEach(producto => {
+      const imagenURL = producto.imagen.includes("https://")
+        ? producto.imagen
+        : `https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imagenes/${producto.imagen}`;
 
-    const div = document.createElement("div");
-    div.classList.add("producto");
+      const div = document.createElement("div");
+      div.classList.add("producto");
 
-    div.innerHTML = `
-      <img src="${imagenURL}" alt="${producto.nombre}" />
-      <h3>${producto.nombre}</h3>
-      <p>S/ ${producto.precio.toFixed(2)}</p>
-      <button>Agregar al carrito</button>
-    `;
+      div.innerHTML = `
+        <img src="${imagenURL}" alt="${producto.nombre}" />
+        <h3>${producto.nombre}</h3>
+        <p>S/ ${producto.precio.toFixed(2)}</p>
+        <button>Agregar al carrito</button>
+      `;
 
-    contenedor.appendChild(div);
-  });
+      contenedor.appendChild(div);
+    });
 }
+
 
 

@@ -243,4 +243,70 @@ footer .redes {
   display: block;
   object-fit: cover;
 }
+/* Estilo base del navbar */
+.navbar {
+  background-color: #0a0a0a;
+  padding: 10px 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.menu li {
+  position: relative;
+}
+
+.menu a {
+  color: #00bfff;
+  text-decoration: none;
+  padding: 8px 12px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.menu a:hover {
+  background-color: #00bfff;
+  color: #000;
+  border-radius: 5px;
+}
+
+/* Estilo del submenú desplegable */
+.submenu {
+  display: none;
+  position: absolute;
+  background-color: #111;
+  top: 100%;
+  left: 0;
+  min-width: 160px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+  z-index: 10;
+  padding: 0;
+}
+
+.submenu li {
+  width: 100%;
+}
+
+.submenu a {
+  display: block;
+  padding: 10px;
+  color: #00bfff;
+  background-color: #111;
+}
+
+.submenu a:hover {
+  background-color: #00bfff;
+  color: #000;
+}
+
+/* Mostrar el submenú al pasar el mouse */
+.dropdown:hover .submenu {
+  display: block;
+}
 

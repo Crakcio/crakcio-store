@@ -14,7 +14,7 @@ if (registerForm) {
     const email = document.getElementById('registerEmail').value;
     const password = document.getElementById('registerPassword').value;
 
-    const { user, error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) {
       alert('Error al registrar: ' + error.message);
     } else {

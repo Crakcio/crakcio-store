@@ -338,7 +338,7 @@ footer .redes {
   color: #ffffff;
 }
 .oculto {
-  display: none;
+  display: none !important;
 }
 
 #modal {

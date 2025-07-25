@@ -36,6 +36,27 @@ document.addEventListener("DOMContentLoaded", async () => {
   await mostrarProductosMasRecientes();
   // await mostrarTodosLosProductos(); // Si deseas mostrar todos también
 });
+export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") {
+  const contenedor = document.getElementById(contenedorId);
+  contenedor.innerHTML = "";
+
+  productos
+    .filter(producto =>
+      categoriaFiltro === "" ||
+      (producto.categoria || "").toLowerCase() === categoriaFiltro.toLowerCase()
+    )
+    .forEach(producto => {
+      const div = document.createElement("div");
+      div.className = "producto";
+      div.innerHTML = `
+        <img src="${producto.imagen}" alt="${producto.nombre}" />
+        <h3>${producto.nombre}</h3>
+        <p>${producto.descripcion}</p>
+        <span>S/ ${producto.precio}</span>
+      `;
+      contenedor.appendChild(div);
+    });
+}
 
 export function mostrarCarrito(carrito, contenedorId) {
   const contenedor = document.getElementById(contenedorId);

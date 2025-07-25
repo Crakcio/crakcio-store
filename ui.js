@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") {
   const contenedor = document.getElementById(contenedorId);
   if (!contenedor) return;
-  console.log(producto);
+
   contenedor.innerHTML = "";
 
   productos
@@ -52,16 +52,16 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
       (producto.categoria || "").toLowerCase() === categoriaFiltro.toLowerCase()
     )
     .forEach(producto => {
+      console.log(producto);
       const div = document.createElement("div");
       div.classList.add("producto");
 
-      // ✅ Aquí agregamos la imagen correctamente
-    const img = document.createElement("img");
-        img.src = obtenerUrlImagen(producto.imagen);
-        img.alt = producto.nombre;
-        img.classList.add("producto-img");
-        div.appendChild(img); // ✅ Aquí corregimos de "card" a "div"
-
+      // Crear imagen
+      const img = document.createElement("img");
+      img.src = obtenerUrlImagen(producto.imagen); // ✅ producto definido aquí
+      img.alt = producto.nombre;
+      img.classList.add("producto-img");
+      div.appendChild(img); // ✅ corregido de "card" a "div"
 
       const nombre = document.createElement("h3");
       nombre.textContent = producto.nombre;
@@ -85,6 +85,7 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
       contenedor.appendChild(div);
     });
 }
+
 
 export function mostrarCarrito(carrito, contenedorId) {
   const contenedor = document.getElementById(contenedorId);

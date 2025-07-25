@@ -34,7 +34,10 @@ async function cargarProductos() {
       card.classList.add("producto-card");
 
       const img = document.createElement("img");
-      img.src = `${baseImgUrl}/${producto.imagen}`;
+     img.src = producto.imagen
+  ? `${baseImgUrl}/${producto.imagen}`
+  : "img/error-img.webp";
+
       img.alt = producto.nombre;
 
       img.onerror = () => {

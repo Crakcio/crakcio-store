@@ -354,4 +354,6 @@ footer .redes {
   width: 90%;
   max-width: 400px;
 }
-
+#modal.activo {
+  display: block;
+}

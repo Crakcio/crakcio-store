@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") {
   const contenedor = document.getElementById(contenedorId);
   if (!contenedor) return;
-
+  console.log(producto);
   contenedor.innerHTML = "";
 
   productos

@@ -8,7 +8,7 @@ import { productos, obtenerProductos } from './products.js';
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 document.addEventListener("DOMContentLoaded", () => {
    const productos = await obtenerProductos();
-  mostrarProductos(productos);
+  mostrarProductos(productos, "contenedor-productos");
 // Registro de usuario
 const registerForm = document.getElementById('registerForm');
 if (registerForm) {

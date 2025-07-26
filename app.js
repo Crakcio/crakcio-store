@@ -198,22 +198,24 @@ const finalizarBtn = document.getElementById('finalizarCompra');
 
 if (finalizarBtn) {
   finalizarBtn.addEventListener('click', async () => {
+    // Verifica la sesión del usuario
     const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
     if (sessionError || !session || !session.user) {
-      alert('Debes iniciar sesión para finalizar la compra');
-      window.location.href = '/login.html';
+      alert('Debes iniciar sesión para finalizar la compra.');
+      window.location.href = 'login.html'; // Asegúrate de que esta ruta sea correcta
       return;
     }
 
-    const user = session.user;
-
-    // Verificamos si hay productos en el carrito
+    // Verifica si hay productos en el carrito
     if (carrito.length === 0) {
       alert('Tu carrito está vacío.');
       return;
     }
 
-    // Crear mensaje para WhatsApp
+    const userEmail = session.user.email;
+
+    // Construir mensaje para WhatsApp
     let mensaje = '🛒 *Nueva orden desde Crackio Store*\n\n';
     let total = 0;
     carrito.forEach(item => {
@@ -221,15 +223,16 @@ if (finalizarBtn) {
       total += item.precio * item.cantidad;
     });
     mensaje += `\n💰 Total: S/ ${total.toFixed(2)}\n`;
-    mensaje += `📧 Cliente: ${user.email}`;
+    mensaje += `📧 Cliente: ${userEmail}`;
 
-    // Insertar el pedido en la tabla "pedidos"
+    // Insertar pedido en Supabase
     const { error: insertError } = await supabase.from('pedidos').insert([
       {
         productos: carrito,
         total: total,
-        email: user.email,
-        estado: 'pendiente'
+        email: userEmail,
+        estado: 'pendiente',
+        fecha: new Date().toISOString()
       }
     ]);
 
@@ -238,18 +241,17 @@ if (finalizarBtn) {
       return;
     }
 
-    alert('¡Pedido registrado correctamente!');
-
     // Redirigir a WhatsApp
     const numero = '51999207025';
     const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
 
-    // Limpiar el carrito
+    // Limpiar carrito y actualizar UI
     carrito = [];
-    guardarCarrito();
+    localStorage.removeItem('carrito');
     actualizarContadorCarrito();
     renderizarCarrito();
+    alert('¡Pedido registrado correctamente!');
   });
 }
 

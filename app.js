@@ -135,8 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (finalizarBtn) {
     finalizarBtn.addEventListener('click', async () => {
+       console.log("Click en Finalizar compra");
       const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-
+       console.log("Resultado de getSession():", session);
+      console.log("¿Hay error?", sessionError);
       if (!session || !session.user) {
         alert('Debes iniciar sesión para finalizar la compra.');
         window.location.href = 'login.html';

@@ -108,13 +108,15 @@ function actualizarContadorCarrito() {
 }
 function renderizarCarrito() {
   const contenedor = document.getElementById('carritoContainer');
-  if (!contenedor) return; // Evita error si no existe
-  contenedor.innerHTML = '';
+  if (!contenedor) return;
 
+  contenedor.innerHTML = '';
   const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-  const total = calcularTotalCarrito(carrito);
+  let total = 0;
 
   carrito.forEach((item, index) => {
+    total += parseFloat(item.precio) * item.cantidad;
+
     const div = document.createElement('div');
     div.innerHTML = `
       <div>
@@ -132,6 +134,7 @@ function renderizarCarrito() {
     totalElem.textContent = 'Total: S/ ' + total.toFixed(2);
   }
 }
+
 export function mostrarCarrito(carrito, contenedorId) {
   const contenedor = document.getElementById(contenedorId);
   contenedor.innerHTML = "";

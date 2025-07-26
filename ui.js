@@ -111,7 +111,7 @@ export function mostrarMensaje(mensaje, tipo = "info") {
 }
 
 
-function actualizarContadorCarrito() {
+export function actualizarContadorCarrito() {
   const carrito = obtenerDeLocalStorage("carrito") || [];
   const totalItems = carrito.reduce((total, item) => total + item.cantidad, 0);
 

@@ -1,5 +1,5 @@
 import { obtenerDeLocalStorage, guardarEnLocalStorage } from "./helpers.js";
-import { mostrarCarrito, actualizarContadorCarrito } from "./ui.js";
+import { mostrarCarrito, actualizarContadorCarrito, mostrarPopupCarrito } from "./ui.js";
 import { cargarProductos } from "./products.js"; // reutilizado
 
 document.addEventListener("DOMContentLoaded", () => {

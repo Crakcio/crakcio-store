@@ -106,12 +106,11 @@ export function mostrarCarrito(carrito, contenedorId) {
 
 function actualizarContadorCarrito() {
   const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-  const contador = document.getElementById("carritoContador");
+  const contador = document.getElementById("contadorCarrito");
   if (contador) {
     contador.textContent = carrito.length;
   }
 }
-
 
 
 export function mostrarMensaje(mensaje, tipo = "info") {

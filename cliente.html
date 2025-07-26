@@ -186,9 +186,13 @@
   <script type="module" src="app.js"></script>
 
   <script type="module">
-    import { supabase } from './supabaseClient.js';
-    import { obtenerMasVendidos, obtenerMasRecientes } from './products.js';
-    import { actualizarContadorCarrito } from './ui.js';
+      import { supabase } from './supabaseClient.js';
+      import { obtenerMasVendidos, obtenerMasRecientes } from './products.js';
+      import {
+      actualizarContadorCarrito,
+      mostrarProductosMasVendidos,
+      mostrarProductosMasRecientes
+      } from './ui.js'; 
 
     const { data: { user } } = await supabase.auth.getUser();
 

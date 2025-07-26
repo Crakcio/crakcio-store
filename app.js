@@ -135,12 +135,7 @@ window.eliminarDelCarrito = function(index) {
   renderizarCarrito();
 };
 
-function agregarAlCarrito(producto) {
-  const existe = carrito.find(item => item.id === producto.id);
-  if (existe) {
-    mostrarMensaje("Este producto ya está en el carrito.", "warning");
-    return;
-  }
+
 
   const imagen = producto.imagen || obtenerUrlImagen(producto.imagen_url);
 

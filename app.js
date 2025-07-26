@@ -169,8 +169,6 @@ document.getElementById('finalizarCompra').addEventListener('click', async () =>
     return;
   }
 
-
-
   const userId = session.user.id;
   const productos = carrito.map(item => ({
     idProducto: item.id,
@@ -212,12 +210,13 @@ const finalizarBtn = document.getElementById('finalizarCompra');
 if (finalizarBtn) {
   finalizarBtn.addEventListener('click', async () => {
     const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-  if (sessionError || !session || !session.user) {
-    alert('Debes iniciar sesión para finalizar la compra');
-     window.location.href = '/login.html';
-    return;
-  }
+    if (sessionError || !session || !session.user) {
+      alert('Debes iniciar sesión para finalizar la compra');
+      window.location.href = '/login.html';
+      return;
+    }
 
+    const user = session.user;
 
     // Verificamos si hay productos en el carrito
     if (carrito.length === 0) {
@@ -250,6 +249,8 @@ if (finalizarBtn) {
       return;
     }
 
+    alert('¡Pedido registrado correctamente!');
+
     // Redirigir a WhatsApp
     const numero = '51999207025';
     const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
@@ -262,10 +263,11 @@ if (finalizarBtn) {
     renderizarCarrito();
   });
 }
-  alert('¡Pedido registrado correctamente!');
-});
 
- }
+ 
+
+
+ 
 
 
 

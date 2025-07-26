@@ -151,6 +151,7 @@ async function cargarPedidos() {
   const { data, error } = await supabase.from('pedidos').select('*').order('fecha', { ascending: false });
 
   if (error) {
+    console.error('Error al cargar pedidos:', error.message);
     pedidosContainer.innerHTML = '<p>Error al cargar pedidos</p>';
     return;
   }

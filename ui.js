@@ -110,7 +110,6 @@ export function agregarAlCarrito(producto) {
   actualizarContadorCarrito();
   mostrarAlerta("Producto agregado al carrito", "success");
 }
-export { agregarAlCarrito };
 
 function actualizarContadorCarrito() {
   const carrito = obtenerDeLocalStorage("carrito") || [];

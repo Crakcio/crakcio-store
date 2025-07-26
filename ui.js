@@ -88,7 +88,7 @@ export function mostrarMensaje(mensaje, tipo = "info") {
     mensajeDiv.remove();
   }, 3000);
 }
-function agregarAlCarrito(producto) {
+export function agregarAlCarrito(producto) {
   const carrito = obtenerDeLocalStorage("carrito") || [];
 
   const productoExistente = carrito.find(item => item.id === producto.id);

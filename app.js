@@ -38,7 +38,6 @@ if (loginForm) {
     } else {
       alert('Bienvenido/a');
       document.getElementById('loginModal').classList.add('hidden');
-      verificarSesion();
     }
   });
 }
@@ -70,10 +69,6 @@ function verificarSesion() {
 
   });
 }
-
-verificarSesion();
-
-
 
 // ------------------------- CARRITO DE COMPRAS -----------------------------
 
@@ -189,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
       mensaje += `💰 Total: S/ ${total.toFixed(2)}%0A`;
       mensaje += `📅 Fecha: ${new Date().toLocaleDateString()}`;
 
-      const numeroTienda = '519XXXXXXXX'; // ← reemplaza por el tuyo
+      const numeroTienda = '519999207025'; // ← reemplaza por el tuyo
       const url = `https://wa.me/${numeroTienda}?text=${mensaje}`;
 
       // Limpiar carrito
@@ -207,14 +202,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById("cerrarCarrito")?.addEventListener("click", () => {
-    document.getElementById("modalCarrito").classList.add("oculto");
+  document.getElementById("modalCarrito")?.classList.add("oculto");
   });
 
   procesarPedidoAutomaticamenteSiExiste();
 });
-
-
-  carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
   document.getElementById("abrirCarrito")?.addEventListener("click", () => {
     document.getElementById("modalCarrito").classList.remove("oculto");
@@ -231,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function procesarPedidoAutomaticamenteSiExiste() {
-  const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+  let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
   if (carrito.length === 0) return;
     document.getElementById('modalCarrito')?.classList.remove('oculto');

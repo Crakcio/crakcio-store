@@ -1,18 +1,44 @@
-// admin.js
 import { supabase } from './supabaseClient.js';
 
 const form = document.getElementById('agregarProductoForm');
 const adminLista = document.getElementById('adminListaProductos');
 const cerrarSesionAdmin = document.getElementById('cerrarSesionAdmin');
-const { data: { session } } = await supabase.auth.getSession();
-if (!session) {
-  window.location.href = 'login.html';
-}
+
+// Cerrar sesión
 cerrarSesionAdmin.addEventListener('click', async () => {
   await supabase.auth.signOut();
-  window.location.href = 'index.html';
+  window.location.href = 'login.html';
 });
 
+// Verificación de rol antes de cargar cualquier dato
+async function verificarAdmin() {
+  const { data: { session }, error } = await supabase.auth.getSession();
+
+  if (!session || !session.user) {
+    console.log("No hay sesión activa");
+    window.location.href = "login.html";
+    return;
+  }
+
+  const userId = session.user.id;
+
+  const { data: perfil, error: perfilError } = await supabase
+    .from("usuarios")
+    .select("rol")
+    .eq("id", userId)
+    .single();
+
+  if (perfilError || !perfil || perfil.rol !== "admin") {
+    console.log("Acceso denegado: No eres admin.");
+    window.location.href = "login.html";
+    return;
+  }
+
+  console.log("Bienvenido admin");
+  cargarProductos(); // Solo se llama si es admin
+}
+
+// Manejo de agregar producto con subida de imagen
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -24,61 +50,42 @@ form.addEventListener('submit', async (e) => {
   const archivo = document.getElementById('imagenArchivo').files[0];
 
   if (!archivo) {
-    alert('Debes seleccionar una imagen.');
+    alert("Por favor selecciona una imagen.");
     return;
   }
 
   const nombreArchivo = `${Date.now()}_${archivo.name}`;
-
-  const { data: uploadData, error: uploadError } = await supabase
-    .storage
+  const { data: subida, error: errorSubida } = await supabase.storage
     .from('imgproductos')
     .upload(nombreArchivo, archivo);
 
-  if (uploadError) {
-    alert('Error subiendo imagen: ' + uploadError.message);
+  if (errorSubida) {
+    alert("Error al subir imagen: " + errorSubida.message);
     return;
   }
 
-  const { data: urlData } = supabase
-    .storage
-    .from('imgproductos')
-    .getPublicUrl(nombreArchivo);
-
-  const imagen = urlData.publicUrl;
+  const imagenURL = `https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/${nombreArchivo}`;
 
   const { error } = await supabase.from('Productos').insert([{
-    nombre,
-    categoria,
-    descripcion,
-    precio,
-    stock,
-    imagen
+    nombre, categoria, descripcion, precio, stock, imagen: imagenURL
   }]);
 
   if (error) {
-    alert('Error al agregar producto: ' + error.message);
+    alert('Error al agregar: ' + error.message);
   } else {
-    alert('Producto agregado correctamente.');
+    alert('Producto agregado');
     form.reset();
     cargarProductos();
   }
 });
-async function verificarSesion() {
-  const { data: { session } } = await supabase.auth.getSession();
-
-  if (!session || session.user.email !== 'admin@crackio.com') {
-    // Cambia el email por el tuyo real si es otro
-    window.location.href = 'login.html';
-  }
-}
-
-await verificarSesion();
 
 async function cargarProductos() {
   adminLista.innerHTML = '';
   const { data, error } = await supabase.from('Productos').select('*');
-  if (error) return;
+  if (error) {
+    alert("Error cargando productos");
+    return;
+  }
 
   data.forEach(prod => {
     const div = document.createElement('div');
@@ -96,69 +103,31 @@ async function cargarProductos() {
   });
 }
 
-window.editarProducto = function (id) {
-  const divProducto = [...adminLista.children].find(div => div.querySelector(`button[onclick="editarProducto(${id})"]`));
+window.editarProducto = async function (id) {
+  const nuevoNombre = prompt('Nuevo nombre:');
+  if (!nuevoNombre) return;
 
-  // Evitar múltiples formularios
-  const formExistente = divProducto.querySelector('.form-edicion');
-  if (formExistente) {
-    formExistente.remove();
-    return;
-  }
+  const { error } = await supabase
+    .from('Productos')
+    .update({ nombre: nuevoNombre })
+    .eq('id', id);
 
-  // Obtener datos del producto actual
-  const nombreActual = divProducto.querySelector('h3').innerText;
-  const precioActual = divProducto.querySelector('p:nth-of-type(1)').innerText.replace('Precio: S/ ', '');
-  const stockActual = divProducto.querySelector('p:nth-of-type(2)').innerText.replace('Stock: ', '');
-  const categoriaActual = divProducto.querySelector('p:nth-of-type(3)').innerText.replace('Categoría: ', '');
-
-  // Crear formulario de edición
-  const form = document.createElement('form');
-  form.className = 'form-edicion';
-  form.innerHTML = `
-    <input type="text" name="nombre" placeholder="Nombre" value="${nombreActual}" required />
-    <input type="number" name="precio" placeholder="Precio" value="${precioActual}" required />
-    <input type="number" name="stock" placeholder="Stock" value="${stockActual}" required />
-    <input type="text" name="categoria" placeholder="Categoría" value="${categoriaActual}" required />
-    <button type="submit">Guardar</button>
-    <button type="button" class="cancelar">Cancelar</button>
-  `;
-
-  form.querySelector('.cancelar').addEventListener('click', () => {
-    form.remove();
-  });
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const nombre = form.nombre.value;
-    const precio = parseFloat(form.precio.value);
-    const stock = parseInt(form.stock.value);
-    const categoria = form.categoria.value;
-
-    const { error } = await supabase
-      .from('Productos')
-      .update({ nombre, precio, stock, categoria })
-      .eq('id', id);
-
-    if (error) {
-      alert('Error al guardar: ' + error.message);
-    } else {
-      cargarProductos();
-    }
-  });
-
-  divProducto.appendChild(form);
+  if (error) alert('Error actualizando: ' + error.message);
+  else cargarProductos();
 };
-
 
 window.eliminarProducto = async function (id) {
   if (!confirm('¿Eliminar este producto?')) return;
+
   const { error } = await supabase
     .from('Productos')
     .delete()
     .eq('id', id);
+
   if (error) alert('Error eliminando: ' + error.message);
   else cargarProductos();
 };
 
-cargarProductos();
+// Iniciar verificación de acceso
+verificarAdmin();
+

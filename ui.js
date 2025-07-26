@@ -107,7 +107,7 @@ function actualizarContadorCarrito() {
   const carrito = obtenerDeLocalStorage("carrito") || [];
   const totalItems = carrito.reduce((total, item) => total + item.cantidad, 0);
 
-  const contador = document.getElementById("contador-carrito");
+  const contador = document.getElementById("contadorCarrito");
   if (contador) {
     contador.textContent = totalItems;
     contador.style.display = totalItems > 0 ? "inline-block" : "none";

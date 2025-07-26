@@ -77,13 +77,6 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
       contenedor.appendChild(card);
     });
 }
-export function obtenerDeLocalStorage(clave) {
-  try {
-    return JSON.parse(localStorage.getItem(clave));
-  } catch {
-    return null;
-  }
-}
 
 export function mostrarMensaje(mensaje, tipo = "info") {
   const mensajeDiv = document.createElement("div");

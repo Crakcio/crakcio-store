@@ -184,7 +184,10 @@ function mostrarMensaje(texto, tipo = "info") {
       alert('Error al registrar pedido: ' + pedidoError.message);
       return;
     }
-
+  localStorage.removeItem("carrito");
+  actualizarContadorCarrito();
+  mostrarCarrito();
+  alert("¡Compra realizada con éxito!");
     // WhatsApp
     let mensaje = `🛒 *Nuevo Pedido desde Crackio Store*%0A`;
     mensaje += `👤 Cliente: ${user.email}%0A`;

@@ -216,55 +216,58 @@ document.getElementById('finalizarCompra').addEventListener('click', async () =>
 const finalizarBtn = document.getElementById('finalizarCompra');
 
 if (finalizarBtn) {
- finalizarBtn.addEventListener('click', async () => {
-  const { data: { user } } = await supabase.auth.getUser();
+  finalizarBtn.addEventListener('click', async () => {
+    const { data: { user }, error } = await supabase.auth.getUser();
 
-  if (carrito.length === 0) {
-    alert('Tu carrito está vacío.');
-    return;
-  }
+    // Verificamos si el usuario está logueado
+    if (!user) {
+      alert('⚠️ Debes iniciar sesión para finalizar la compra.');
+      return;
+    }
 
-  // Armar resumen del pedido
-  let resumen = '';
-  let total = 0;
-  carrito.forEach(item => {
-    resumen += `🔹 ${item.nombre} x${item.cantidad} - S/ ${item.precio}\n`;
-    total += item.precio * item.cantidad;
+    // Verificamos si hay productos en el carrito
+    if (carrito.length === 0) {
+      alert('Tu carrito está vacío.');
+      return;
+    }
+
+    // Crear mensaje para WhatsApp
+    let mensaje = '🛒 *Nueva orden desde Crackio Store*\n\n';
+    let total = 0;
+    carrito.forEach(item => {
+      mensaje += `🔹 ${item.nombre} x${item.cantidad} - S/ ${item.precio}\n`;
+      total += item.precio * item.cantidad;
+    });
+    mensaje += `\n💰 Total: S/ ${total.toFixed(2)}\n`;
+    mensaje += `📧 Cliente: ${user.email}`;
+
+    // Insertar el pedido en la tabla "pedidos"
+    const { error: insertError } = await supabase.from('pedidos').insert([
+      {
+        productos: carrito,
+        total: total,
+        email: user.email,
+        estado: 'pendiente'
+      }
+    ]);
+
+    if (insertError) {
+      alert('Hubo un error al registrar tu pedido. Inténtalo nuevamente.');
+      return;
+    }
+
+    // Redirigir a WhatsApp
+    const numero = '51999207025';
+    const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, '_blank');
+
+    // Limpiar el carrito
+    carrito = [];
+    guardarCarrito();
+    actualizarContadorCarrito();
+    renderizarCarrito();
   });
-
-  // Datos del pedido para Supabase
-  const pedidoData = {
-    productos: resumen,
-    total: total,
-    estado: 'pendiente',
-    email: user ? user.email : 'visitante',
-    creado_en: new Date().toISOString(),
-  };
-
-  // Insertar en tabla pedidos
-  const { error: insertError } = await supabase.from('pedidos').insert([pedidoData]);
-
-  if (insertError) {
-    alert('Error al guardar el pedido. Intenta nuevamente.');
-    console.error(insertError);
-    return;
-  }
-
-  // Enviar mensaje por WhatsApp
-  let mensaje = '🛒 *Nueva orden desde Crackio Store*\n\n' + resumen;
-  mensaje += `\n💰 Total: S/ ${total.toFixed(2)}\n`;
-  mensaje += user ? `📧 Cliente: ${user.email}` : `👤 Cliente no registrado`;
-
-  const numero = '51999207025';
-  const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
-  window.open(url, '_blank');
-
-  // Limpiar carrito
-  carrito = [];
-  guardarCarrito();
-  actualizarContadorCarrito();
-  renderizarCarrito();
-
+}
   alert('¡Pedido registrado correctamente!');
 });
 

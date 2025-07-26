@@ -2,6 +2,7 @@
 console.log("✅ app.js se está cargando");
 import { actualizarContadorCarrito, obtenerDeLocalStorage, agregarAlCarrito } from './ui.js';
 import { supabase } from './supabaseClient.js';
+import { productos } from './products.js';
 
 // ------------------------- AUTENTICACIÓN -----------------------------
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];

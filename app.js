@@ -92,34 +92,6 @@ function guardarCarrito() {
   actualizarContadorCarrito();
 }
 
-function renderizarCarrito() {
-  const contenedor = document.getElementById("contenedor-carrito");
-  if (!contenedor) {
-  console.warn("❌ No se encontró el contenedor-carrito en el DOM.");
-  return;
-}
-  contenedor.innerHTML = "";
-
-  carrito.forEach((producto, index) => {
-    const item = document.createElement("div");
-    item.classList.add("contenedor-carrito");
-
-    item.innerHTML = `
-      <img src="${producto.imagen}" alt="${producto.nombre}" class="carrito-img" />
-      <div class="carrito-detalle">
-        <h4>${producto.nombre}</h4>
-        <p>S/ ${producto.precio}</p>
-      </div>
-      <button onclick="eliminarDelCarrito(${index})">X</button>
-    `;
-
-    contenedor.appendChild(item);
-  });
-
-  document.getElementById("totalCarrito").textContent =
-    "Total: S/ " + calcularTotalCarrito();
-}
-
 function calcularTotalCarrito() {
   return carrito.reduce((total, producto) => {
     return total + (producto.precio * (producto.cantidad || 1));
@@ -129,7 +101,7 @@ function calcularTotalCarrito() {
 window.eliminarDelCarrito = function(index) {
   carrito.splice(index, 1);
   guardarCarrito();
-  renderizarCarrito();
+  mostrarCarrito();
 };
 
 
@@ -141,7 +113,7 @@ function mostrarMensaje(texto, tipo = "info") {
   setTimeout(() => alerta.remove(), 2500);
 }
   verificarSesion();
-  renderizarCarrito();
+  mostrarCarrito();
    procesarPedidoAutomaticamenteSiExiste();
   
   const finalizarBtn = document.getElementById('finalizarCompra');
@@ -226,7 +198,7 @@ function mostrarMensaje(texto, tipo = "info") {
 
   document.getElementById("abrirCarrito")?.addEventListener("click", () => {
     document.getElementById("modalCarrito").classList.remove("oculto");
-    renderizarCarrito();
+    mostrarCarrito();
   });
 
   document.getElementById("cerrarCarrito")?.addEventListener("click", () => {
@@ -243,7 +215,7 @@ async function procesarPedidoAutomaticamenteSiExiste() {
 
   if (carrito.length === 0) return;
     document.getElementById('modalCarrito')?.classList.remove('oculto');
-  renderizarCarrito();
+  mostrarCarrito();
   const { data: { session }, error: sessionError } = await supabase.auth.getSession();
   if (sessionError || !session || !session.user) return;
 
@@ -273,7 +245,7 @@ async function procesarPedidoAutomaticamenteSiExiste() {
   carrito = [];
   localStorage.removeItem('carrito');
   actualizarContadorCarrito();
-  renderizarCarrito();
+  mostrarCarrito();
   alert('Compra realizada con éxito. Gracias por tu pedido.');
 }
 window.agregarAlCarrito = agregarAlCarrito;

@@ -64,7 +64,16 @@ form.addEventListener('submit', async (e) => {
     cargarProductos();
   }
 });
+async function verificarSesion() {
+  const { data: { session } } = await supabase.auth.getSession();
 
+  if (!session || session.user.email !== 'admin@crackio.com') {
+    // Cambia el email por el tuyo real si es otro
+    window.location.href = 'login.html';
+  }
+}
+
+await verificarSesion();
 
 async function cargarProductos() {
   adminLista.innerHTML = '';

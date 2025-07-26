@@ -79,7 +79,7 @@ verificarSesion();
 
 // app.js optimizado con mejoras sugeridas
 
-let carrito = [];
+let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
 // Función para obtener URL pública desde Supabase
 function obtenerUrlImagen(path) {

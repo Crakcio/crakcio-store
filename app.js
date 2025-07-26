@@ -4,7 +4,7 @@ import { supabase } from './supabaseClient.js';
 
 // ------------------------- AUTENTICACIÓN -----------------------------
 document.addEventListener("DOMContentLoaded", () => {
-    
+   
 
 // Registro de usuario
 const registerForm = document.getElementById('registerForm');
@@ -233,5 +233,6 @@ if (finalizarBtn) {
     renderizarCarrito();
   });
 };
-})
+     })
+
 

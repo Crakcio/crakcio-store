@@ -389,79 +389,52 @@ footer .redes {
 #modal.activo {
   display: block;
 }
+/* Diseño responsivo para pantallas pequeñas */
 @media (max-width: 768px) {
   .admin-header {
     flex-direction: column;
     align-items: flex-start;
   }
+
   .admin-header h1 {
     font-size: 1.5rem;
   }
- .admin-main {
+
+  .admin-main {
     padding: 0.5rem;
   }
 
-.admin-agregar,
-.admin-productos {
-  background-color: #1a1a1a;
-  padding: 1rem;
-  margin-bottom: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px #00aaff33;
-}
+  .admin-agregar,
+  .admin-productos {
+    padding: 1rem 0.8rem;
+    margin-bottom: 1rem;
+  }
 
-.admin-agregar input,
-.form-edicion input {
-  display: block;
-  width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid #00aaff66;
-  background-color: #0e0e0e;
-  color: #fff;
-  border-radius: 4px;
-}
+  .admin-agregar input,
+  .form-edicion input {
+    font-size: 1rem;
+  }
 
-.admin-agregar button,
-.form-edicion button,
-.admin-producto button,
-#cerrarSesionAdmin {
-  background-color: #00aaff;
-  border: none;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  margin-right: 0.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.admin-agregar button:hover,
-.form-edicion button:hover,
-.admin-producto button:hover,
-#cerrarSesionAdmin {
+  .admin-agregar button,
+  .form-edicion button,
+  .admin-producto button,
+  #cerrarSesionAdmin {
     width: 100%;
     margin-bottom: 0.5rem;
   }
 
-.admin-producto {
-  background-color: #121212;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  border: 1px solid #00aaff33;
-  border-radius: 6px;
-  position: relative;
-}
+  .admin-producto {
+    padding: 0.8rem;
+  }
 
-.admin-producto img {
-  width: 100%;
+  .admin-producto img {
+    width: 100%;
     max-width: 250px;
     height: auto;
+  }
+
+  .form-edicion {
+    padding-top: 0.5rem;
+  }
 }
 
-.form-edicion {
-  margin-top: 1rem;
-  border-top: 1px solid #00aaff33;
-  padding-top: 0.5rem;
-}

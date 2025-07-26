@@ -229,10 +229,10 @@ if (finalizarBtn) {
 
     carrito = [];
     guardarCarrito();
-    actualizarContadorCarrito();
-    renderizarCarrito();
   });
 };
+   actualizarContadorCarrito();
+renderizarCarrito();
      })
 
 

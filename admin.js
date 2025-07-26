@@ -143,6 +143,38 @@ cancelarEditar.addEventListener('click', () => {
   }
 });
 
+async function cargarPedidos() {
+  const pedidosContainer = document.getElementById('adminListaPedidos');
+  pedidosContainer.innerHTML = '';
+
+  const { data, error } = await supabase.from('pedidos').select('*').order('fecha', { ascending: false });
+
+  if (error) {
+    pedidosContainer.innerHTML = '<p>Error al cargar pedidos</p>';
+    return;
+  }
+
+  for (const pedido of data) {
+    const div = document.createElement('div');
+    div.className = 'admin-pedido';
+    const fechaFormateada = new Date(pedido.fecha).toLocaleString();
+    
+    div.innerHTML = `
+      <h4>Pedido ID: ${pedido.id}</h4>
+      <p>Usuario: ${pedido.usuario_id}</p>
+      <p>Fecha: ${fechaFormateada}</p>
+      <p>Total: S/ ${pedido.total.toFixed(2)}</p>
+      <p>Productos:</p>
+      <ul>
+        ${pedido.productos.map(p => `
+          <li>${p.nombre} - Cantidad: ${p.cantidad} - Precio: S/ ${p.precio}</li>
+        `).join('')}
+      </ul>
+      <hr>
+    `;
+    pedidosContainer.appendChild(div);
+  }
+}
 
 async function cargarProductos() {
   adminLista.innerHTML = '';

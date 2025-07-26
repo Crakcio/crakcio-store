@@ -1,4 +1,4 @@
-p// ui.js
+// ui.js
 import {
   obtenerMasVendidos,
   obtenerMasRecientes,

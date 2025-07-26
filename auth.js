@@ -8,46 +8,76 @@ document.addEventListener('DOMContentLoaded', () => {
   const cerrarRegistro = document.getElementById('cerrarRegistro');
   const registroModal = document.getElementById('registroModal');
 
-  mostrarRegistro.addEventListener('click', () => {
+  mostrarRegistro?.addEventListener('click', () => {
     registroModal.classList.remove('hidden');
   });
 
-  cerrarRegistro.addEventListener('click', () => {
+  cerrarRegistro?.addEventListener('click', () => {
     registroModal.classList.add('hidden');
   });
 
-  loginForm.addEventListener('submit', async (e) => {
+  // LOGIN
+  loginForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
 
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
-    if (error) {
-      alert('Error al iniciar sesión: ' + error.message);
+    if (error || !data.user) {
+      alert('Error al iniciar sesión: ' + (error?.message || "Usuario inválido"));
       return;
     }
 
-    const { user } = data;
-    const adminEmail = 'admin@crackio.com';
-    if (user.email === adminEmail) {
+    const userId = data.user.id;
+
+    // Obtener el rol desde la tabla usuarios
+    const { data: perfil, error: errorPerfil } = await supabase
+      .from('usuarios')
+      .select('rol')
+      .eq('id', userId)
+      .single();
+
+    if (errorPerfil || !perfil) {
+      alert('No se pudo verificar el rol del usuario.');
+      return;
+    }
+
+    if (perfil.rol === 'admin') {
       window.location.href = 'admin.html';
+    } else if (perfil.rol === 'cliente') {
+      window.location.href = 'cliente.html';
     } else {
-      window.location.href = 'index.html';
+      alert('Rol no reconocido');
     }
   });
 
-  registerForm.addEventListener('submit', async (e) => {
+  // REGISTRO
+  registerForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById('registerEmail').value;
     const password = document.getElementById('registerPassword').value;
 
-    const { error } = await supabase.auth.signUp({ email, password });
-    if (error) {
-      alert('Error al registrarse: ' + error.message);
-    } else {
-      alert('Registro exitoso. Ya puedes iniciar sesión.');
-      registroModal.classList.add('hidden');
+    const { data, error } = await supabase.auth.signUp({ email, password });
+
+    if (error || !data.user) {
+      alert('Error al registrarse: ' + (error?.message || "Desconocido"));
+      return;
     }
+
+    const userId = data.user.id;
+
+    // Guardar el rol del nuevo usuario como "cliente"
+    const { error: errorInsert } = await supabase.from('usuarios').insert([
+      { id: userId, email, rol: 'cliente' }
+    ]);
+
+    if (errorInsert) {
+      alert('Usuario registrado pero no se guardó el rol: ' + errorInsert.message);
+      return;
+    }
+
+    alert('Registro exitoso. Ya puedes iniciar sesión.');
+    registroModal.classList.add('hidden');
   });
 });

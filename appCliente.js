@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   cargarProductos(); // Reutiliza función para mostrar productos
 
-  const abrirBtn = document.getElementById("abrir-carrito");
+  const abrirBtn = document.getElementById("boton-carrito");
   const popup = document.getElementById("popup-carrito");
   const finalizarBtn = document.getElementById("finalizarCompra");
 

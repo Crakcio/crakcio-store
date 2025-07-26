@@ -130,12 +130,9 @@ function mostrarMensaje(texto, tipo = "info") {
   document.body.appendChild(alerta);
   setTimeout(() => alerta.remove(), 2500);
 }
-});
-document.addEventListener('DOMContentLoaded', () => {
   verificarSesion();
-renderizarCarrito();
-  configurarBotones();
-  procesarPedidoAutomaticamenteSiExiste();
+  renderizarCarrito();
+   procesarPedidoAutomaticamenteSiExiste();
   
   const finalizarBtn = document.getElementById('finalizarCompra');
    console.log("finalizarBtn:", finalizarBtn);

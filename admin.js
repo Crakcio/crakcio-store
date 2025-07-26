@@ -218,7 +218,7 @@ async function cargarProductos() {
       const { data: urlData, error: imgError } = supabase
         .storage
         .from('imgproductos')
-        .getPublicUrl(`productos/${prod.imagen_url}`); // << Aquí se usa la ruta completa
+        .getPublicUrl(prod.imagen_url); // << Aquí se usa la ruta completa
 
       if (!imgError && urlData?.publicUrl) {
         imagenURL = urlData.publicUrl;

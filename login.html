@@ -209,9 +209,10 @@ form.addEventListener('submit', async (e) => {
   const rol = perfil.rol;
 
   if (rol === 'admin') {
-    window.location.href = 'admin.html';
-  } else if (rol === 'cliente') {
-    window.location.href = 'cliente.html';
+  window.location.href = 'admin.html';
+} else if (rol === 'cliente') {
+  window.location.href = 'index.html'; // Redirige aquí si es cliente
+}
   } else {
     alert("Rol no permitido");
     await supabase.auth.signOut();

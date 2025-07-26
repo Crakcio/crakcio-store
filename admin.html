@@ -32,6 +32,24 @@
       <div id="adminListaProductos"></div>
     </section>
   </main>
+<!-- Modal para editar producto -->
+<div id="modalEditar" class="modal oculto">
+  <div class="modal-contenido">
+    <h2>Editar Producto</h2>
+    <form id="formEditarProducto">
+      <input type="hidden" id="editarId" />
+      <input type="text" id="editarNombre" placeholder="Nombre" required />
+      <input type="text" id="editarCategoria" placeholder="Categoría" required />
+      <input type="text" id="editarDescripcion" placeholder="Descripción" required />
+      <input type="number" id="editarPrecio" placeholder="Precio" required />
+      <input type="number" id="editarStock" placeholder="Stock" required />
+      <label for="editarImagenArchivo">Cambiar imagen (opcional):</label>
+      <input type="file" id="editarImagenArchivo" accept="image/*" />
+      <button type="submit">Guardar cambios</button>
+      <button type="button" id="cancelarEditar">Cancelar</button>
+    </form>
+  </div>
+</div>
 
   <script type="module" src="admin.js"></script>
   <script type="module" src="supabaseClient.js"></script>

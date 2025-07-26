@@ -104,15 +104,14 @@ export function mostrarCarrito(carrito, contenedorId) {
   });
 }
 
-export function actualizarContadorCarrito() {
+function actualizarContadorCarrito() {
   const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-  const totalCantidad = carrito.reduce((sum, item) => sum + Number(item.cantidad || 0), 0);
-
-  const contador = document.getElementById("contador-carrito");
+  const contador = document.getElementById("carritoContador");
   if (contador) {
-    contador.textContent = totalCantidad;
+    contador.textContent = carrito.length;
   }
 }
+
 
 
 export function mostrarMensaje(mensaje, tipo = "info") {

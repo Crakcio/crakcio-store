@@ -1,54 +1,142 @@
-<!-- cliente.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Panel Cliente - Crackio Store</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Crackio Store - Cliente</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    header {
+      background-color: #111;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #00aaff;
+    }
+
+    header h1 {
+      margin: 0;
+      color: #00aaff;
+    }
+
+    #logoutBtn {
+      background-color: #00aaff;
+      border: none;
+      padding: 0.5rem 1rem;
+      color: white;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    #logoutBtn:hover {
+      background-color: #0077cc;
+    }
+
+    .productos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .producto {
+      background-color: #111;
+      border: 1px solid #00aaff44;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 0 10px #00aaff22;
+    }
+
+    .producto img {
+      width: 100%;
+      max-height: 150px;
+      object-fit: contain;
+      margin-bottom: 0.5rem;
+    }
+
+    .producto h3 {
+      margin: 0.5rem 0;
+    }
+
+    .producto p {
+      color: #ccc;
+      font-size: 0.9rem;
+    }
+
+    .producto span {
+      color: #00ffcc;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>Bienvenido, Cliente</h1>
-    <button id="cerrarSesion">Cerrar sesión</button>
+    <h1>Crackio Store</h1>
+    <button id="logoutBtn">Cerrar sesión</button>
   </header>
 
   <main>
-    <p id="infoCliente">Cargando datos...</p>
+    <div class="productos" id="productosContainer">
+      <!-- Aquí se cargarán los productos -->
+    </div>
   </main>
 
   <script type="module">
     import { supabase } from './supabaseClient.js';
 
-    const infoCliente = document.getElementById('infoCliente');
-    const cerrarSesion = document.getElementById('cerrarSesion');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const productosContainer = document.getElementById('productosContainer');
 
-    cerrarSesion.addEventListener('click', async () => {
+    // Verificar sesión activa
+    const session = await supabase.auth.getSession();
+    if (!session.data.session) {
+      window.location.href = 'login.html';
+    }
+
+    // Cerrar sesión
+    logoutBtn.addEventListener('click', async () => {
       await supabase.auth.signOut();
-      window.location.href = 'index.html';
+      window.location.href = 'login.html';
     });
 
-    // Verifica que sea cliente
-    (async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+    // Cargar productos desde Supabase
+    async function cargarProductos() {
+      const { data: productos, error } = await supabase.from('Productos').select('*');
 
-      if (!session || !session.user) {
-        window.location.href = 'login.html';
+      if (error) {
+        productosContainer.innerHTML = '<p>Error al cargar productos.</p>';
+        console.error(error);
         return;
       }
 
-      const { data: perfil, error } = await supabase
-        .from('usuarios')
-        .select('nombre, rol')
-        .eq('id', session.user.id)
-        .single();
+      productosContainer.innerHTML = '';
 
-      if (error || perfil.rol !== 'cliente') {
-        window.location.href = 'login.html';
-        return;
-      }
+      productos.forEach(prod => {
+        const imagenUrl = prod.imagen
+          ? `https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/${prod.imagen}`
+          : `images/${prod.imagen || 'default.png'}`;
 
-      infoCliente.textContent = `Hola ${perfil.nombre}, este es tu panel de cliente.`;
-    })();
+        const card = document.createElement('div');
+        card.classList.add('producto');
+        card.innerHTML = `
+          <img src="${imagenUrl}" alt="${prod.nombre}" onerror="this.src='images/default.png'">
+          <h3>${prod.nombre}</h3>
+          <p>${prod.descripcion || 'Sin descripción'}</p>
+          <span>S/ ${prod.precio}</span>
+        `;
+        productosContainer.appendChild(card);
+      });
+    }
+
+    cargarProductos();
   </script>
 </body>
 </html>

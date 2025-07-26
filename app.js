@@ -145,7 +145,8 @@ function mostrarMensaje(texto, tipo = "info") {
   if (finalizarBtn) {
     console.log("Se encontró el botón Finalizar Compra ✅");
   finalizarBtn.addEventListener('click', async () => {
-   carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+  try {
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     console.log("Click en Finalizar compra");
 
     const { data: { session }, error: sessionError } = await supabase.auth.getSession();
@@ -182,13 +183,16 @@ function mostrarMensaje(texto, tipo = "info") {
     }]);
 
     if (pedidoError) {
+      console.error('❌ Error al registrar pedido:', pedidoError);
       alert('Error al registrar pedido: ' + pedidoError.message);
       return;
     }
-  localStorage.removeItem("carrito");
-  actualizarContadorCarrito();
-  mostrarCarrito();
-  alert("¡Compra realizada con éxito!");
+
+    alert("¡Compra realizada con éxito!");
+    localStorage.removeItem("carrito");
+    actualizarContadorCarrito();
+    mostrarCarrito();
+
     // WhatsApp
     let mensaje = `🛒 *Nuevo Pedido desde Crackio Store*%0A`;
     mensaje += `👤 Cliente: ${user.email}%0A`;
@@ -201,15 +205,17 @@ function mostrarMensaje(texto, tipo = "info") {
     mensaje += `💰 Total: S/ ${total.toFixed(2)}%0A`;
     mensaje += `📅 Fecha: ${new Date().toLocaleDateString()}`;
 
-    const numeroTienda = '519999207025'; // ← reemplaza por el tuyo
+    const numeroTienda = '519999207025';
     const url = `https://wa.me/${numeroTienda}?text=${mensaje}`;
 
-    // Limpiar carrito
-    localStorage.removeItem('carrito');
-    actualizarContadorCarrito();
-    renderizarCarrito();
-
     window.location.href = url;
+
+  } catch (err) {
+    console.error("🧨 Error en finalizarCompra:", err);
+    alert("Ocurrió un error al finalizar la compra. Revisa la consola.");
+  }
+
+
   });
    
 }

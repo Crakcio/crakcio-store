@@ -3,9 +3,9 @@
 import { supabase } from './supabaseClient.js';
 
 // ------------------------- AUTENTICACIÓN -----------------------------
+let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 document.addEventListener("DOMContentLoaded", () => {
    
-
 // Registro de usuario
 const registerForm = document.getElementById('registerForm');
 if (registerForm) {
@@ -76,10 +76,6 @@ verificarSesion();
 
 
 // ------------------------- CARRITO DE COMPRAS -----------------------------
-
-// app.js optimizado con mejoras sugeridas
-
-let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
 // Función para obtener URL pública desde Supabase
 function obtenerUrlImagen(path) {

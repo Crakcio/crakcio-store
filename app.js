@@ -133,14 +133,13 @@ document.addEventListener('DOMContentLoaded', () => {
 renderizarCarrito();
   configurarBotones();
   procesarPedidoAutomaticamenteSiExiste();
+  
   const finalizarBtn = document.getElementById('finalizarCompra');
    console.log("finalizarBtn:", finalizarBtn);
   if (finalizarBtn) {
   finalizarBtn.addEventListener('click', async () => {
    carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     console.log("Click en Finalizar compra");
-
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
     const { data: { session }, error: sessionError } = await supabase.auth.getSession();
     console.log("Resultado de getSession():", session);
@@ -271,10 +270,6 @@ async function procesarPedidoAutomaticamenteSiExiste() {
 
 
 // ------------------------- FINALIZAR COMPRA -----------------------------
-
-
- 
-
 
  
 

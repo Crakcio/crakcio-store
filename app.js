@@ -169,11 +169,7 @@ document.getElementById('finalizarCompra').addEventListener('click', async () =>
     return;
   }
 
-  const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-  if (sessionError || !session || !session.user) {
-    alert('Debes iniciar sesión para finalizar la compra');
-    return;
-  }
+
 
   const userId = session.user.id;
   const productos = carrito.map(item => ({
@@ -215,15 +211,12 @@ const finalizarBtn = document.getElementById('finalizarCompra');
 
 if (finalizarBtn) {
   finalizarBtn.addEventListener('click', async () => {
-    const { data: { user }, error } = await supabase.auth.getUser();
-
-    // Verificamos si el usuario está logueado
-   if (!user) {
-  alert('⚠️ Debes iniciar sesión para finalizar la compra.');
-  // Si tienes una página de login, puedes redirigir:
-   window.location.href = '/login.html';
-  return;
-}
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+  if (sessionError || !session || !session.user) {
+    alert('Debes iniciar sesión para finalizar la compra');
+     window.location.href = '/login.html';
+    return;
+  }
 
 
     // Verificamos si hay productos en el carrito

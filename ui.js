@@ -60,15 +60,7 @@ export function agregarAlCarrito(producto) {
   actualizarContadorCarrito();
   mostrarAlerta("Producto agregado al carrito", "success");
 }
-export function mostrarPopupCarrito() {
-  const popup = document.getElementById("popup-carrito");
-  if (popup) {
-    popup.style.display = "block"; // lo muestra
-    setTimeout(() => {
-      popup.style.display = "none"; // lo oculta después de 2.5 segundos
-    }, 2500);
-  }
-}
+
 
 // Mostrar productos genéricos
 export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") {

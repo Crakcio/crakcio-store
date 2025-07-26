@@ -15,15 +15,16 @@
   <main class="admin-main">
     <section class="admin-agregar">
       <h2>Agregar Producto</h2>
-      <form id="agregarProductoForm">
-        <input type="text" id="nombre" placeholder="Nombre" required />
-        <input type="text" id="categoria" placeholder="Categoría" required />
-        <input type="text" id="descripcion" placeholder="Descripción" required />
-        <input type="number" id="precio" placeholder="Precio" required />
-        <input type="number" id="stock" placeholder="Stock" required />
-        <input type="text" id="imagen" placeholder="URL de la imagen (Supabase)" required />
-        <button type="submit">Agregar</button>
-      </form>
+     <form id="agregarProductoForm">
+  <input type="text" id="nombre" placeholder="Nombre" required />
+  <input type="text" id="categoria" placeholder="Categoría" required />
+  <input type="text" id="descripcion" placeholder="Descripción" required />
+  <input type="number" id="precio" placeholder="Precio" required />
+  <input type="number" id="stock" placeholder="Stock" required />
+  <input type="file" id="imagenArchivo" accept="image/*" required />
+  <button type="submit">Agregar</button>
+</form>
+
     </section>
 
     <section class="admin-productos">

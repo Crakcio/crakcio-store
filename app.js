@@ -87,13 +87,6 @@ function obtenerUrlImagen(path) {
   return data.publicUrl || 'images/placeholder.webp';
 }
 
-function actualizarContadorCarrito() {
-  const contador = document.getElementById("contadorCarrito");
-  if (contador) {
-    contador.textContent = carrito.length;
-  }
-}
-
 function guardarCarrito() {
   localStorage.setItem('carrito', JSON.stringify(carrito));
   actualizarContadorCarrito();

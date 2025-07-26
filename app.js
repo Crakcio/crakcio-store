@@ -99,23 +99,22 @@ if (cerrarModal) {
   });
 }
 function actualizarContadorCarrito() {
-  const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
   const totalItems = carrito.reduce((sum, item) => sum + (item.cantidad || 1), 0);
   const contador = document.getElementById("contadorCarrito");
   if (contador) {
     contador.textContent = totalItems;
   }
 }
+
 function renderizarCarrito() {
   const contenedor = document.getElementById('carritoContainer');
   if (!contenedor) return;
 
   contenedor.innerHTML = '';
-  const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
   let total = 0;
 
   carrito.forEach((item, index) => {
-    total += parseFloat(item.precio) * item.cantidad;
+    total += item.precio * item.cantidad;
 
     const div = document.createElement('div');
     div.innerHTML = `
@@ -134,6 +133,7 @@ function renderizarCarrito() {
     totalElem.textContent = 'Total: S/ ' + total.toFixed(2);
   }
 }
+
 
 export function mostrarCarrito(carrito, contenedorId) {
   const contenedor = document.getElementById(contenedorId);
@@ -159,8 +159,6 @@ export function mostrarCarrito(carrito, contenedorId) {
   });
 }
 function agregarAlCarrito(producto) {
-  let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-
   const index = carrito.findIndex(item => item.id === producto.id);
   if (index !== -1) {
     mostrarMensaje("Este producto ya está en el carrito.", "warning");
@@ -172,24 +170,25 @@ function agregarAlCarrito(producto) {
   carrito.push({
     id: producto.id,
     nombre: producto.nombre,
-    precio: producto.precio,
+    precio: parseFloat(producto.precio),
     imagen,
     cantidad: 1
   });
 
-  localStorage.setItem('carrito', JSON.stringify(carrito));
+  guardarCarrito();           // ✅ usa función para guardar
   actualizarContadorCarrito();
   mostrarMensaje("Producto agregado al carrito", "success");
 }
 
 
+
 window.eliminarDelCarrito = function(index) {
-  const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
   carrito.splice(index, 1);
-  localStorage.setItem('carrito', JSON.stringify(carrito));
-  actualizarContadorCarrito(); // ✅ actualizar después de eliminar
+  guardarCarrito();
+  actualizarContadorCarrito();
   renderizarCarrito();
 };
+
 
 
 function calcularTotalCarrito(carrito) {
@@ -204,22 +203,17 @@ const finalizarBtn = document.getElementById('finalizarCompra');
 
 if (finalizarBtn) {
   finalizarBtn.addEventListener('click', async () => {
-    // Verificar sesión iniciada
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
       alert('Debes iniciar sesión para finalizar la compra.');
       return;
     }
 
-    // Obtener carrito actualizado
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-
     if (carrito.length === 0) {
       alert('Tu carrito está vacío.');
       return;
     }
 
-    // Crear mensaje para WhatsApp
     let mensaje = '🛒 *Nueva orden desde Crackio Store*\n\n';
     let total = 0;
     carrito.forEach(item => {
@@ -229,15 +223,15 @@ if (finalizarBtn) {
     mensaje += `\n💰 Total: S/ ${total.toFixed(2)}\n`;
     mensaje += `📧 Cliente: ${user.email}`;
 
-    // Abrir WhatsApp
-    const numero = '51999207025'; // Número del vendedor con código de país
+    const numero = '51999207025';
     const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
 
-    // Limpiar carrito después de enviar
-    localStorage.removeItem('carrito');
-    actualizarContadorCarrito(0);
+    carrito = [];
+    guardarCarrito();
+    actualizarContadorCarrito();
     renderizarCarrito();
   });
-}
+};
+})
 

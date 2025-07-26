@@ -146,7 +146,7 @@ function agregarAlCarrito(producto) {
   });
 
   localStorage.setItem('carrito', JSON.stringify(carrito));
-  actualizarContadorCarrito(carrito.length);
+  actualizarContadorCarrito();
   mostrarMensaje("Producto agregado al carrito", "success");
 }
 

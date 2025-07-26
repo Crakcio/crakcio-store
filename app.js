@@ -93,12 +93,16 @@ function guardarCarrito() {
 }
 
 function renderizarCarrito() {
-  const contenedor = document.getElementById("carritoItems");
+  const contenedor = document.getElementById("contenedor-carrito");
+  if (!contenedor) {
+  console.warn("❌ No se encontró el contenedor-carrito en el DOM.");
+  return;
+}
   contenedor.innerHTML = "";
 
   carrito.forEach((producto, index) => {
     const item = document.createElement("div");
-    item.classList.add("carrito-item");
+    item.classList.add("contenedor-carrito");
 
     item.innerHTML = `
       <img src="${producto.imagen}" alt="${producto.nombre}" class="carrito-img" />

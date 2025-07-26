@@ -165,21 +165,46 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("modalCarrito").classList.add("oculto");
   });
 
-  document.getElementById("finalizarCompra").addEventListener("click", () => {
-    if (carrito.length === 0) return mostrarMensaje("Carrito vacío", "warning");
+document.getElementById('finalizarCompra').addEventListener('click', async () => {
+  if (carrito.length === 0) {
+    alert('Tu carrito está vacío');
+    return;
+  }
 
-    const mensaje = carrito.map(p => `- ${p.nombre} (S/ ${p.precio})`).join("%0A");
-    const total = calcularTotalCarrito();
-    const numero = "51999999999"; // reemplaza con tu número
+  const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+  if (sessionError || !session || !session.user) {
+    alert('Debes iniciar sesión para finalizar la compra');
+    return;
+  }
 
-    const url = `https://wa.me/${numero}?text=Hola,%20quiero%20comprar:%0A${mensaje}%0A%0ATotal:%20S/%20${total}`;
-    window.open(url, "_blank");
+  const userId = session.user.id;
+  const productos = carrito.map(item => ({
+    idProducto: item.id,
+    nombre: item.nombre,
+    cantidad: item.cantidad,
+    precio: item.precio
+  }));
 
-    carrito = [];
-    guardarCarrito();
-    renderizarCarrito();
-    document.getElementById("modalCarrito").classList.add("oculto");
-  });
+  const total = productos.reduce((sum, p) => sum + (p.precio * p.cantidad), 0);
+
+  const { error: pedidoError } = await supabase.from('pedidos').insert([{
+    usuario_id: userId,
+    productos: productos,
+    total: total,
+    fecha: new Date().toISOString()
+  }]);
+
+  if (pedidoError) {
+    alert('Error al registrar pedido: ' + pedidoError.message);
+    return;
+  }
+
+  carrito = [];
+  localStorage.removeItem('carrito');
+  renderizarCarrito();
+  alert('Compra realizada con éxito. Gracias por tu pedido.');
+});
+
 
   actualizarContadorCarrito();
   renderizarCarrito();

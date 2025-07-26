@@ -98,7 +98,14 @@ if (cerrarModal) {
     modal.classList.add("oculto");
   });
 }
-
+function actualizarContadorCarrito() {
+  const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+  const totalItems = carrito.reduce((sum, item) => sum + (item.cantidad || 1), 0);
+  const contador = document.getElementById("contadorCarrito");
+  if (contador) {
+    contador.textContent = totalItems;
+  }
+}
 function renderizarCarrito() {
   const contenedor = document.getElementById('carritoContainer');
   if (!contenedor) return; // Evita error si no existe

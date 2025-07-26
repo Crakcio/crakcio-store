@@ -55,7 +55,9 @@ form.addEventListener('submit', async (e) => {
   }
 
   const nombreArchivo = `${Date.now()}_${archivo.name}`;
-  const { data: subida, error: errorSubida } = await supabase.storage
+
+  const { data: subida, error: errorSubida } = await supabase
+    .storage
     .from('imgproductos')
     .upload(nombreArchivo, archivo);
 
@@ -64,7 +66,13 @@ form.addEventListener('submit', async (e) => {
     return;
   }
 
-  const imagenURL = `https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/${nombreArchivo}`;
+  // Obtener la URL pública correctamente
+  const { data: urlData } = supabase
+    .storage
+    .from('imgproductos')
+    .getPublicUrl(nombreArchivo);
+
+  const imagenURL = urlData.publicUrl;
 
   const { error } = await supabase.from('Productos').insert([{
     nombre, categoria, descripcion, precio, stock, imagen: imagenURL
@@ -78,6 +86,7 @@ form.addEventListener('submit', async (e) => {
     cargarProductos();
   }
 });
+
 
 async function cargarProductos() {
   adminLista.innerHTML = '';

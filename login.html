@@ -156,12 +156,13 @@
     }
 
     // 3. Verificamos si el rol es 'admin'
-    if (perfil.rol !== 'admin') {
-      mensaje.textContent = "No tienes permisos de administrador.";
-      mensaje.className = "mensaje error";
-      await supabase.auth.signOut(); // cerramos sesión automáticamente
-      return;
-    }
+   if (perfil.rol === 'admin') {
+  window.location.href = 'admin.html';
+} else if (perfil.rol === 'cliente') {
+  window.location.href = 'cliente.html';
+} else {
+  alert('Rol no autorizado.');
+}
 
     // ✅ Acceso concedido
     mensaje.textContent = "Bienvenido, redirigiendo al panel de admin...";

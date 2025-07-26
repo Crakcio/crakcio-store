@@ -9,12 +9,12 @@ import {
 } from "./ui.js";
 import { supabase } from './supabaseClient.js';
 import { obtenerProductos } from './products.js';
-
+const productos = await obtenerProductos();
+  mostrarProductos(productos, 'productos-container');
 // ------------------------- AUTENTICACIÓN -----------------------------
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 document.addEventListener("DOMContentLoaded", async () => {
-   const productos = await obtenerProductos();
-  mostrarProductos(productos, 'productos-container');
+   
 // Registro de usuario
 const registerForm = document.getElementById('registerForm');
 if (registerForm) {

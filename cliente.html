@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Crackio Store - Cliente</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>Crackio Store - Panel Cliente</title>
+  <link rel="stylesheet" href="estilos.css" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
   <style>
     body {
       background-color: #0a0a0a;
@@ -79,76 +81,63 @@
 </head>
 <body>
   <header>
-    <h1>Crackio Store</h1>
-    <button id="logoutBtn">Cerrar sesión</button>
+    <h1>Bienvenido a Crackio Store</h1>
+    <nav>
+      <button id="logoutBtn">Cerrar sesión</button>
+      <div id="boton-carrito" title="Ver carrito">
+        <i class="fas fa-shopping-cart fa-2x"></i>
+        <span id="contadorCarrito">0</span>
+      </div>
+    </nav>
   </header>
 
   <main>
-    <div class="productos" id="productosContainer">
-      <!-- Aquí se cargarán los productos -->
-    </div>
+    <section>
+      <h2>Productos más vendidos</h2>
+      <div id="productosMasVendidos" class="productos-grid"></div>
+    </section>
+
+    <section>
+      <h2>Nuevos productos</h2>
+      <div id="productosMasRecientes" class="productos-grid"></div>
+    </section>
   </main>
+
+  <footer>
+    <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
+  </footer>
+
+  <!-- Archivos JS principales -->
+  <script type="module" src="supabaseClient.js"></script>
+  <script type="module" src="auth.js"></script>
+  <script type="module" src="helpers.js"></script>
+  <script type="module" src="ui.js"></script>
+  <script type="module" src="products.js"></script>
+  <script type="module" src="app.js"></script>
 
   <script type="module">
     import { supabase } from './supabaseClient.js';
+    import { obtenerDeLocalStorage, mostrarAlerta } from './helpers.js';
+    import { mostrarProductosMasVendidos, mostrarProductosMasRecientes } from './products.js';
+    import { actualizarContadorCarrito } from './ui.js';
 
-    const logoutBtn = document.getElementById('logoutBtn');
-    const productosContainer = document.getElementById('productosContainer');
+    // Proteger página: solo permite clientes logueados
+    const { data: { user } } = await supabase.auth.getUser();
 
-    // Función para verificar sesión
-    async function verificarSesion() {
-      const { data: { session }, error } = await supabase.auth.getSession();
-
-      if (error) {
-        console.error('Error al obtener la sesión:', error.message);
-        return window.location.href = 'login.html';
-      }
-
-      if (!session) {
-        return window.location.href = 'login.html';
-      }
+    if (!user) {
+      location.href = "login.html";
+    } else {
+      // Cargar productos
+      await mostrarProductosMasVendidos();
+      await mostrarProductosMasRecientes();
+      actualizarContadorCarrito();
     }
 
-    // Función para cerrar sesión
-    logoutBtn.addEventListener('click', async () => {
+    // Cerrar sesión
+    document.getElementById("logoutBtn")?.addEventListener("click", async () => {
       await supabase.auth.signOut();
-      window.location.href = 'login.html';
+      location.href = "index.html";
     });
-
-    // Función para cargar productos
-    async function cargarProductos() {
-      const { data: productos, error } = await supabase.from('Productos').select('*');
-
-      if (error) {
-        productosContainer.innerHTML = '<p>Error al cargar productos.</p>';
-        console.error('Error:', error.message);
-        return;
-      }
-
-      productosContainer.innerHTML = '';
-
-      productos.forEach(prod => {
-        const imagenUrl = prod.imagen
-          ? `https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/${prod.imagen}`
-          : `images/default.png`;
-
-        const card = document.createElement('div');
-        card.classList.add('producto');
-        card.innerHTML = `
-          <img src="${imagenUrl}" alt="${prod.nombre}" onerror="this.src='images/default.png'">
-          <h3>${prod.nombre}</h3>
-          <p>${prod.descripcion || 'Sin descripción'}</p>
-          <span>S/ ${prod.precio}</span>
-        `;
-        productosContainer.appendChild(card);
-      });
-    }
-
-    // Iniciar todo
-    (async () => {
-      await verificarSesion();
-      await cargarProductos();
-    })();
   </script>
 </body>
 </html>

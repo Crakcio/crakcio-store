@@ -6,7 +6,7 @@ import { productos, obtenerProductos } from './products.js';
 
 // ------------------------- AUTENTICACIÓN -----------------------------
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
    const productos = await obtenerProductos();
   mostrarProductos(productos, "contenedor-productos");
 // Registro de usuario

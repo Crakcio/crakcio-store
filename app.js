@@ -137,7 +137,25 @@ function mostrarMensaje(texto, tipo = "info") {
   setTimeout(() => alerta.remove(), 2500);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
+  const finalizarBtn = document.getElementById('finalizarCompra');
+
+  if (finalizarBtn) {
+    finalizarBtn.addEventListener('click', async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (!session || !session.user) {
+        alert('Debes iniciar sesión para finalizar la compra.');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Si el usuario está logueado, muestra el modal de pago
+      document.getElementById('modal-pago').classList.remove('hidden');
+    });
+  }
+});
+
   carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
   document.getElementById("abrirCarrito")?.addEventListener("click", () => {

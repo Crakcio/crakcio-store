@@ -10,11 +10,11 @@
 }
 
 body {
+  background-color: #0e0e0e;
+  color: #e0e0e0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  font-family: 'Rajdhani', sans-serif;
-  background-color: #0d0d0d;
-  color: #f2f2f2;
 }
 h1, h2, h3, h4 {
   color: #00bfff;
@@ -388,4 +388,82 @@ footer .redes {
 }
 #modal.activo {
   display: block;
+}
+.admin-header {
+  background-color: #121212;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #00aaff;
+  border-bottom: 2px solid #00aaff;
+}
+
+.admin-main {
+  padding: 1rem;
+}
+
+.admin-agregar,
+.admin-productos {
+  background-color: #1a1a1a;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #00aaff33;
+}
+
+.admin-agregar input,
+.form-edicion input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #00aaff66;
+  background-color: #0e0e0e;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.admin-agregar button,
+.form-edicion button,
+.admin-producto button,
+#cerrarSesionAdmin {
+  background-color: #00aaff;
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.admin-agregar button:hover,
+.form-edicion button:hover,
+.admin-producto button:hover,
+#cerrarSesionAdmin:hover {
+  background-color: #008fcc;
+}
+
+.admin-producto {
+  background-color: #121212;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #00aaff33;
+  border-radius: 6px;
+  position: relative;
+}
+
+.admin-producto img {
+  max-width: 100px;
+  margin-top: 0.5rem;
+  border: 1px solid #00aaff55;
+  border-radius: 4px;
+}
+
+.form-edicion {
+  margin-top: 1rem;
+  border-top: 1px solid #00aaff33;
+  padding-top: 1rem;
 }

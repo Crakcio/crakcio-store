@@ -2,33 +2,32 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Panel Cliente | Crackio Store</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>Panel Cliente - Crackio Store</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <h1>Bienvenido Cliente</h1>
+    <h1>Bienvenido, Cliente</h1>
     <button id="cerrarSesion">Cerrar sesión</button>
   </header>
 
   <main>
-    <p id="saludoCliente">Cargando datos...</p>
-    <!-- Aquí puedes agregar historial de compras, datos del cliente, etc -->
+    <p id="infoCliente">Cargando datos...</p>
   </main>
 
   <script type="module">
     import { supabase } from './supabaseClient.js';
 
-    const saludoCliente = document.getElementById('saludoCliente');
+    const infoCliente = document.getElementById('infoCliente');
     const cerrarSesion = document.getElementById('cerrarSesion');
 
     cerrarSesion.addEventListener('click', async () => {
       await supabase.auth.signOut();
-      window.location.href = 'login.html';
+      window.location.href = 'index.html';
     });
 
-    // Verificación de acceso como cliente
+    // Verifica que sea cliente
     (async () => {
       const { data: { session } } = await supabase.auth.getSession();
 
@@ -48,8 +47,9 @@
         return;
       }
 
-      saludoCliente.textContent = `¡Hola ${perfil.nombre}, bienvenido a Crackio Store!`;
+      infoCliente.textContent = `Hola ${perfil.nombre}, este es tu panel de cliente.`;
     })();
   </script>
 </body>
 </html>
+

@@ -134,7 +134,7 @@ renderizarCarrito();
   configurarBotones();
   procesarPedidoAutomaticamenteSiExiste();
   const finalizarBtn = document.getElementById('finalizarCompra');
-
+   console.log("finalizarBtn:", finalizarBtn);
   if (finalizarBtn) {
   finalizarBtn.addEventListener('click', async () => {
    carrito = JSON.parse(localStorage.getItem('carrito')) || [];

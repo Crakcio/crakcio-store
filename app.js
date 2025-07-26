@@ -1,5 +1,5 @@
 // app.js
-
+console.log("✅ app.js se está cargando");
 import { supabase } from './supabaseClient.js';
 
 // ------------------------- AUTENTICACIÓN -----------------------------

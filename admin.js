@@ -3,6 +3,8 @@ import { supabase } from './supabaseClient.js';
 const form = document.getElementById('agregarProductoForm');
 const adminLista = document.getElementById('adminListaProductos');
 const cerrarSesionAdmin = document.getElementById('cerrarSesionAdmin');
+const formEditar = document.getElementById('formEditarProducto');
+const cancelarEditar = document.getElementById('cancelarEditar');
 
 // Cerrar sesión
 cerrarSesionAdmin.addEventListener('click', async () => {
@@ -66,6 +68,60 @@ form.addEventListener('submit', async (e) => {
     return;
   }
 
+formEditar.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const id = document.getElementById('editarId').value;
+  const nombre = document.getElementById('editarNombre').value;
+  const categoria = document.getElementById('editarCategoria').value;
+  const descripcion = document.getElementById('editarDescripcion').value;
+  const precio = parseFloat(document.getElementById('editarPrecio').value);
+  const stock = parseInt(document.getElementById('editarStock').value);
+  const nuevaImagen = document.getElementById('editarImagenArchivo').files[0];
+
+  let camposActualizados = { nombre, categoria, descripcion, precio, stock };
+
+  // Si hay nueva imagen, se sube y se reemplaza
+  if (nuevaImagen) {
+    const nuevoNombreImagen = `${Date.now()}_${nuevaImagen.name}`;
+    const { error: errorSubida } = await supabase
+      .storage
+      .from('imgproductos')
+      .upload(nuevoNombreImagen, nuevaImagen);
+
+    if (errorSubida) {
+      alert('Error subiendo nueva imagen: ' + errorSubida.message);
+      return;
+    }
+
+    const { data: urlData } = supabase
+      .storage
+      .from('imgproductos')
+      .getPublicUrl(nuevoNombreImagen);
+
+    camposActualizados.imagen = urlData.publicUrl;
+  }
+
+  const { error } = await supabase
+    .from('productos')
+    .update(camposActualizados)
+    .eq('id', id);
+
+  if (error) {
+    alert('Error actualizando producto: ' + error.message);
+  } else {
+    alert('Producto actualizado');
+    document.getElementById('modalEditar').classList.add('oculto');
+    formEditar.reset();
+    cargarProductos();
+  }
+});
+
+// Cancelar edición
+cancelarEditar.addEventListener('click', () => {
+  document.getElementById('modalEditar').classList.add('oculto');
+  formEditar.reset();
+});
   // Obtener la URL pública correctamente
   const { data: urlData } = supabase
     .storage
@@ -112,18 +168,25 @@ async function cargarProductos() {
   });
 }
 
+// Mostrar modal con los datos del producto a editar
 window.editarProducto = async function (id) {
-  const nuevoNombre = prompt('Nuevo nombre:');
-  if (!nuevoNombre) return;
+  const { data, error } = await supabase.from('productos').select('*').eq('id', id).single();
 
-  const { error } = await supabase
-    .from('Productos')
-    .update({ nombre: nuevoNombre })
-    .eq('id', id);
+  if (error) {
+    alert("Error al cargar producto: " + error.message);
+    return;
+  }
 
-  if (error) alert('Error actualizando: ' + error.message);
-  else cargarProductos();
+  document.getElementById('editarId').value = data.id;
+  document.getElementById('editarNombre').value = data.nombre;
+  document.getElementById('editarCategoria').value = data.categoria;
+  document.getElementById('editarDescripcion').value = data.descripcion;
+  document.getElementById('editarPrecio').value = data.precio;
+  document.getElementById('editarStock').value = data.stock;
+
+  document.getElementById('modalEditar').classList.remove('oculto');
 };
+
 
 window.eliminarProducto = async function (id) {
   if (!confirm('¿Eliminar este producto?')) return;

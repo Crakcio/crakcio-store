@@ -79,6 +79,7 @@ registerForm?.addEventListener('submit', async (e) => {
   }
 
   alert('Registro exitoso. Ya puedes iniciar sesión.');
-  registroModal.classList.add('hidden');
+  window.location.href = "index.html"; // Redirige al inicio
+
 });
 });

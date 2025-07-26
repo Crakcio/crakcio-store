@@ -1,13 +1,14 @@
 // app.js
 console.log("✅ app.js se está cargando");
-import { actualizarContadorCarrito, obtenerDeLocalStorage, agregarAlCarrito } from './ui.js';
+import { actualizarContadorCarrito, obtenerDeLocalStorage, agregarAlCarrito, mostrarProductos } from './ui.js';
 import { supabase } from './supabaseClient.js';
-import { productos } from './products.js';
+import { productos, obtenerProductos } from './products.js';
 
 // ------------------------- AUTENTICACIÓN -----------------------------
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 document.addEventListener("DOMContentLoaded", () => {
-   
+   const productos = await obtenerProductos();
+  mostrarProductos(productos);
 // Registro de usuario
 const registerForm = document.getElementById('registerForm');
 if (registerForm) {

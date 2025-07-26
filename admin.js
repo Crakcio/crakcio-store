@@ -155,15 +155,16 @@ async function cargarProductos() {
   for (const prod of data) {
     let imagenURL = 'images/placeholder.webp'; // Imagen por defecto
 
-    if (prod.imagen) {
-       const urlData = supabase
+if (prod.imagen && typeof prod.imagen === 'string' && prod.imagen.trim() !== '') {
+  const { data: urlData, error: urlError } = supabase
     .storage
     .from('imgproductos')
     .getPublicUrl(prod.imagen);
 
-    imagenURL = urlData.data.publicUrl;
-
-    }
+  if (!urlError && urlData?.publicUrl) {
+    imagenURL = urlData.publicUrl;
+  }
+}
 
     const div = document.createElement('div');
     div.className = 'admin-producto';

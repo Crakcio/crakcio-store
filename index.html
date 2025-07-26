@@ -106,18 +106,6 @@
   </div>
   <p id="userEmail"></p>
 
-<script type="module">
-  import { supabase } from './supabaseClient.js';
-
-  const { data: { session } } = await supabase.auth.getSession();
-  if (session) {
-    document.getElementById('userEmail').textContent =
-      'Estás logueado como: ' + session.user.email;
-  } else {
-    window.location.href = 'login.html';
-  }
-</script>
-
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('modal');

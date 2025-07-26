@@ -180,9 +180,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (botonCarrito && modal && cerrarCarrito) {
     botonCarrito.addEventListener('click', () => {
-      modal.classList.add('activo');
-      modal.classList.remove('oculto');
-    });
+  mostrarCarrito();
+  modal.classList.add('activo');
+  modal.classList.remove('oculto');
+});
 
     cerrarCarrito.addEventListener('click', () => {
       modal.classList.remove('activo');

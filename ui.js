@@ -58,6 +58,7 @@ export function agregarAlCarrito(producto) {
   }
   guardarEnLocalStorage("carrito", carrito);
   actualizarContadorCarrito();
+  mostrarPopupCarrito();
   mostrarAlerta("Producto agregado al carrito", "success");
 }
 

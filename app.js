@@ -1,5 +1,6 @@
 // app.js
 console.log("✅ app.js se está cargando");
+import { actualizarContadorCarrito, obtenerDeLocalStorage } from './ui.js';
 import { supabase } from './supabaseClient.js';
 
 // ------------------------- AUTENTICACIÓN -----------------------------

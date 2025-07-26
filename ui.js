@@ -88,6 +88,20 @@ export function mostrarMensaje(mensaje, tipo = "info") {
     mensajeDiv.remove();
   }, 3000);
 }
+function agregarAlCarrito(producto) {
+  const carrito = obtenerDeLocalStorage("carrito") || [];
+  
+  const productoExistente = carrito.find(item => item.id === producto.id);
+  if (productoExistente) {
+    productoExistente.cantidad += 1;
+  } else {
+    carrito.push({ ...producto, cantidad: 1 });
+  }
+
+  guardarEnLocalStorage("carrito", carrito);
+  actualizarContadorCarrito();
+  mostrarMensaje("Producto agregado al carrito", "success");
+}
 
 
 document.addEventListener('DOMContentLoaded', () => {

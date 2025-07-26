@@ -124,6 +124,16 @@ export function actualizarContadorCarrito() {
   }
 }
 
+export function mostrarPopupCarrito() {
+  const popup = document.getElementById('popup-carrito');
+  if (!popup) return;
+
+  popup.style.display = 'block';
+
+  setTimeout(() => {
+    popup.style.display = 'none';
+  }, 2500);
+}
 
 export function mostrarCarrito() {
   const carrito = obtenerDeLocalStorage("carrito") || [];

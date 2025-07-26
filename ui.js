@@ -93,15 +93,25 @@ function agregarAlCarrito(producto) {
 
   const productoExistente = carrito.find(item => item.id === producto.id);
   if (productoExistente) {
-    productoExistente.cantidad += 1;
+    productoExistente.cantidad = (productoExistente.cantidad || 1) + 1;
   } else {
-    carrito.push({ ...producto, cantidad: 1 });
+    const nuevoProducto = {
+      id: producto.id,
+      nombre: producto.nombre,
+      descripcion: producto.descripcion,
+      precio: producto.precio,
+      stock: producto.stock,
+      imagen: producto.imagen || "", // si usas imagen
+      cantidad: 1
+    };
+    carrito.push(nuevoProducto);
   }
 
   guardarEnLocalStorage("carrito", carrito);
   actualizarContadorCarrito();
   mostrarAlerta("Producto agregado al carrito", "success");
 }
+
 
 function actualizarContadorCarrito() {
   const carrito = obtenerDeLocalStorage("carrito") || [];

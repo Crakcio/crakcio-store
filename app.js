@@ -77,125 +77,126 @@ verificarSesion();
 
 // ------------------------- CARRITO DE COMPRAS -----------------------------
 
-let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+// app.js optimizado con mejoras sugeridas
+
+let carrito = [];
+
+// Función para obtener URL pública desde Supabase
+function obtenerUrlImagen(path) {
+  const { data } = supabase.storage.from('imgproductos').getPublicUrl(path);
+  return data.publicUrl || 'images/placeholder.webp';
+}
+
+function actualizarContadorCarrito() {
+  const contador = document.getElementById("contadorCarrito");
+  if (contador) {
+    contador.textContent = carrito.length;
+  }
+}
 
 function guardarCarrito() {
   localStorage.setItem('carrito', JSON.stringify(carrito));
-}
-const modal = document.getElementById("modal");
-const botonCarrito = document.getElementById("boton-carrito");
-
-if (botonCarrito) {
-  botonCarrito.addEventListener("click", () => {
-    modal.classList.remove("oculto");
-    renderizarCarrito(); // ✅ Ya tienes esta función para actualizar el contenido
-  });
-}
-
-const cerrarModal = document.getElementById("cerrarModal");
-if (cerrarModal) {
-  cerrarModal.addEventListener("click", () => {
-    modal.classList.add("oculto");
-  });
-}
-function actualizarContadorCarrito() {
-  const totalItems = carrito.reduce((sum, item) => sum + (item.cantidad || 1), 0);
-  const contador = document.getElementById("contadorCarrito");
-  if (contador) {
-    contador.textContent = totalItems;
-  }
+  actualizarContadorCarrito();
 }
 
 function renderizarCarrito() {
-  const contenedor = document.getElementById('carritoContainer');
-  if (!contenedor) return;
-
-  contenedor.innerHTML = '';
-  let total = 0;
-
-  carrito.forEach((item, index) => {
-    total += item.precio * item.cantidad;
-
-    const div = document.createElement('div');
-    div.innerHTML = `
-      <div>
-        <strong>${item.nombre}</strong><br>
-        Precio: S/ ${item.precio} x ${item.cantidad}<br>
-        <button onclick="eliminarDelCarrito(${index})">Eliminar</button>
-      </div>
-      <hr>
-    `;
-    contenedor.appendChild(div);
-  });
-
-  const totalElem = document.getElementById('totalCarrito');
-  if (totalElem) {
-    totalElem.textContent = 'Total: S/ ' + total.toFixed(2);
-  }
-}
-
-
-export function mostrarCarrito(carrito, contenedorId) {
-  const contenedor = document.getElementById(contenedorId);
+  const contenedor = document.getElementById("carritoItems");
   contenedor.innerHTML = "";
-
-  if (carrito.length === 0) {
-    contenedor.innerHTML = "<p>Tu carrito está vacío.</p>";
-    return;
-  }
 
   carrito.forEach((producto, index) => {
     const item = document.createElement("div");
     item.classList.add("carrito-item");
+
     item.innerHTML = `
-      <img src="${producto.imagen}" alt="${producto.nombre}">
-      <div>
+      <img src="${producto.imagen}" alt="${producto.nombre}" class="carrito-img" />
+      <div class="carrito-detalle">
         <h4>${producto.nombre}</h4>
-        <p>S/ ${producto.precio.toFixed(2)}</p>
-        <button class="eliminar-producto" data-index="${index}">Eliminar</button>
+        <p>S/ ${producto.precio}</p>
       </div>
+      <button onclick="eliminarDelCarrito(${index})">X</button>
     `;
+
     contenedor.appendChild(item);
   });
-}
-function agregarAlCarrito(producto) {
-  const index = carrito.findIndex(item => item.id === producto.id);
-  if (index !== -1) {
-    mostrarMensaje("Este producto ya está en el carrito.", "warning");
-    return;
-  }
 
-  const imagen = obtenerUrlImagen(producto.imagen_url);
-
-  carrito.push({
-    id: producto.id,
-    nombre: producto.nombre,
-    precio: parseFloat(producto.precio),
-    imagen,
-    cantidad: 1
-  });
-
-  guardarCarrito();           // ✅ usa función para guardar
-  actualizarContadorCarrito();
-  mostrarMensaje("Producto agregado al carrito", "success");
+  document.getElementById("totalCarrito").textContent =
+    "Total: S/ " + calcularTotalCarrito();
 }
 
-
-
-window.eliminarDelCarrito = function(index) {
-  carrito.splice(index, 1);
-  guardarCarrito();
-  actualizarContadorCarrito();
-  renderizarCarrito();
-};
-
-
-
-function calcularTotalCarrito(carrito) {
+function calcularTotalCarrito() {
   return carrito.reduce((total, producto) => {
     return total + (producto.precio * (producto.cantidad || 1));
   }, 0);
 }
+
+window.eliminarDelCarrito = function(index) {
+  carrito.splice(index, 1);
+  guardarCarrito();
+  renderizarCarrito();
+};
+
+function agregarAlCarrito(producto) {
+  const existe = carrito.find(item => item.id === producto.id);
+  if (existe) {
+    mostrarMensaje("Este producto ya está en el carrito.", "warning");
+    return;
+  }
+
+  const imagen = producto.imagen || obtenerUrlImagen(producto.imagen_url);
+
+  carrito.push({
+    id: producto.id,
+    nombre: producto.nombre,
+    precio: producto.precio,
+    imagen,
+    cantidad: 1
+  });
+
+  guardarCarrito();
+  renderizarCarrito();
+  mostrarMensaje("Producto agregado al carrito", "success");
+}
+
+function mostrarMensaje(texto, tipo = "info") {
+  const alerta = document.createElement("div");
+  alerta.className = `mensaje ${tipo}`;
+  alerta.textContent = texto;
+  document.body.appendChild(alerta);
+  setTimeout(() => alerta.remove(), 2500);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+  document.getElementById("abrirCarrito").addEventListener("click", () => {
+    document.getElementById("modalCarrito").classList.remove("oculto");
+    renderizarCarrito();
+  });
+
+  document.getElementById("cerrarCarrito").addEventListener("click", () => {
+    document.getElementById("modalCarrito").classList.add("oculto");
+  });
+
+  document.getElementById("finalizarCompra").addEventListener("click", () => {
+    if (carrito.length === 0) return mostrarMensaje("Carrito vacío", "warning");
+
+    const mensaje = carrito.map(p => `- ${p.nombre} (S/ ${p.precio})`).join("%0A");
+    const total = calcularTotalCarrito();
+    const numero = "51999999999"; // reemplaza con tu número
+
+    const url = `https://wa.me/${numero}?text=Hola,%20quiero%20comprar:%0A${mensaje}%0A%0ATotal:%20S/%20${total}`;
+    window.open(url, "_blank");
+
+    carrito = [];
+    guardarCarrito();
+    renderizarCarrito();
+    document.getElementById("modalCarrito").classList.add("oculto");
+  });
+
+  actualizarContadorCarrito();
+  renderizarCarrito();
+});
+
 
 // ------------------------- FINALIZAR COMPRA -----------------------------
 
@@ -229,10 +230,10 @@ if (finalizarBtn) {
 
     carrito = [];
     guardarCarrito();
-  });
-};
    actualizarContadorCarrito();
-renderizarCarrito();
-     })
+   renderizarCarrito();
+  });
+}
+
 
 

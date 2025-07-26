@@ -141,6 +141,16 @@
     <h1>Bienvenido a Crackio Store</h1>
     <nav>
       <button id="logoutBtn">Cerrar sesión</button>
+      <!-- Contenedor donde se muestran los productos -->
+<div id="productos-container"></div>
+
+<!-- Popup centrado -->
+<div id="popup-carrito" class="popup-cliente">
+  <div id="contenido-carrito"></div>
+  <p id="totalCarrito">Total: S/ 0.00</p>
+  <button id="finalizarCompra">Finalizar compra</button>
+</div>
+
       <div id="boton-carrito" title="Ver carrito">
         <i class="fas fa-shopping-cart fa-2x"></i>
         <span id="contadorCarrito">0</span>
@@ -165,7 +175,7 @@
   </footer>
 
   <!-- Popup oculto para confirmación -->
-  <div id="popup-carrito">¡Producto añadido al carrito!</div>
+  <div id="popup-confirmacion">¡Producto añadido al carrito!</div>
 
   <!-- Scripts -->
   <script type="module" src="supabaseClient.js"></script>
@@ -173,6 +183,7 @@
   <script type="module" src="helpers.js"></script>
   <script type="module" src="ui.js"></script>
   <script type="module" src="products.js"></script>
+  <script type="module" src="js/appCliente.js"></script>
   <script type="module" src="app.js"></script>
 
   <script type="module">

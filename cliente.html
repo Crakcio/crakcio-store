@@ -6,7 +6,6 @@
   <title>Crackio Store - Panel Cliente</title>
   <link rel="stylesheet" href="estilos.css" />
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-</head>
   <style>
     body {
       background-color: #0a0a0a;
@@ -39,6 +38,22 @@
 
     #logoutBtn:hover {
       background-color: #0077cc;
+    }
+
+    #boton-carrito {
+      position: relative;
+      cursor: pointer;
+    }
+
+    #contadorCarrito {
+      position: absolute;
+      top: -5px;
+      right: -10px;
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 0.75rem;
     }
 
     .productos {
@@ -77,6 +92,48 @@
       color: #00ffcc;
       font-weight: bold;
     }
+
+    .producto button {
+      margin-top: 0.5rem;
+      background-color: #00aaff;
+      border: none;
+      padding: 0.5rem 1rem;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .producto button:hover {
+      background-color: #008ecc;
+    }
+
+    /* 🎯 POPUP centrado */
+    #popup-carrito {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #111;
+      color: #00ffcc;
+      padding: 1rem 2rem;
+      border: 2px solid #00ffcc;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #00ffcc88;
+      z-index: 9999;
+      display: none;
+      animation: aparecer 0.5s ease;
+    }
+
+    @keyframes aparecer {
+      from { opacity: 0; transform: translate(-50%, -60%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      color: #666;
+    }
   </style>
 </head>
 <body>
@@ -94,12 +151,12 @@
   <main>
     <section>
       <h2>Productos más vendidos</h2>
-      <div id="productosMasVendidos" class="productos-grid"></div>
+      <div id="productosMasVendidos" class="productos"></div>
     </section>
 
     <section>
       <h2>Nuevos productos</h2>
-      <div id="productosMasRecientes" class="productos-grid"></div>
+      <div id="productosMasRecientes" class="productos"></div>
     </section>
   </main>
 
@@ -107,7 +164,10 @@
     <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
   </footer>
 
-  <!-- Archivos JS principales -->
+  <!-- Popup oculto para confirmación -->
+  <div id="popup-carrito">¡Producto añadido al carrito!</div>
+
+  <!-- Scripts -->
   <script type="module" src="supabaseClient.js"></script>
   <script type="module" src="auth.js"></script>
   <script type="module" src="helpers.js"></script>
@@ -117,17 +177,14 @@
 
   <script type="module">
     import { supabase } from './supabaseClient.js';
-    import { obtenerDeLocalStorage, mostrarAlerta } from './helpers.js';
     import { mostrarProductosMasVendidos, mostrarProductosMasRecientes } from './products.js';
     import { actualizarContadorCarrito } from './ui.js';
 
-    // Proteger página: solo permite clientes logueados
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {
       location.href = "login.html";
     } else {
-      // Cargar productos
       await mostrarProductosMasVendidos();
       await mostrarProductosMasRecientes();
       actualizarContadorCarrito();

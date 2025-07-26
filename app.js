@@ -221,7 +221,9 @@ function mostrarMensaje(texto, tipo = "info") {
   document.getElementById("cerrarCarrito")?.addEventListener("click", () => {
   document.getElementById("modalCarrito")?.classList.add("oculto");
   });
-
+} else {
+    console.error("❌ No se encontró el botón con ID 'finalizarCompra'");
+  }
 });
 
 

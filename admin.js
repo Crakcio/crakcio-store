@@ -152,7 +152,19 @@ async function cargarProductos() {
     return;
   }
 
-  data.forEach(prod => {
+  for (const prod of data) {
+    let imagenURL = 'images/placeholder.webp'; // Imagen por defecto
+
+    if (prod.imagen) {
+       const urlData = supabase
+    .storage
+    .from('imgproductos')
+    .getPublicUrl(prod.imagen);
+
+    imagenURL = urlData.data.publicUrl;
+
+    }
+
     const div = document.createElement('div');
     div.className = 'admin-producto';
     div.innerHTML = `
@@ -160,13 +172,14 @@ async function cargarProductos() {
       <p>Precio: S/ ${prod.precio}</p>
       <p>Stock: ${prod.stock}</p>
       <p>Categoría: ${prod.categoria}</p>
-      <img src="${prod.imagen}" alt="${prod.nombre}" width="100" />
+      <img src="${imagenURL}" alt="${prod.nombre}" width="100" />
       <button onclick="editarProducto(${prod.id})">Editar</button>
       <button onclick="eliminarProducto(${prod.id})">Eliminar</button>
     `;
     adminLista.appendChild(div);
-  });
+  }
 }
+
 
 // Mostrar modal con los datos del producto a editar
 window.editarProducto = async function (id) {

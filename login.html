@@ -171,6 +171,53 @@
     }, 1500);
   });
 </script>
+<script type="module">
+import { supabase } from './supabaseClient.js';
+
+const form = document.getElementById('formLogin');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  const { data: { session }, error: loginError } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (loginError) {
+    alert('Credenciales incorrectas');
+    return;
+  }
+
+  // Verificar el rol del usuario después del login
+  const userId = session.user.id;
+
+  const { data: perfil, error: perfilError } = await supabase
+    .from("usuarios")
+    .select("rol")
+    .eq("id", userId)
+    .single();
+
+  if (perfilError || !perfil?.rol) {
+    alert("Error al verificar el rol del usuario");
+    return;
+  }
+
+  const rol = perfil.rol;
+
+  if (rol === 'admin') {
+    window.location.href = 'admin.html';
+  } else if (rol === 'cliente') {
+    window.location.href = 'cliente.html';
+  } else {
+    alert("Rol no permitido");
+    await supabase.auth.signOut();
+  }
+});
+</script>
 
 </body>
 </html>

@@ -226,7 +226,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById("cerrarCarrito")?.addEventListener("click", () => {
-    document.getElementById("modalCarrito").classList.add("oculto");
+    document.getElementById("modalCarrito")?.classList.remove("oculto");
+
   });
 
   // Llamar función que revisa si el usuario está logueado y tiene productos para procesar compra automáticamente
@@ -234,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function procesarPedidoAutomaticamenteSiExiste() {
-  carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+  const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
   if (carrito.length === 0) return;
     document.getElementById('modalCarrito')?.classList.remove('oculto');

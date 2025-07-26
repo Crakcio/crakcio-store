@@ -218,10 +218,13 @@ if (finalizarBtn) {
     const { data: { user }, error } = await supabase.auth.getUser();
 
     // Verificamos si el usuario está logueado
-    if (!user) {
-      alert('⚠️ Debes iniciar sesión para finalizar la compra.');
-      return;
-    }
+   if (!user) {
+  alert('⚠️ Debes iniciar sesión para finalizar la compra.');
+  // Si tienes una página de login, puedes redirigir:
+   window.location.href = '/login.html';
+  return;
+}
+
 
     // Verificamos si hay productos en el carrito
     if (carrito.length === 0) {

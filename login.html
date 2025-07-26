@@ -115,15 +115,11 @@
     </div>
   </div>
 <!-- ... mantenemos el HTML y estilos igual ... -->
-
 <script type="module">
   import { supabase } from './supabaseClient.js';
 
   const form = document.getElementById("login-form");
   const mensaje = document.getElementById("mensaje");
-
-  // 👉 Lista de correos autorizados como administrador (solo tú por ahora)
-  const adminEmails = ['admin@crakcio.com']; // reemplaza con tu correo real
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -131,19 +127,36 @@
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    // 1. Iniciar sesión
+    const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
       email,
       password
     });
 
-    if (error) {
-      mensaje.textContent = error.message;
+    if (loginError) {
+      mensaje.textContent = loginError.message;
       mensaje.className = "mensaje error";
       return;
     }
 
-    // ✅ Verificamos si el correo está en la lista de admins
-    if (!adminEmails.includes(email)) {
+    const user = loginData.user;
+
+    // 2. Buscar el rol del usuario en la tabla "usuarios"
+    const { data: perfil, error: perfilError } = await supabase
+      .from("usuarios")
+      .select("rol")
+      .eq("id", user.id)
+      .single();
+
+    if (perfilError || !perfil) {
+      mensaje.textContent = "No se pudo verificar tu rol.";
+      mensaje.className = "mensaje error";
+      await supabase.auth.signOut(); // cerramos sesión automáticamente
+      return;
+    }
+
+    // 3. Verificamos si el rol es 'admin'
+    if (perfil.rol !== 'admin') {
       mensaje.textContent = "No tienes permisos de administrador.";
       mensaje.className = "mensaje error";
       await supabase.auth.signOut(); // cerramos sesión automáticamente
@@ -158,10 +171,6 @@
     }, 1500);
   });
 </script>
-
-<!-- No es necesario importar app.js aquí -->
-<script type="module" src="supabaseClient.js"></script>
-
 
 </body>
 </html>

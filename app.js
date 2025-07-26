@@ -8,7 +8,7 @@ import {
   mostrarMensaje
 } from "./ui.js";
 import { supabase } from './supabaseClient.js';
-import { productos, obtenerProductos } from './products.js';
+import { obtenerProductos } from './products.js';
 
 // ------------------------- AUTENTICACIÓN -----------------------------
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];

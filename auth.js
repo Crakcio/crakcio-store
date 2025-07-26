@@ -53,11 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // REGISTRO
- registerForm?.addEventListener('submit', async (e) => {
+registerForm?.addEventListener('submit', async (e) => {
   e.preventDefault();
-
   const email = document.getElementById('registerEmail').value;
   const password = document.getElementById('registerPassword').value;
+  const nombre = document.getElementById('registerNombre').value;
 
   const { data, error } = await supabase.auth.signUp({ email, password });
 
@@ -68,13 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const userId = data.user.id;
 
-  // Insertar en la tabla 'usuarios' con rol por defecto
+  // Guardar el rol del nuevo usuario como "cliente", junto con el nombre
   const { error: errorInsert } = await supabase.from('usuarios').insert([
-    {
-      id: userId,
-      email: email,
-      rol: 'cliente' // Rol por defecto
-    }
+    { id: userId, email, nombre, rol: 'cliente' }
   ]);
 
   if (errorInsert) {
@@ -83,12 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   alert('Registro exitoso. Ya puedes iniciar sesión.');
-
-  // Ocultar modal si está presente
-  const registroModal = document.getElementById("registroModal");
-  if (registroModal) {
-    registroModal.classList.add("hidden");
-  }
+  registroModal.classList.add('hidden');
 });
-
 });

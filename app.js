@@ -258,6 +258,7 @@ async function procesarPedidoAutomaticamenteSiExiste() {
   renderizarCarrito();
   alert('Compra realizada con éxito. Gracias por tu pedido.');
 }
+window.agregarAlCarrito = agregarAlCarrito;
 
 
 // ------------------------- FINALIZAR COMPRA -----------------------------

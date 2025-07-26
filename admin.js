@@ -143,12 +143,25 @@ cancelarEditar.addEventListener('click', () => {
     cargarProductos();
   }
 });
+async function marcarEntregado(pedidoId) {
+  const { error } = await supabase
+    .from('pedidos')
+    .update({ estado: 'entregado' })
+    .eq('id', pedidoId);
+
+  if (error) {
+    alert('Error al actualizar el estado del pedido');
+  } else {
+    alert('Pedido marcado como entregado');
+    cargarPedidos();
+  }
+}
 
 async function cargarPedidos() {
   const pedidosContainer = document.getElementById('adminListaPedidos');
   pedidosContainer.innerHTML = '';
 
-  const { data, error } = await supabase.from('pedidos').select('*').order('fecha', { ascending: false });
+  const { data: pedidos, error } = await supabase.from('pedidos').select('*');
 
   if (error) {
     console.error('Error al cargar pedidos:', error.message);
@@ -156,27 +169,38 @@ async function cargarPedidos() {
     return;
   }
 
-  for (const pedido of data) {
+  if (pedidos.length === 0) {
+    pedidosContainer.innerHTML = '<p>No hay pedidos aún</p>';
+    return;
+  }
+
+  for (const pedido of pedidos) {
     const div = document.createElement('div');
     div.className = 'admin-pedido';
-    const fechaFormateada = new Date(pedido.fecha).toLocaleString();
-    
+
+    // Formatear productos
+    let productosHTML = '<ul>';
+    try {
+      const productos = JSON.parse(pedido.productos);
+      for (const item of productos) {
+        productosHTML += `<li>${item.nombre} x${item.cantidad} - S/ ${item.precio}</li>`;
+      }
+    } catch (e) {
+      productosHTML = '<li>Error al leer productos</li>';
+    }
+    productosHTML += '</ul>';
+
     div.innerHTML = `
-      <h4>Pedido ID: ${pedido.id}</h4>
-      <p>Usuario: ${pedido.usuario_id}</p>
-      <p>Fecha: ${fechaFormateada}</p>
-      <p>Total: S/ ${pedido.total.toFixed(2)}</p>
-      <p>Productos:</p>
-      <ul>
-        ${pedido.productos.map(p => `
-          <li>${p.nombre} - Cantidad: ${p.cantidad} - Precio: S/ ${p.precio}</li>
-        `).join('')}
-      </ul>
-      <hr>
+      <p><strong>Cliente:</strong> ${pedido.email || 'sin email'}</p>
+      <p><strong>Estado:</strong> ${pedido.estado || 'pendiente'}</p>
+      <p><strong>Productos:</strong> ${productosHTML}</p>
+      <button onclick="marcarEntregado(${pedido.id})">Marcar como entregado</button>
     `;
+
     pedidosContainer.appendChild(div);
   }
 }
+
 
 async function cargarProductos() {
   adminLista.innerHTML = '';

@@ -143,6 +143,7 @@ function mostrarMensaje(texto, tipo = "info") {
   const finalizarBtn = document.getElementById('finalizarCompra');
    console.log("finalizarBtn:", finalizarBtn);
   if (finalizarBtn) {
+    console.log("Se encontró el botón Finalizar Compra ✅");
   finalizarBtn.addEventListener('click', async () => {
    carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     console.log("Click en Finalizar compra");
@@ -220,7 +221,9 @@ function mostrarMensaje(texto, tipo = "info") {
   document.getElementById("cerrarCarrito")?.addEventListener("click", () => {
   document.getElementById("modalCarrito")?.classList.add("oculto");
   });
-
+ else {
+    console.error("❌ No se encontró el botón con ID 'finalizarCompra'");
+  }
 });
 
 

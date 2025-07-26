@@ -212,7 +212,6 @@ renderizarCarrito();
   document.getElementById("modalCarrito")?.classList.add("oculto");
   });
 
-  procesarPedidoAutomaticamenteSiExiste();
 });
 
 

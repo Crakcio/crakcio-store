@@ -90,7 +90,7 @@ export function mostrarMensaje(mensaje, tipo = "info") {
 }
 function agregarAlCarrito(producto) {
   const carrito = obtenerDeLocalStorage("carrito") || [];
-  
+
   const productoExistente = carrito.find(item => item.id === producto.id);
   if (productoExistente) {
     productoExistente.cantidad += 1;
@@ -100,9 +100,19 @@ function agregarAlCarrito(producto) {
 
   guardarEnLocalStorage("carrito", carrito);
   actualizarContadorCarrito();
-  mostrarMensaje("Producto agregado al carrito", "success");
+  mostrarAlerta("Producto agregado al carrito", "success");
 }
 
+function actualizarContadorCarrito() {
+  const carrito = obtenerDeLocalStorage("carrito") || [];
+  const totalItems = carrito.reduce((total, item) => total + item.cantidad, 0);
+
+  const contador = document.getElementById("contador-carrito");
+  if (contador) {
+    contador.textContent = totalItems;
+    contador.style.display = totalItems > 0 ? "inline-block" : "none";
+  }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   actualizarContadorCarrito();

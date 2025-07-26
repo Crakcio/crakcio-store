@@ -129,7 +129,6 @@ window.eliminarDelCarrito = function(index) {
 };
 
 
-
   const imagen = producto.imagen || obtenerUrlImagen(producto.imagen_url);
 
   carrito.push({
@@ -143,7 +142,6 @@ window.eliminarDelCarrito = function(index) {
   guardarCarrito();
   renderizarCarrito();
   mostrarMensaje("Producto agregado al carrito", "success");
-}
 
 function mostrarMensaje(texto, tipo = "info") {
   const alerta = document.createElement("div");

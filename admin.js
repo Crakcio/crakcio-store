@@ -38,6 +38,7 @@ async function verificarAdmin() {
 
   console.log("Bienvenido admin");
   cargarProductos(); // Solo se llama si es admin
+  cargarPedidos();
 }
 
 // Manejo de agregar producto con subida de imagen

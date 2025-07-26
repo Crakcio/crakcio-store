@@ -129,20 +129,6 @@ window.eliminarDelCarrito = function(index) {
 };
 
 
-  const imagen = producto.imagen || obtenerUrlImagen(producto.imagen_url);
-
-  carrito.push({
-    id: producto.id,
-    nombre: producto.nombre,
-    precio: producto.precio,
-    imagen,
-    cantidad: 1
-  });
-
-  guardarCarrito();
-  renderizarCarrito();
-  mostrarMensaje("Producto agregado al carrito", "success");
-
 function mostrarMensaje(texto, tipo = "info") {
   const alerta = document.createElement("div");
   alerta.className = `mensaje ${tipo}`;
@@ -163,13 +149,19 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("modalCarrito").classList.add("oculto");
   });
 
-document.getElementById('finalizarCompra').addEventListener('click', async () => {
+
   if (carrito.length === 0) {
     alert('Tu carrito está vacío');
     return;
   }
 
-  const userId = session.user.id;
+  const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+if (sessionError || !session || !session.user) {
+  alert('Debes iniciar sesión para finalizar la compra');
+  return;
+}
+const userId = session.user.id;
+
   const productos = carrito.map(item => ({
     idProducto: item.id,
     nombre: item.nombre,
@@ -195,7 +187,7 @@ document.getElementById('finalizarCompra').addEventListener('click', async () =>
   localStorage.removeItem('carrito');
   renderizarCarrito();
   alert('Compra realizada con éxito. Gracias por tu pedido.');
-});
+
 
 
   actualizarContadorCarrito();

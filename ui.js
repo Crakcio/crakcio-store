@@ -17,13 +17,13 @@ import {
 // Mostrar productos más vendidos
 export async function mostrarProductosMasVendidos() {
   const productos = await obtenerMasVendidos();
-  mostrarProductos(productos, "productosMasVendidos");
+  mostrarProductos(productos, "productos-mas-vendidos");
 }
 
 // Mostrar productos más recientes
 export async function mostrarProductosMasRecientes() {
   const productos = await obtenerMasRecientes();
-  mostrarProductos(productos, "productosMasRecientes");
+  mostrarProductos(productos, "productos-mas-recientes");
 }
 
 // Mostrar todos los productos (opcional, si tienes una vista de todos)

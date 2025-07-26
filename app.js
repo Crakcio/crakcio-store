@@ -214,12 +214,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.getElementById("cerrarCarrito")?.addEventListener("click", () => {
-    document.getElementById("modalCarrito")?.classList.remove("oculto");
+    document.getElementById("modalCarrito")?.classList.add("oculto");
 
   });
 
   // Llamar función que revisa si el usuario está logueado y tiene productos para procesar compra automáticamente
-  procesarPedidoAutomaticamenteSiExiste();
+ 
 });
 
 async function procesarPedidoAutomaticamenteSiExiste() {

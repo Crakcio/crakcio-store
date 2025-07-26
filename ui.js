@@ -125,31 +125,35 @@ export function mostrarMensaje(mensaje, tipo = "info") {
     mensajeDiv.remove();
   }, 3000);
 }
-function agregarAlCarrito(producto) {
-  let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+function renderizarCarrito() {
+  const contenedor = document.getElementById('carritoContainer');
+  if (!contenedor) return;
 
-  // Verificar si ya está en el carrito
-  const index = carrito.findIndex(item => item.id === producto.id);
-  if (index !== -1) {
-    mostrarMensaje("Este producto ya está en el carrito.", "warning");
-    return;
-  }
+  contenedor.innerHTML = '';
+  const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+  let total = 0;
 
-  // Agregar imagen desde Supabase si es que la imagen no está completa
-  const imagen = obtenerUrlImagen(producto.imagen_url);
+  carrito.forEach((item, index) => {
+    total += parseFloat(item.precio) * item.cantidad;
 
-  carrito.push({
-    id: producto.id,
-    nombre: producto.nombre,
-    precio: producto.precio,
-    imagen,
-    cantidad: 1
+    const div = document.createElement('div');
+    div.innerHTML = `
+      <div>
+        <strong>${item.nombre}</strong><br>
+        Precio: S/ ${item.precio} x ${item.cantidad}<br>
+        <button onclick="eliminarDelCarrito(${index})">Eliminar</button>
+      </div>
+      <hr>
+    `;
+    contenedor.appendChild(div);
   });
 
-  localStorage.setItem('carrito', JSON.stringify(carrito));
-  actualizarContadorCarrito(carrito.length);
-  mostrarMensaje("Producto agregado al carrito", "success");
+  const totalElem = document.getElementById('totalCarrito');
+  if (totalElem) {
+    totalElem.textContent = 'Total: S/ ' + total.toFixed(2);
+  }
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
   actualizarContadorCarrito();

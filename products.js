@@ -4,7 +4,7 @@ const BUCKET_URL = "https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/p
 
 // Reemplaza "xyz" con tu subdominio real de Supabase
 
-function obtenerUrlImagen(nombreArchivo) {
+export function obtenerUrlImagen(nombreArchivo) {
   if (!nombreArchivo) return "images/placeholder.webp"; // una imagen de respaldo local
   return BUCKET_URL + nombreArchivo;
 }

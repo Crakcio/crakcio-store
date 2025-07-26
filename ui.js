@@ -88,34 +88,6 @@ export function mostrarMensaje(mensaje, tipo = "info") {
     mensajeDiv.remove();
   }, 3000);
 }
-function renderizarCarrito() {
-  const contenedor = document.getElementById('carritoContainer');
-  if (!contenedor) return;
-
-  contenedor.innerHTML = '';
-  const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-  let total = 0;
-
-  carrito.forEach((item, index) => {
-    total += parseFloat(item.precio) * item.cantidad;
-
-    const div = document.createElement('div');
-    div.innerHTML = `
-      <div>
-        <strong>${item.nombre}</strong><br>
-        Precio: S/ ${item.precio} x ${item.cantidad}<br>
-        <button onclick="eliminarDelCarrito(${index})">Eliminar</button>
-      </div>
-      <hr>
-    `;
-    contenedor.appendChild(div);
-  });
-
-  const totalElem = document.getElementById('totalCarrito');
-  if (totalElem) {
-    totalElem.textContent = 'Total: S/ ' + total.toFixed(2);
-  }
-}
 
 
 document.addEventListener('DOMContentLoaded', () => {

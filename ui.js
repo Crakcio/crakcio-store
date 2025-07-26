@@ -106,12 +106,11 @@ export function agregarAlCarrito(producto) {
     };
     carrito.push(nuevoProducto);
   }
-export { agregarAlCarrito };
   guardarEnLocalStorage("carrito", carrito);
   actualizarContadorCarrito();
   mostrarAlerta("Producto agregado al carrito", "success");
 }
-
+export { agregarAlCarrito };
 
 function actualizarContadorCarrito() {
   const carrito = obtenerDeLocalStorage("carrito") || [];

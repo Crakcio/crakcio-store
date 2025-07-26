@@ -81,7 +81,7 @@ form.addEventListener('submit', async (e) => {
 
 async function cargarProductos() {
   adminLista.innerHTML = '';
-  const { data, error } = await supabase.from('Productos').select('*');
+  const { data, error } = await supabase.from('productos').select('*');
   if (error) {
     alert("Error cargando productos");
     return;

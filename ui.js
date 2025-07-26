@@ -78,16 +78,6 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
     });
 }
 
-function actualizarContadorCarrito() {
-  const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-  const totalItems = carrito.reduce((sum, item) => sum + (item.cantidad || 1), 0);
-  const contador = document.getElementById("contadorCarrito");
-  if (contador) {
-    contador.textContent = totalItems;
-  }
-}
-
-
 export function mostrarMensaje(mensaje, tipo = "info") {
   const mensajeDiv = document.createElement("div");
   mensajeDiv.className = `mensaje ${tipo}`;

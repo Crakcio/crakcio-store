@@ -212,66 +212,6 @@ async function procesarPedidoAutomaticamenteSiExiste() {
 
 // ------------------------- FINALIZAR COMPRA -----------------------------
 
-const finalizarBtn = document.getElementById('finalizarCompra');
-
-if (finalizarBtn) {
-  finalizarBtn.addEventListener('click', async () => {
-    // Verifica la sesión del usuario
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-
-    if (sessionError || !session || !session.user) {
-      alert('Debes iniciar sesión para finalizar la compra.');
-      window.location.href = 'login.html'; // Asegúrate de que esta ruta sea correcta
-      return;
-    }
-
-    // Verifica si hay productos en el carrito
-    if (carrito.length === 0) {
-      alert('Tu carrito está vacío.');
-      return;
-    }
-
-    const userEmail = session.user.email;
-
-    // Construir mensaje para WhatsApp
-    let mensaje = '🛒 *Nueva orden desde Crackio Store*\n\n';
-    let total = 0;
-    carrito.forEach(item => {
-      mensaje += `🔹 ${item.nombre} x${item.cantidad} - S/ ${item.precio}\n`;
-      total += item.precio * item.cantidad;
-    });
-    mensaje += `\n💰 Total: S/ ${total.toFixed(2)}\n`;
-    mensaje += `📧 Cliente: ${userEmail}`;
-
-    // Insertar pedido en Supabase
-    const { error: insertError } = await supabase.from('pedidos').insert([
-      {
-        productos: carrito,
-        total: total,
-        email: userEmail,
-        estado: 'pendiente',
-        fecha: new Date().toISOString()
-      }
-    ]);
-
-    if (insertError) {
-      alert('Hubo un error al registrar tu pedido. Inténtalo nuevamente.');
-      return;
-    }
-
-    // Redirigir a WhatsApp
-    const numero = '51999207025';
-    const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, '_blank');
-
-    // Limpiar carrito y actualizar UI
-    carrito = [];
-    localStorage.removeItem('carrito');
-    actualizarContadorCarrito();
-    renderizarCarrito();
-    alert('¡Pedido registrado correctamente!');
-  });
-}
 
  
 

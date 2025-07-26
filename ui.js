@@ -125,7 +125,7 @@ export function actualizarContadorCarrito() {
 
 export function mostrarCarrito() {
   const carrito = obtenerDeLocalStorage("carrito") || [];
-  const contenedor = document.getElementById("contenido-carrito");
+  const contenedor = document.getElementById("contenedor-carrito");
   const total = document.getElementById("totalCarrito");
 
 

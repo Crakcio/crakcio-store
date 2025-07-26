@@ -127,18 +127,14 @@ function renderizarCarrito() {
 }
 
 function agregarAlCarrito(producto) {
-  console.log("Producto recibido:", producto); // Verificación
-
   let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-  // Verificar si ya está en el carrito
   const index = carrito.findIndex(item => item.id === producto.id);
   if (index !== -1) {
     mostrarMensaje("Este producto ya está en el carrito.", "warning");
     return;
   }
 
-  // Obtener imagen final desde Supabase
   const imagen = obtenerUrlImagen(producto.imagen_url);
 
   carrito.push({
@@ -150,11 +146,10 @@ function agregarAlCarrito(producto) {
   });
 
   localStorage.setItem('carrito', JSON.stringify(carrito));
-  actualizarContadorCarrito(); // ⚠️ Esta función ya no debe usar "carrito.length", la arreglo abajo
+  actualizarContadorCarrito(carrito.length);
   mostrarMensaje("Producto agregado al carrito", "success");
-
-  renderizarCarrito(); // Si quieres actualizar el carrito al instante
 }
+
 
 window.eliminarDelCarrito = function(index) {
   const carrito = JSON.parse(localStorage.getItem('carrito')) || [];

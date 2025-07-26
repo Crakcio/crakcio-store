@@ -187,7 +187,7 @@
 
   <script type="module">
     import { supabase } from './supabaseClient.js';
-    import { mostrarProductosMasVendidos, mostrarProductosMasRecientes } from './products.js';
+    import { obtenerMasVendidos, obtenerMasRecientes } from './products.js';
     import { actualizarContadorCarrito } from './ui.js';
 
     const { data: { user } } = await supabase.auth.getUser();

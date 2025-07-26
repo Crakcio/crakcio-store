@@ -140,27 +140,28 @@ function mostrarMensaje(texto, tipo = "info") {
 document.addEventListener("DOMContentLoaded", () => {
   carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-  document.getElementById("abrirCarrito").addEventListener("click", () => {
+  document.getElementById("abrirCarrito")?.addEventListener("click", () => {
     document.getElementById("modalCarrito").classList.remove("oculto");
     renderizarCarrito();
   });
 
-  document.getElementById("cerrarCarrito").addEventListener("click", () => {
+  document.getElementById("cerrarCarrito")?.addEventListener("click", () => {
     document.getElementById("modalCarrito").classList.add("oculto");
   });
 
+  // Llamar función que revisa si el usuario está logueado y tiene productos para procesar compra automáticamente
+  procesarPedidoAutomaticamenteSiExiste();
+});
 
-  if (carrito.length === 0) {
-    alert('Tu carrito está vacío');
-    return;
-  }
+async function procesarPedidoAutomaticamenteSiExiste() {
+  carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+  if (carrito.length === 0) return;
 
   const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-if (sessionError || !session || !session.user) {
-  alert('Debes iniciar sesión para finalizar la compra');
-  return;
-}
-const userId = session.user.id;
+  if (sessionError || !session || !session.user) return;
+
+  const userId = session.user.id;
 
   const productos = carrito.map(item => ({
     idProducto: item.id,
@@ -185,14 +186,10 @@ const userId = session.user.id;
 
   carrito = [];
   localStorage.removeItem('carrito');
-  renderizarCarrito();
-  alert('Compra realizada con éxito. Gracias por tu pedido.');
-
-
-
   actualizarContadorCarrito();
   renderizarCarrito();
-});
+  alert('Compra realizada con éxito. Gracias por tu pedido.');
+}
 
 
 // ------------------------- FINALIZAR COMPRA -----------------------------

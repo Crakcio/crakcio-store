@@ -74,7 +74,7 @@ form.addEventListener('submit', async (e) => {
 
   const imagenURL = urlData.publicUrl;
 
-  const { error } = await supabase.from('Productos').insert([{
+  const { error } = await supabase.from('productos').insert([{
     nombre, categoria, descripcion, precio, stock, imagen: imagenURL
   }]);
 

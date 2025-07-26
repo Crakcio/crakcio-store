@@ -18,20 +18,50 @@ form.addEventListener('submit', async (e) => {
   const descripcion = document.getElementById('descripcion').value;
   const precio = parseFloat(document.getElementById('precio').value);
   const stock = parseInt(document.getElementById('stock').value);
-  const imagen = document.getElementById('imagen').value;
+  const archivo = document.getElementById('imagenArchivo').files[0];
 
-  const { error } = await supabase.from('Productos').insert([
-    { nombre, categoria, descripcion, precio, stock, imagen }
-  ]);
+  if (!archivo) {
+    alert('Debes seleccionar una imagen.');
+    return;
+  }
+
+  const nombreArchivo = `${Date.now()}_${archivo.name}`;
+
+  const { data: uploadData, error: uploadError } = await supabase
+    .storage
+    .from('imgproductos')
+    .upload(nombreArchivo, archivo);
+
+  if (uploadError) {
+    alert('Error subiendo imagen: ' + uploadError.message);
+    return;
+  }
+
+  const { data: urlData } = supabase
+    .storage
+    .from('imgproductos')
+    .getPublicUrl(nombreArchivo);
+
+  const imagen = urlData.publicUrl;
+
+  const { error } = await supabase.from('Productos').insert([{
+    nombre,
+    categoria,
+    descripcion,
+    precio,
+    stock,
+    imagen
+  }]);
 
   if (error) {
-    alert('Error al agregar: ' + error.message);
+    alert('Error al agregar producto: ' + error.message);
   } else {
-    alert('Producto agregado');
+    alert('Producto agregado correctamente.');
     form.reset();
     cargarProductos();
   }
 });
+
 
 async function cargarProductos() {
   adminLista.innerHTML = '';

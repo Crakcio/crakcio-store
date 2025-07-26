@@ -1,4 +1,4 @@
-// ui.js
+p// ui.js
 import {
   obtenerMasVendidos,
   obtenerMasRecientes,
@@ -15,19 +15,19 @@ import {
 // Función auxiliar para obtener la URL de imagen desde Supabase
 
 // Mostrar productos más vendidos
-async function mostrarProductosMasVendidos() {
+export async function mostrarProductosMasVendidos() {
   const productos = await obtenerMasVendidos();
   mostrarProductos(productos, "productos-mas-vendidos");
 }
 
 // Mostrar productos más recientes
-async function mostrarProductosMasRecientes() {
+export async function mostrarProductosMasRecientes() {
   const productos = await obtenerMasRecientes();
   mostrarProductos(productos, "productos-mas-recientes");
 }
 
 // Mostrar todos los productos (opcional, si tienes una vista de todos)
-async function mostrarTodosLosProductos() {
+export async function mostrarTodosLosProductos() {
   const productos = await obtenerProductos();
   mostrarProductos(productos, "contenedor-productos");
 }

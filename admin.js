@@ -54,16 +54,60 @@ async function cargarProductos() {
   });
 }
 
-window.editarProducto = async function (id) {
-  const nuevoNombre = prompt('Nuevo nombre:');
-  if (!nuevoNombre) return;
-  const { error } = await supabase
-    .from('Productos')
-    .update({ nombre: nuevoNombre })
-    .eq('id', id);
-  if (error) alert('Error actualizando: ' + error.message);
-  else cargarProductos();
+window.editarProducto = function (id) {
+  const divProducto = [...adminLista.children].find(div => div.querySelector(`button[onclick="editarProducto(${id})"]`));
+
+  // Evitar múltiples formularios
+  const formExistente = divProducto.querySelector('.form-edicion');
+  if (formExistente) {
+    formExistente.remove();
+    return;
+  }
+
+  // Obtener datos del producto actual
+  const nombreActual = divProducto.querySelector('h3').innerText;
+  const precioActual = divProducto.querySelector('p:nth-of-type(1)').innerText.replace('Precio: S/ ', '');
+  const stockActual = divProducto.querySelector('p:nth-of-type(2)').innerText.replace('Stock: ', '');
+  const categoriaActual = divProducto.querySelector('p:nth-of-type(3)').innerText.replace('Categoría: ', '');
+
+  // Crear formulario de edición
+  const form = document.createElement('form');
+  form.className = 'form-edicion';
+  form.innerHTML = `
+    <input type="text" name="nombre" placeholder="Nombre" value="${nombreActual}" required />
+    <input type="number" name="precio" placeholder="Precio" value="${precioActual}" required />
+    <input type="number" name="stock" placeholder="Stock" value="${stockActual}" required />
+    <input type="text" name="categoria" placeholder="Categoría" value="${categoriaActual}" required />
+    <button type="submit">Guardar</button>
+    <button type="button" class="cancelar">Cancelar</button>
+  `;
+
+  form.querySelector('.cancelar').addEventListener('click', () => {
+    form.remove();
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const nombre = form.nombre.value;
+    const precio = parseFloat(form.precio.value);
+    const stock = parseInt(form.stock.value);
+    const categoria = form.categoria.value;
+
+    const { error } = await supabase
+      .from('Productos')
+      .update({ nombre, precio, stock, categoria })
+      .eq('id', id);
+
+    if (error) {
+      alert('Error al guardar: ' + error.message);
+    } else {
+      cargarProductos();
+    }
+  });
+
+  divProducto.appendChild(form);
 };
+
 
 window.eliminarProducto = async function (id) {
   if (!confirm('¿Eliminar este producto?')) return;

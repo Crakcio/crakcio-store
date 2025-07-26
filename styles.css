@@ -389,19 +389,17 @@ footer .redes {
 #modal.activo {
   display: block;
 }
-.admin-header {
-  background-color: #121212;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #00aaff;
-  border-bottom: 2px solid #00aaff;
-}
-
-.admin-main {
-  padding: 1rem;
-}
+@media (max-width: 768px) {
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .admin-header h1 {
+    font-size: 1.5rem;
+  }
+ .admin-main {
+    padding: 0.5rem;
+  }
 
 .admin-agregar,
 .admin-productos {
@@ -442,9 +440,10 @@ footer .redes {
 .admin-agregar button:hover,
 .form-edicion button:hover,
 .admin-producto button:hover,
-#cerrarSesionAdmin:hover {
-  background-color: #008fcc;
-}
+#cerrarSesionAdmin {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
 
 .admin-producto {
   background-color: #121212;
@@ -456,14 +455,13 @@ footer .redes {
 }
 
 .admin-producto img {
-  max-width: 100px;
-  margin-top: 0.5rem;
-  border: 1px solid #00aaff55;
-  border-radius: 4px;
+  width: 100%;
+    max-width: 250px;
+    height: auto;
 }
 
 .form-edicion {
   margin-top: 1rem;
   border-top: 1px solid #00aaff33;
-  padding-top: 1rem;
+  padding-top: 0.5rem;
 }

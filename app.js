@@ -129,7 +129,7 @@ function mostrarMensaje(texto, tipo = "info") {
   document.body.appendChild(alerta);
   setTimeout(() => alerta.remove(), 2500);
 }
-
+});
 document.addEventListener('DOMContentLoaded', () => {
   verificarSesion();
 renderizarCarrito();
@@ -218,8 +218,6 @@ renderizarCarrito();
 
 
   // Llamar función que revisa si el usuario está logueado y tiene productos para procesar compra automáticamente
- 
-
 
 async function procesarPedidoAutomaticamenteSiExiste() {
   let carrito = JSON.parse(localStorage.getItem('carrito')) || [];

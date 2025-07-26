@@ -114,6 +114,62 @@ function actualizarContadorCarrito() {
   }
 }
 
+
+export function mostrarCarrito() {
+  const carrito = obtenerDeLocalStorage("carrito") || [];
+  const contenedor = document.getElementById("contenido-carrito");
+  const total = document.getElementById("total-carrito");
+
+  contenedor.innerHTML = "";
+
+  if (carrito.length === 0) {
+    contenedor.innerHTML = "<p>Tu carrito está vacío.</p>";
+    total.textContent = "Total: S/ 0.00";
+    return;
+  }
+
+  let totalCarrito = 0;
+
+  carrito.forEach((producto, index) => {
+    const item = document.createElement("div");
+    item.classList.add("item-carrito");
+
+    const nombre = document.createElement("p");
+    nombre.textContent = producto.nombre;
+
+    const precio = document.createElement("p");
+    precio.textContent = `Precio: S/ ${producto.precio}`;
+
+    const cantidad = document.createElement("p");
+    cantidad.textContent = `Cantidad: ${producto.cantidad}`;
+
+    const subtotal = document.createElement("p");
+    const subTotalValor = producto.precio * producto.cantidad;
+    subtotal.textContent = `Subtotal: S/ ${subTotalValor.toFixed(2)}`;
+
+    const eliminarBtn = document.createElement("button");
+    eliminarBtn.textContent = "Eliminar";
+    eliminarBtn.addEventListener("click", () => {
+      carrito.splice(index, 1);
+      guardarEnLocalStorage("carrito", carrito);
+      mostrarCarrito();
+      actualizarContadorCarrito();
+    });
+
+    item.appendChild(nombre);
+    item.appendChild(precio);
+    item.appendChild(cantidad);
+    item.appendChild(subtotal);
+    item.appendChild(eliminarBtn);
+
+    contenedor.appendChild(item);
+
+    totalCarrito += subTotalValor;
+  });
+
+  total.textContent = `Total: S/ ${totalCarrito.toFixed(2)}`;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   actualizarContadorCarrito();
 });

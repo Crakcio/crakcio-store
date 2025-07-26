@@ -177,6 +177,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const botonCarrito = document.getElementById('boton-carrito');
   const modal = document.getElementById('modal');
   const cerrarCarrito = document.getElementById('cerrarCarrito');
+const vaciarBtn = document.getElementById("vaciar-carrito");
+if (vaciarBtn) {
+  vaciarBtn.addEventListener("click", () => {
+    guardarEnLocalStorage("carrito", []);
+    mostrarCarrito();
+    actualizarContadorCarrito();
+  });
+}
 
   if (botonCarrito && modal && cerrarCarrito) {
     botonCarrito.addEventListener('click', () => {

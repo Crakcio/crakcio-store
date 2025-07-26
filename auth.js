@@ -53,31 +53,42 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // REGISTRO
-  registerForm?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('registerEmail').value;
-    const password = document.getElementById('registerPassword').value;
+ registerForm?.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-    const { data, error } = await supabase.auth.signUp({ email, password });
+  const email = document.getElementById('registerEmail').value;
+  const password = document.getElementById('registerPassword').value;
 
-    if (error || !data.user) {
-      alert('Error al registrarse: ' + (error?.message || "Desconocido"));
-      return;
+  const { data, error } = await supabase.auth.signUp({ email, password });
+
+  if (error || !data.user) {
+    alert('Error al registrarse: ' + (error?.message || "Desconocido"));
+    return;
+  }
+
+  const userId = data.user.id;
+
+  // Insertar en la tabla 'usuarios' con rol por defecto
+  const { error: errorInsert } = await supabase.from('usuarios').insert([
+    {
+      id: userId,
+      email: email,
+      rol: 'cliente' // Rol por defecto
     }
+  ]);
 
-    const userId = data.user.id;
+  if (errorInsert) {
+    alert('Usuario registrado pero no se guardó en la base de datos: ' + errorInsert.message);
+    return;
+  }
 
-    // Guardar el rol del nuevo usuario como "cliente"
-    const { error: errorInsert } = await supabase.from('usuarios').insert([
-      { id: userId, email, rol: 'cliente' }
-    ]);
+  alert('Registro exitoso. Ya puedes iniciar sesión.');
 
-    if (errorInsert) {
-      alert('Usuario registrado pero no se guardó el rol: ' + errorInsert.message);
-      return;
-    }
+  // Ocultar modal si está presente
+  const registroModal = document.getElementById("registroModal");
+  if (registroModal) {
+    registroModal.classList.add("hidden");
+  }
+});
 
-    alert('Registro exitoso. Ya puedes iniciar sesión.');
-    registroModal.classList.add('hidden');
-  });
 });

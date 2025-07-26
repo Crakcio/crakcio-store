@@ -114,11 +114,16 @@
       ¿No tienes cuenta? <a href="registro.html">Crea una aquí</a>
     </div>
   </div>
-  <script type="module">
+<!-- ... mantenemos el HTML y estilos igual ... -->
+
+<script type="module">
   import { supabase } from './supabaseClient.js';
 
   const form = document.getElementById("login-form");
   const mensaje = document.getElementById("mensaje");
+
+  // 👉 Lista de correos autorizados como administrador (solo tú por ahora)
+  const adminEmails = ['admin@crakcio.com']; // reemplaza con tu correo real
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -134,18 +139,29 @@
     if (error) {
       mensaje.textContent = error.message;
       mensaje.className = "mensaje error";
-    } else {
-      mensaje.textContent = "Inicio de sesión exitoso. Redirigiendo...";
-      mensaje.className = "mensaje exito";
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 1500);
+      return;
     }
+
+    // ✅ Verificamos si el correo está en la lista de admins
+    if (!adminEmails.includes(email)) {
+      mensaje.textContent = "No tienes permisos de administrador.";
+      mensaje.className = "mensaje error";
+      await supabase.auth.signOut(); // cerramos sesión automáticamente
+      return;
+    }
+
+    // ✅ Acceso concedido
+    mensaje.textContent = "Bienvenido, redirigiendo al panel de admin...";
+    mensaje.className = "mensaje exito";
+    setTimeout(() => {
+      window.location.href = "admin.html";
+    }, 1500);
   });
 </script>
 
+<!-- No es necesario importar app.js aquí -->
 <script type="module" src="supabaseClient.js"></script>
-<script type="module" src="app.js"></script> <!-- si aquí está el login -->
+
 
 </body>
 </html>

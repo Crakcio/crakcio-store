@@ -142,12 +142,13 @@ function agregarAlCarrito(producto) {
 }
 
 window.eliminarDelCarrito = function(index) {
-  let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+  const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
   carrito.splice(index, 1);
   localStorage.setItem('carrito', JSON.stringify(carrito));
-  actualizarContadorCarrito(carrito.length);
+  actualizarContadorCarrito(); // ✅ actualizar después de eliminar
   renderizarCarrito();
 };
+
 
 function calcularTotalCarrito(carrito) {
   return carrito.reduce((total, producto) => {

@@ -213,10 +213,17 @@ async function cargarProductos() {
   for (const prod of data) {
     let imagenURL = 'images/placeholder.webp'; // Imagen por defecto
 
-if (prod.imagen && typeof prod.imagen === 'string' && prod.imagen.trim() !== '') {
-  imagenURL = prod.imagen;
-}
+    // Obtener URL pública desde Supabase si hay imagen
+    if (prod.imagen_url) {
+      const { data: urlData, error: imgError } = supabase
+        .storage
+        .from('imgproductos')
+        .getPublicUrl(prod.imagen_url); // << Aquí se usa la ruta completa
 
+      if (!imgError && urlData?.publicUrl) {
+        imagenURL = urlData.publicUrl;
+      }
+    }
 
     const div = document.createElement('div');
     div.className = 'admin-producto';
@@ -232,6 +239,7 @@ if (prod.imagen && typeof prod.imagen === 'string' && prod.imagen.trim() !== '')
     adminLista.appendChild(div);
   }
 }
+
 
 
 // Mostrar modal con los datos del producto a editar

@@ -105,10 +105,9 @@ function renderizarCarrito() {
   contenedor.innerHTML = '';
 
   const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-  let total = 0;
+  const total = calcularTotalCarrito(carrito);
 
   carrito.forEach((item, index) => {
-    total += item.precio * item.cantidad;
     const div = document.createElement('div');
     div.innerHTML = `
       <div>
@@ -129,6 +128,7 @@ function renderizarCarrito() {
 
 
 
+
 function agregarAlCarrito(producto) {
   const existente = carrito.find(p => p.id === producto.id);
   if (existente) {
@@ -142,10 +142,13 @@ function agregarAlCarrito(producto) {
 }
 
 window.eliminarDelCarrito = function(index) {
+  let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
   carrito.splice(index, 1);
-  guardarCarrito();
+  localStorage.setItem('carrito', JSON.stringify(carrito));
+  actualizarContadorCarrito(carrito.length);
   renderizarCarrito();
 };
+
 function calcularTotalCarrito(carrito) {
   return carrito.reduce((total, producto) => {
     return total + (producto.precio * (producto.cantidad || 1));

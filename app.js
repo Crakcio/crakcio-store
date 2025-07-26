@@ -237,7 +237,8 @@ async function procesarPedidoAutomaticamenteSiExiste() {
   carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
   if (carrito.length === 0) return;
-
+    document.getElementById('modalCarrito')?.classList.remove('oculto');
+  renderizarCarrito();
   const { data: { session }, error: sessionError } = await supabase.auth.getSession();
   if (sessionError || !session || !session.user) return;
 

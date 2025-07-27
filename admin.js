@@ -235,7 +235,7 @@ async function cargarProductos() {
       <p>Precio: S/ ${prod.precio}</p>
       <p>Stock: ${prod.stock}</p>
       <p>Categoría: ${prod.categoria}</p>
-      <img src="${imagenURL}" alt="${prod.nombre}" width="100" onerror="this.src='images/error-img.webp';" />
+      <img src="${imagenURL}" alt="${prod.nombre}" width="100" onerror="this.src='img/error-img.webp';" />
       <button onclick="editarProducto(${prod.id})">Editar</button>
       <button onclick="eliminarProducto(${prod.id})">Eliminar</button>
     `;

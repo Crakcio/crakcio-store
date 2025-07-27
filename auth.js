@@ -61,10 +61,20 @@ registerForm?.addEventListener('submit', async (e) => {
 
   const { data, error } = await supabase.auth.signUp({ email, password });
 
-  if (error || !data.user) {
-    alert('❌ Error al registrarse: ' + (error?.message || "Desconocido"));
-    return;
+if (error) {
+  if (error.message.includes("User already registered")) {
+    alert("❌ Este correo ya está registrado. Usa otro o inicia sesión.");
+  } else {
+    alert("❌ Error al registrarse: " + error.message);
   }
+  return;
+}
+
+if (!data.user) {
+  alert("❌ No se pudo crear el usuario.");
+  return;
+}
+
 
   const userId = data.user.id;
 

@@ -87,7 +87,7 @@ form.addEventListener('submit', async (e) => {
     return;
   }
   const { error } = await supabase.from('productos').insert([{
-    nombre, categoria, descripcion, precio, stock, imagen: imagenURL
+    nombre, categoria, descripcion, precio, stock, imagen_url: imagenURL
   }]);
 
   if (error) {

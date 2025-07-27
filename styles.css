@@ -517,4 +517,32 @@ footer .redes {
   background-color: rgba(0, 0, 0, 0.5); /* Oscuro y semi-transparente */
   z-index: 999; /* Debajo del popup pero encima de todo lo demás */
 }
+.botones-pago {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.botones-pago button {
+  background: #f3f3f3;
+  border: 1px solid #ccc;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.botones-pago button:hover {
+  transform: scale(1.05);
+}
+
+#instrucciones-pago {
+  margin-top: 15px;
+  text-align: center;
+  padding: 10px;
+  border: 1px dashed #007bff;
+  border-radius: 8px;
+}
 

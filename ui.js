@@ -113,81 +113,12 @@ export function mostrarMensaje(mensaje, tipo = "info") {
   }, 3000);
 }
 
-
-export function actualizarContadorCarrito() {
-  const carrito = obtenerDeLocalStorage("carrito") || [];
-  const totalItems = carrito.reduce((total, item) => total + item.cantidad, 0);
-
-  const contador = document.getElementById("contadorCarrito");
-  if (contador) {
-    contador.textContent = totalItems;
-    contador.style.display = totalItems > 0 ? "inline-block" : "none";
-  }
-}
-
 export function mostrarPopupCarrito() {
   const popup = document.getElementById("popup-carrito");
   const fondo = document.getElementById("fondo-modal");
 
   popup.classList.remove("oculto");
   fondo.classList.remove("oculto");
-}
-
-
-export function mostrarCarrito() {
-  const carrito = obtenerDeLocalStorage("carrito") || [];
-  const contenedor = document.getElementById("contenedor-carrito");
-  const total = document.getElementById("totalCarrito");
-
-
-  contenedor.innerHTML = "";
-
-  if (carrito.length === 0) {
-    contenedor.innerHTML = "<p>Tu carrito está vacío.</p>";
-    total.textContent = "Total: S/ 0.00";
-    return;
-  }
-
-  let totalCarrito = 0;
-
-  carrito.forEach((producto, index) => {
-    const item = document.createElement("div");
-    item.classList.add("item-carrito");
-
-    const nombre = document.createElement("p");
-    nombre.textContent = producto.nombre;
-
-    const precio = document.createElement("p");
-    precio.textContent = `Precio: S/ ${producto.precio}`;
-
-    const cantidad = document.createElement("p");
-    cantidad.textContent = `Cantidad: ${producto.cantidad}`;
-
-    const subtotal = document.createElement("p");
-    const subTotalValor = producto.precio * producto.cantidad;
-    subtotal.textContent = `Subtotal: S/ ${subTotalValor.toFixed(2)}`;
-
-    const eliminarBtn = document.createElement("button");
-    eliminarBtn.textContent = "Eliminar";
-    eliminarBtn.addEventListener("click", () => {
-      carrito.splice(index, 1);
-      guardarEnLocalStorage("carrito", carrito);
-      mostrarCarrito();
-      actualizarContadorCarrito();
-    });
-
-    item.appendChild(nombre);
-    item.appendChild(precio);
-    item.appendChild(cantidad);
-    item.appendChild(subtotal);
-    item.appendChild(eliminarBtn);
-
-    contenedor.appendChild(item);
-
-    totalCarrito += subTotalValor;
-  });
-
-  total.textContent = `Total: S/ ${totalCarrito.toFixed(2)}`;
 }
 
 document.addEventListener('DOMContentLoaded', () => {

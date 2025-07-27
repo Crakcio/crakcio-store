@@ -62,7 +62,7 @@ registerForm?.addEventListener('submit', async (e) => {
   const { data, error } = await supabase.auth.signUp({ email, password });
 
   if (error || !data.user) {
-    alert('Error al registrarse: ' + (error?.message || "Desconocido"));
+    alert('❌ Error al registrarse: ' + (error?.message || "Desconocido"));
     return;
   }
 
@@ -74,12 +74,14 @@ registerForm?.addEventListener('submit', async (e) => {
   ]);
 
   if (errorInsert) {
-    alert('Usuario registrado pero no se guardó en la base de datos: ' + errorInsert.message);
+    alert('❌ Usuario creado en auth, pero no guardado en la base de datos: ' + errorInsert.message);
+    // Opcional: puedes eliminar al usuario creado en auth si quieres evitar usuarios huérfanos
     return;
   }
 
-  alert('Registro exitoso. Ya puedes iniciar sesión.');
-  window.location.href = "index.html"; // Redirige al inicio
-
+  // ✅ Solo si todo salió bien
+  alert('✅ Registro exitoso. Ya puedes iniciar sesión.');
+  window.location.href = "cliente.html";
 });
+
 });

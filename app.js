@@ -17,7 +17,7 @@ import { obtenerProductos } from './products.js';
 // ------------------------- AUTENTICACIÓN -----------------------------
 
 document.addEventListener('DOMContentLoaded', async () => {
-  productos = await obtenerProductosDesdeSupabase(); // o local si es el caso
+  productos = await obtenerProductos(); // o local si es el caso
   mostrarProductos(productos);
   actualizarContadorCarrito();
   mostrarCarrito();

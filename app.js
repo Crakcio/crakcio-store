@@ -150,6 +150,17 @@ function mostrarMensaje(texto, tipo = "info") {
     }));
 
     const total = productos.reduce((sum, p) => sum + (p.precio * (p.cantidad || 1)), 0);
+      const fechaPedido = new Date().toISOString();
+  const pedido = {
+    usuario_id: userId,
+    productos: productos,
+    total: total,
+    fecha: fechaPedido || undefined
+  };
+
+  if (!pedido.fecha || pedido.fecha.trim() === '') {
+    delete pedido.fecha;
+  }
 
     const { error: pedidoError } = await supabase.from('pedidos').insert([{
       usuario_id: user.id,
@@ -228,14 +239,22 @@ async function procesarPedidoAutomaticamenteSiExiste() {
     precio: item.precio
   }));
 
-  const total = productos.reduce((sum, p) => sum + (p.precio * p.cantidad), 0);
+    const total = productos.reduce((sum, p) => sum + (p.precio * p.cantidad), 0);
 
-  const { error: pedidoError } = await supabase.from('pedidos').insert([{
+  const fechaPedido = new Date().toISOString();
+  const pedido = {
     usuario_id: userId,
     productos: productos,
     total: total,
-    fecha: new Date().toISOString()
-  }]);
+    fecha: fechaPedido || undefined
+  };
+
+  if (!pedido.fecha || pedido.fecha.trim() === '') {
+    delete pedido.fecha;
+  }
+
+  const { error: pedidoError } = await supabase.from('pedidos').insert([pedido]);
+
 
   if (pedidoError) {
     alert('Error al registrar pedido: ' + pedidoError.message);

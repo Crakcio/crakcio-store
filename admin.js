@@ -266,7 +266,7 @@ window.eliminarProducto = async function (id) {
   if (!confirm('¿Eliminar este producto?')) return;
 
   const { error } = await supabase
-    .from('Productos')
+    .from('productos')
     .delete()
     .eq('id', id);
 

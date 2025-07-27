@@ -16,7 +16,6 @@ import {
   agregarAlCarrito,
   actualizarContadorCarrito,
   mostrarCarrito,
-  eliminarProductoDelCarrito,
   vaciarCarrito,
   obtenerCarrito
 } from './carrito.js';

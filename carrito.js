@@ -13,7 +13,7 @@
 
   localStorage.setItem('carrito', JSON.stringify(carrito));
   actualizarContadorCarrito();
-}
+
 
 // Muestra el número total de productos en el ícono del carrito
 export function actualizarContadorCarrito() {

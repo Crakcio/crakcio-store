@@ -2,7 +2,6 @@
 console.log("✅ app.js se está cargando");
 import {
   mostrarProductos,
-  mostrarCarrito,
   mostrarMensaje
 } from "./ui.js";
 import {

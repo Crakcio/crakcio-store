@@ -149,6 +149,25 @@
     }
   });
 </script>
+<script>
+  document.getElementById('pago-yape').addEventListener('click', () => {
+    mostrarInstruccion('Yape', 'Escanea este QR o envía a <strong>945678321</strong>');
+  });
+
+  document.getElementById('pago-plin').addEventListener('click', () => {
+    mostrarInstruccion('Plin', 'Envía tu pago a <strong>956789123</strong>');
+  });
+
+  document.getElementById('pago-tarjeta').addEventListener('click', () => {
+    mostrarInstruccion('Tarjeta', 'Serás redirigido a nuestra pasarela de pago seguro.');
+  });
+
+  function mostrarInstruccion(metodo, mensaje) {
+    const instrucciones = document.getElementById('instrucciones-pago');
+    instrucciones.classList.remove('hidden');
+    instrucciones.innerHTML = `<h4>Pago con ${metodo}</h4><p>${mensaje}</p>`;
+  }
+</script>
 
 <script type="module" src="app.js"></script>
 <div id="fondo-modal" class="fondo-modal oculto"></div>

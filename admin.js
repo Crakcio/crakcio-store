@@ -219,7 +219,7 @@ async function cargarProductos() {
     alert("Error cargando productos");
     return;
   }
-
+adminListaProductos.innerHTML = '';
   for (const prod of data) {
     let imagenURL = 'images/placeholder.webp'; // Imagen por defecto
 

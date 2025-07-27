@@ -98,7 +98,7 @@ form.addEventListener('submit', async (e) => {
     cargarProductos();
   }
 });
-formEditar.addEventListener('submit', async (e) => {
+document.getElementById('formEditarProducto').addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const id = document.getElementById('editarId').value;
@@ -107,51 +107,50 @@ formEditar.addEventListener('submit', async (e) => {
   const descripcion = document.getElementById('editarDescripcion').value;
   const precio = parseFloat(document.getElementById('editarPrecio').value);
   const stock = parseInt(document.getElementById('editarStock').value);
-  const nuevaImagen = document.getElementById('editarImagenArchivo').files[0];
+  const archivoNuevo = document.getElementById('editarImagenArchivo').files[0];
 
-  let camposActualizados = { nombre, categoria, descripcion, precio, stock };
+  let imagenURL = null;
 
   // Si hay nueva imagen, se sube y se reemplaza
-  if (nuevaImagen) {
-    const nuevoNombreImagen = `${Date.now()}_${nuevaImagen.name}`;
-    const { error: errorSubida } = await supabase
-      .storage
-      .from('imgproductos')
-      .upload(nuevoNombreImagen, nuevaImagen);
-
-    if (errorSubida) {
-      alert('Error subiendo nueva imagen: ' + errorSubida.message);
+ 
+  if (archivoNuevo) {
+    const nombreArchivo = `${Date.now()}_${archivoNuevo.name}`;
+    imagenURL = await subirImagenASupabase(archivoNuevo, nombreArchivo);
+    if (!imagenURL) {
+      alert("Error al subir imagen.");
       return;
     }
-
-    const { data: urlData } = supabase
-      .storage
-      .from('imgproductos')
-      .getPublicUrl(nuevoNombreImagen);
-
-    camposActualizados.imagen = urlData.publicUrl;
   }
 
-  const { error } = await supabase
-    .from('productos')
-    .update(camposActualizados)
-    .eq('id', id);
+  const actualizacion = {
+    nombre, categoria, descripcion, precio, stock
+  };
 
+  if (imagenURL) {
+    actualizacion.imagen = imagenURL;
+  }
+
+  const { error } = await supabase.from('productos').update(actualizacion).eq('id', id);
   if (error) {
-    alert('Error actualizando producto: ' + error.message);
+    alert('Error al actualizar: ' + error.message);
   } else {
     alert('Producto actualizado');
     document.getElementById('modalEditar').classList.add('oculto');
-    formEditar.reset();
     cargarProductos();
   }
 });
 
 // Cancelar edición
-cancelarEditar.addEventListener('click', () => {
+document.getElementById('cancelarEditar').addEventListener('click', () => {
   document.getElementById('modalEditar').classList.add('oculto');
-  formEditar.reset();
 });
+// Cerrar sesión (placeholder)
+document.getElementById('cerrarSesionAdmin').addEventListener('click', () => {
+  alert('Cerrar sesión aún no implementado');
+});
+
+// Iniciar carga inicial
+cargarProductos();
   // Obtener la URL pública correctamente
   const { data: urlData } = supabase
     .storage

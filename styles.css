@@ -44,9 +44,10 @@ nav a:hover {
   color: var(--color-acento);
 }
 .nav-links {
-  list-style: none;
   display: flex;
   gap: 2rem;
+  list-style: none;
+  margin: 0 auto;
 }
 
 .nav-links li a {
@@ -198,18 +199,25 @@ footer .redes {
   font-size: 24px;
 }
 #boton-carrito {
-  position: absolute;
-  right: 1rem;
   color: white;
   cursor: pointer;
+  position: relative;
 }
 
 #boton-carrito:hover {
   transform: scale(1.1);
 }
-.logo {
+#contadorCarrito {
   position: absolute;
-  left: 1rem;
+  top: -8px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+}
+.logo {
   color: white;
   font-weight: bold;
   font-size: 1.5rem;
@@ -293,12 +301,10 @@ footer .redes {
 /* Estilo base del navbar */
 .navbar {
   display: flex;
-  justify-content: center; /* Centra horizontalmente */
+  justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  padding: 1rem;
+  padding: 1rem 2rem;
   background-color: #111;
-  position: relative;
 }
 
 .menu {

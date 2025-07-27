@@ -17,10 +17,20 @@ import { obtenerProductos } from './products.js';
 
 // ------------------------- AUTENTICACIÓN -----------------------------
 
-document.addEventListener("DOMContentLoaded", async () => {
-   const productos = await obtenerProductos();
-  mostrarProductos(productos, 'contenedor-productos');
- 
+document.addEventListener('DOMContentLoaded', async () => {
+  productos = await obtenerProductosDesdeSupabase(); // o local si es el caso
+  mostrarProductos(productos);
+  actualizarContadorCarrito();
+  mostrarCarrito();
+});
+ // Evento de añadir al carrito
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("add-to-cart")) {
+    const id = parseInt(e.target.dataset.id);
+    const producto = productos.find(p => p.id === id);
+    if (producto) agregarAlCarrito(producto);
+  }
+});
 
 // Registro de usuario
 const registerForm = document.getElementById('registerForm');

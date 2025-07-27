@@ -71,11 +71,8 @@ if (error) {
 }
 
 if (!data.user) {
-  alert("❌ No se pudo crear el usuario.");
-  return;
+  throw new Error("No se pudo obtener el ID del usuario.");
 }
-
-
   const userId = data.user.id;
 
   // Guardar el rol del nuevo usuario como "cliente", junto con el nombre

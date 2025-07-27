@@ -96,63 +96,12 @@
 
     <div class="mensaje" id="mensaje"></div>
   </div>
-<script type="module">
-  import { supabase } from './supabaseClient.js';
-
-  const form = document.getElementById('registerForm');
-  const mensaje = document.getElementById('mensaje');
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const nombre = document.getElementById("registerNombre").value;
-    const email = document.getElementById("registerEmail").value;
-    const password = document.getElementById("registerPassword").value;
-
-    // 1. Crear cuenta en auth
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password
-    });
-
-    if (error) {
-      if (error.message.includes("duplicate key")) {
-        mensaje.textContent = "❌ Este correo ya está registrado. Inicia sesión.";
-      } else {
-        mensaje.textContent = "❌ Error al registrar: " + error.message;
-      }
-      return;
-    }
-
-    const user = data.user;
-
-    // 2. Insertar en la tabla usuarios
-    const { error: insertError } = await supabase.from("usuarios").insert([
-      {
-        id: user.id,
-        email,
-        nombre,
-        rol: "cliente"  // Puedes cambiar este valor si deseas que se seleccione
-      }
-    ]);
-
-    if (insertError) {
-      mensaje.textContent = "❌ Error al guardar en la base de datos: " + insertError.message;
-      return;
-    }
-
-    mensaje.textContent = "✅ Cuenta creada. Revisa tu correo para verificar tu cuenta.";
-    
-    // 3. Redirigir luego de unos segundos
-    setTimeout(() => {
-      window.location.href = "cliente.html";
-    }, 3000);
-  });
-</script>
 
 
 </body>
   <!-- Solo carga auth.js, que ya contiene toda la lógica -->
- 
+ <script type="module" src="supabaseClient.js"></script>
+<script type="module" src="auth.js"></script>
+
 </body>
 </html>

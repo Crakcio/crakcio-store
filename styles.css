@@ -199,23 +199,32 @@ footer .redes {
   font-size: 24px;
 }
 #boton-carrito {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #111;
   color: white;
+  padding: 12px;
+  border-radius: 50%;
+  z-index: 1000;
   cursor: pointer;
-  position: relative;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  transition: background-color 0.3s ease;
 }
 
 #boton-carrito:hover {
-  transform: scale(1.1);
+  background-color: #333;
 }
 #contadorCarrito {
   position: absolute;
-  top: -8px;
-  right: -10px;
+  top: 0;
+  right: 0;
   background-color: red;
   color: white;
-  border-radius: 50%;
+  font-size: 0.75rem;
   padding: 2px 6px;
-  font-size: 0.8rem;
+  border-radius: 50%;
+  transform: translate(30%, -30%);
 }
 .logo {
   color: white;

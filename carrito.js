@@ -1,7 +1,7 @@
-// 📦 carrito.js - Gestión del carrito de compras
+// carrito.js
 
-// Agrega un producto al carrito\export function agregarAlCarrito(producto) {
-  const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+export function agregarAlCarrito(producto) {
+  const carrito = obtenerCarritoDesdeStorage();
   const productoExistente = carrito.find(p => p.id === producto.id);
 
   if (productoExistente) {
@@ -11,96 +11,57 @@
     carrito.push(producto);
   }
 
-  localStorage.setItem('carrito', JSON.stringify(carrito));
+  guardarCarrito(carrito);
   actualizarContadorCarrito();
+  mostrarCarrito();
+}
 
+export function obtenerCarritoDesdeStorage() {
+  return JSON.parse(localStorage.getItem("carrito")) || [];
+}
 
-// Muestra el número total de productos en el ícono del carrito
+export function guardarCarrito(carrito) {
+  localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
 export function actualizarContadorCarrito() {
-  const carrito = obtenerDeLocalStorage("carrito") || [];
-  const totalItems = carrito.reduce((total, item) => total + item.cantidad, 0);
-
-  const contador = document.getElementById("contadorCarrito");
+  const carrito = obtenerCarritoDesdeStorage();
+  const total = carrito.reduce((sum, p) => sum + p.cantidad, 0);
+  const contador = document.getElementById("cart-count");
   if (contador) {
-    contador.textContent = totalItems;
-    contador.style.display = totalItems > 0 ? "inline-block" : "none";
+    contador.textContent = total;
   }
 }
 
-// Muestra los productos del carrito en el modal
 export function mostrarCarrito() {
-  const carrito = obtenerDeLocalStorage("carrito") || [];
-  const contenedor = document.getElementById("contenedor-carrito");
-  const total = document.getElementById("totalCarrito");
+  const carrito = obtenerCarritoDesdeStorage();
+  const contenedor = document.getElementById("carrito-contenido");
+  const totalSpan = document.getElementById("total-carrito");
 
+  if (!contenedor || !totalSpan) return;
 
   contenedor.innerHTML = "";
 
-  if (carrito.length === 0) {
-    contenedor.innerHTML = "<p>Tu carrito está vacío.</p>";
-    total.textContent = "Total: S/ 0.00";
-    return;
-  }
-
-  let totalCarrito = 0;
-
-  carrito.forEach((producto, index) => {
-    const item = document.createElement("div");
-    item.classList.add("item-carrito");
-
-    const nombre = document.createElement("p");
-    nombre.textContent = producto.nombre;
-
-    const precio = document.createElement("p");
-    precio.textContent = `Precio: S/ ${producto.precio}`;
-
-    const cantidad = document.createElement("p");
-    cantidad.textContent = `Cantidad: ${producto.cantidad}`;
-
-    const subtotal = document.createElement("p");
-    const subTotalValor = producto.precio * producto.cantidad;
-    subtotal.textContent = `Subtotal: S/ ${subTotalValor.toFixed(2)}`;
-
-    const eliminarBtn = document.createElement("button");
-    eliminarBtn.textContent = "Eliminar";
-    eliminarBtn.addEventListener("click", () => {
-      carrito.splice(index, 1);
-      guardarEnLocalStorage("carrito", carrito);
-      mostrarCarrito();
-      actualizarContadorCarrito();
-    });
-
-    item.appendChild(nombre);
-    item.appendChild(precio);
-    item.appendChild(cantidad);
-    item.appendChild(subtotal);
-    item.appendChild(eliminarBtn);
-
-    contenedor.appendChild(item);
-
-    totalCarrito += subTotalValor;
+  carrito.forEach(producto => {
+    const div = document.createElement("div");
+    div.className = "producto-carrito";
+    div.innerHTML = `
+      <span>${producto.nombre} x${producto.cantidad}</span>
+      <span>S/ ${(producto.precio * producto.cantidad).toFixed(2)}</span>
+      <button onclick="eliminarProducto(${producto.id})">❌</button>
+    `;
+    contenedor.appendChild(div);
   });
 
-  total.textContent = `Total: S/ ${totalCarrito.toFixed(2)}`;
+  const total = carrito.reduce((sum, p) => sum + (p.precio * p.cantidad), 0);
+  totalSpan.textContent = total.toFixed(2);
 }
 
-// Elimina un producto por ID
-export function eliminarProductoDelCarrito(idProducto) {
-  let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-  carrito = carrito.filter(p => p.id !== idProducto);
-  localStorage.setItem('carrito', JSON.stringify(carrito));
-  mostrarCarrito();
+// Esta función necesita ser accesible globalmente para el botón onclick
+window.eliminarProducto = function (id) {
+  let carrito = obtenerCarritoDesdeStorage();
+  carrito = carrito.filter(p => p.id !== id);
+  guardarCarrito(carrito);
   actualizarContadorCarrito();
-}
-
-// Vacía todo el carrito
-export function vaciarCarrito() {
-  localStorage.removeItem('carrito');
   mostrarCarrito();
-  actualizarContadorCarrito();
-}
-
-// Obtiene el carrito como objeto JS
-export function obtenerCarrito() {
-  return JSON.parse(localStorage.getItem('carrito')) || [];
 }

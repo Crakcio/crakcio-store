@@ -114,11 +114,14 @@
           password,
         });
 
-        if (error) {
-          alert("❌ Error al registrar: " + error.message);
-          return;
-        }
-
+      if (error) {
+  if (error.message.includes("duplicate key")) {
+    alert("❌ Este correo ya está registrado. Por favor inicia sesión.");
+  } else {
+    alert("❌ Error al registrar: " + error.message);
+  }
+  return;
+}
         // Login automático
         const { session, error: loginError } = await supabase.auth.signInWithPassword({
           email,
@@ -129,7 +132,7 @@
           alert("✅ Cuenta creada, pero no se pudo iniciar sesión automáticamente: " + loginError.message);
         } else {
           alert("✅ Registro exitoso. Iniciando sesión...");
-          window.location.href = "cliente.html";
+          window.location.replace("cliente.html");
         }
       });
     });

@@ -1,7 +1,6 @@
 import { supabase } from './supabaseClient.js';
 
 const form = document.getElementById('agregarProductoForm');
-const adminLista = document.getElementById('adminListaProductos');
 const cerrarSesionAdmin = document.getElementById('cerrarSesionAdmin');
 const formEditar = document.getElementById('formEditarProducto');
 const cancelarEditar = document.getElementById('cancelarEditar');
@@ -127,7 +126,7 @@ document.getElementById('formEditarProducto').addEventListener('submit', async (
   };
 
   if (imagenURL) {
-    actualizacion.imagen = imagenURL;
+    actualizacion.imagen_url = imagenURL;
   }
 
   const { error } = await supabase.from('productos').update(actualizacion).eq('id', id);
@@ -150,7 +149,7 @@ document.getElementById('cerrarSesionAdmin').addEventListener('click', () => {
 });
 
 // Iniciar carga inicial
-cargarProductos();
+
  
 //});
 async function marcarEntregado(pedidoId) {

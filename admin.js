@@ -40,7 +40,6 @@ async function verificarAdmin() {
   cargarProductos(); // Solo se llama si es admin
   cargarPedidos();
 }
-import { supabase } from './supabaseClient.js';
 
 async function subirImagenASupabase(file, nombreArchivo) {
   const { data, error } = await supabase.storage
@@ -56,11 +55,12 @@ async function subirImagenASupabase(file, nombreArchivo) {
   }
 
   // Retornar la ruta pública
-  const url = supabase.storage
+   const { data: urlData } = supabase
+    .storage
     .from('imgproductos')
-    .getPublicUrl(nombreArchivo).data.publicUrl;
+    .getPublicUrl(nombreArchivo);
 
-  return url;
+  return urlData.publicUrl;
 }
 
 // Manejo de agregar producto con subida de imagen
@@ -74,23 +74,30 @@ form.addEventListener('submit', async (e) => {
   const stock = parseInt(document.getElementById('stock').value);
   const archivo = document.getElementById('imagenArchivo').files[0];
 
-  if (!archivo) {
+    if (!archivo) {
     alert("Por favor selecciona una imagen.");
     return;
   }
 
   const nombreArchivo = `${Date.now()}_${archivo.name}`;
+  const imagenURL = await subirImagenASupabase(archivo, nombreArchivo);
 
-  const { data: subida, error: errorSubida } = await supabase
-    .storage
-    .from('imgproductos')
-    .upload(nombreArchivo, archivo);
-
-  if (errorSubida) {
-    alert("Error al subir imagen: " + errorSubida.message);
+  if (!imagenURL) {
+    alert("Error al subir imagen.");
     return;
   }
+  const { error } = await supabase.from('productos').insert([{
+    nombre, categoria, descripcion, precio, stock, imagen: imagenURL
+  }]);
 
+  if (error) {
+    alert('Error al agregar: ' + error.message);
+  } else {
+    alert('Producto agregado');
+    form.reset();
+    cargarProductos();
+  }
+});
 formEditar.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -236,11 +243,9 @@ async function cargarProductos() {
     let imagenURL = 'images/placeholder.webp'; // Imagen por defecto
 
     // Obtener URL pública desde Supabase si hay imagen
-    if (prod.imagen_url) {
-      const { data: urlData, error: imgError } = supabase
-        .storage
-        .from('imgproductos')
-        .getPublicUrl(prod.imagen_url); // << Aquí se usa la ruta completa
+   if (prod.imagen) {
+  imagenURL = prod.imagen;
+} // << Aquí se usa la ruta completa
 
       if (!imgError && urlData?.publicUrl) {
         imagenURL = urlData.publicUrl;

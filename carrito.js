@@ -1,7 +1,7 @@
 // carrito.js
 
 export function agregarAlCarrito(producto) {
-  const carrito = obtenerCarritoDesdeStorage();
+  const carrito = obtenerCarrito();
   const productoExistente = carrito.find(p => p.id === producto.id);
 
   if (productoExistente) {

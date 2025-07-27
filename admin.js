@@ -40,6 +40,28 @@ async function verificarAdmin() {
   cargarProductos(); // Solo se llama si es admin
   cargarPedidos();
 }
+import { supabase } from './supabaseClient.js';
+
+async function subirImagenASupabase(file, nombreArchivo) {
+  const { data, error } = await supabase.storage
+    .from('imgproductos')
+    .upload(nombreArchivo, file, {
+      cacheControl: '3600',
+      upsert: false
+    });
+
+  if (error) {
+    console.error('Error al subir imagen:', error.message);
+    return null;
+  }
+
+  // Retornar la ruta pública
+  const url = supabase.storage
+    .from('imgproductos')
+    .getPublicUrl(nombreArchivo).data.publicUrl;
+
+  return url;
+}
 
 // Manejo de agregar producto con subida de imagen
 form.addEventListener('submit', async (e) => {

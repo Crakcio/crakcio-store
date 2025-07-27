@@ -84,10 +84,11 @@ if (!data.user) {
   ]);
 
   if (errorInsert) {
-    alert('❌ Usuario creado en auth, pero no guardado en la base de datos: ' + errorInsert.message);
-    // Opcional: puedes eliminar al usuario creado en auth si quieres evitar usuarios huérfanos
-    return;
-  }
+  console.error("🛠️ Error técnico al insertar en tabla usuarios:", errorInsert);
+  alert('❌ Usuario registrado en Auth, pero ocurrió un problema técnico al guardarlo. Revisa consola para más detalles.');
+  return;
+}
+
 
   // ✅ Solo si todo salió bien
   alert('✅ Registro exitoso. Ya puedes iniciar sesión.');

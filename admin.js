@@ -224,8 +224,9 @@ async function cargarProductos() {
     let imagenURL = 'images/placeholder.webp'; // Imagen por defecto
 
     if (prod.imagen_url) {
-      imagenURL = prod.imagen_url;
+    imagenURL = `https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/${prod.imagen_url}`;
     }
+
 
     const div = document.createElement('div');
     div.className = 'admin-producto';

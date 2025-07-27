@@ -243,7 +243,7 @@ async function cargarProductos() {
     `;
     adminLista.appendChild(div);
   }
-}
+
 
 
 

@@ -12,6 +12,15 @@ import {
   obtenerDeLocalStorage,
   limpiarContenedor
 } from './helpers.js';
+import {
+  agregarAlCarrito,
+  actualizarContadorCarrito,
+  mostrarCarrito,
+  eliminarProductoDelCarrito,
+  vaciarCarrito,
+  obtenerCarrito
+} from './carrito.js';
+
 // Función auxiliar para obtener la URL de imagen desde Supabase
 
 // Mostrar productos más vendidos

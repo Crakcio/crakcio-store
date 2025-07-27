@@ -15,6 +15,8 @@ let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 document.addEventListener("DOMContentLoaded", async () => {
    const productos = await obtenerProductos();
   mostrarProductos(productos, 'contenedor-productos');
+ 
+
 // Registro de usuario
 const registerForm = document.getElementById('registerForm');
 if (registerForm) {
@@ -169,16 +171,13 @@ function mostrarMensaje(texto, tipo = "info") {
 
     const total = productos.reduce((sum, p) => sum + (p.precio * (p.cantidad || 1)), 0);
       const fechaPedido = new Date().toISOString();
-  const pedido = {
-    usuario_id: userId,
-    productos: productos,
-    total: total,
-    fecha: fechaPedido || undefined
-  };
+const pedido = {
+  usuario_id: user.id,
+  productos,
+  total,
+  fecha: fechaPedido
+};
 
-  if (!pedido.fecha || pedido.fecha.trim() === '') {
-    delete pedido.fecha;
-  }
 
     const { error: pedidoError } = await supabase.from('pedidos').insert([{
       usuario_id: user.id,
@@ -261,15 +260,12 @@ async function procesarPedidoAutomaticamenteSiExiste() {
 
   const fechaPedido = new Date().toISOString();
   const pedido = {
-    usuario_id: userId,
-    productos: productos,
-    total: total,
-    fecha: fechaPedido || undefined
-  };
+  usuario_id: user.id,
+  productos,
+  total,
+  fecha: fechaPedido
+};
 
-  if (!pedido.fecha || pedido.fecha.trim() === '') {
-    delete pedido.fecha;
-  }
 
   const { error: pedidoError } = await supabase.from('pedidos').insert([pedido]);
 

@@ -170,7 +170,7 @@ cargarProductos();
     form.reset();
     cargarProductos();
   }
-});
+//});
 async function marcarEntregado(pedidoId) {
   const { error } = await supabase
     .from('pedidos')

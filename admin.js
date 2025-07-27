@@ -151,25 +151,7 @@ document.getElementById('cerrarSesionAdmin').addEventListener('click', () => {
 
 // Iniciar carga inicial
 cargarProductos();
-  // Obtener la URL pública correctamente
-  const { data: urlData } = supabase
-    .storage
-    .from('imgproductos')
-    .getPublicUrl(nombreArchivo);
-
-  const imagenURL = urlData.publicUrl;
-
-  const { error } = await supabase.from('productos').insert([{
-    nombre, categoria, descripcion, precio, stock, imagen: imagenURL
-  }]);
-
-  if (error) {
-    alert('Error al agregar: ' + error.message);
-  } else {
-    alert('Producto agregado');
-    form.reset();
-    cargarProductos();
-  }
+ 
 //});
 async function marcarEntregado(pedidoId) {
   const { error } = await supabase
@@ -246,9 +228,6 @@ async function cargarProductos() {
   imagenURL = prod.imagen;
 } // << Aquí se usa la ruta completa
 
-      if (!imgError && urlData?.publicUrl) {
-        imagenURL = urlData.publicUrl;
-      }
     }
 
     const div = document.createElement('div');

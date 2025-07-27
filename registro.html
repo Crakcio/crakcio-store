@@ -99,50 +99,57 @@
 <script type="module">
   import { supabase } from './supabaseClient.js';
 
-  document.getElementById("btn-registrar").addEventListener("click", async () => {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const nombre = document.getElementById("nombre").value;
-    const rol = document.getElementById("rol").value;
+  const form = document.getElementById('registerForm');
+  const mensaje = document.getElementById('mensaje');
 
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const nombre = document.getElementById("registerNombre").value;
+    const email = document.getElementById("registerEmail").value;
+    const password = document.getElementById("registerPassword").value;
+
+    // 1. Crear cuenta en auth
     const { data, error } = await supabase.auth.signUp({
       email,
-      password,
+      password
     });
 
     if (error) {
       if (error.message.includes("duplicate key")) {
-        alert("❌ Este correo ya está registrado. Por favor inicia sesión.");
+        mensaje.textContent = "❌ Este correo ya está registrado. Inicia sesión.";
       } else {
-        alert("❌ Error al registrar: " + error.message);
+        mensaje.textContent = "❌ Error al registrar: " + error.message;
       }
       return;
     }
 
-    console.log("✅ Registro exitoso:", data);
-
     const user = data.user;
 
-    // 🔒 Insertar en la tabla usuarios
+    // 2. Insertar en la tabla usuarios
     const { error: insertError } = await supabase.from("usuarios").insert([
       {
         id: user.id,
         email,
         nombre,
-        rol,
+        rol: "cliente"  // Puedes cambiar este valor si deseas que se seleccione
       }
     ]);
 
     if (insertError) {
-      console.error("❌ Error al insertar en usuarios:", insertError.message);
-      alert("Error en base de datos: " + insertError.message);
+      mensaje.textContent = "❌ Error al guardar en la base de datos: " + insertError.message;
       return;
     }
 
-    alert("✅ Registrado correctamente. Revisa tu correo para verificar tu cuenta.");
-    window.location.href = "cliente.html";
+    mensaje.textContent = "✅ Cuenta creada. Revisa tu correo para verificar tu cuenta.";
+    
+    // 3. Redirigir luego de unos segundos
+    setTimeout(() => {
+      window.location.href = "cliente.html";
+    }, 3000);
   });
 </script>
+
 
 </body>
   <!-- Solo carga auth.js, que ya contiene toda la lógica -->

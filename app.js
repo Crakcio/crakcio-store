@@ -124,14 +124,6 @@ window.eliminarDelCarrito = function(index) {
   mostrarCarrito();
 };
 
-
-function mostrarMensaje(texto, tipo = "info") {
-  const alerta = document.createElement("div");
-  alerta.className = `mensaje ${tipo}`;
-  alerta.textContent = texto;
-  document.body.appendChild(alerta);
-  setTimeout(() => alerta.remove(), 2500);
-}
   verificarSesion();
   mostrarCarrito();
    procesarPedidoAutomaticamenteSiExiste();
@@ -260,7 +252,7 @@ async function procesarPedidoAutomaticamenteSiExiste() {
 
   const fechaPedido = new Date().toISOString();
   const pedido = {
-  usuario_id: user.id,
+  usuario_id: session.user.id,
   productos,
   total,
   fecha: fechaPedido

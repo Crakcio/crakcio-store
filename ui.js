@@ -126,15 +126,13 @@ export function actualizarContadorCarrito() {
 }
 
 export function mostrarPopupCarrito() {
-  const popup = document.getElementById('popup-carrito');
-  if (!popup) return;
+  const popup = document.getElementById("popup-carrito");
+  const fondo = document.getElementById("fondo-modal");
 
-  popup.style.display = 'block';
-
-  setTimeout(() => {
-    popup.style.display = 'none';
-  }, 2500);
+  popup.classList.remove("oculto");
+  fondo.classList.remove("oculto");
 }
+
 
 export function mostrarCarrito() {
   const carrito = obtenerDeLocalStorage("carrito") || [];

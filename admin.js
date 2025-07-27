@@ -213,18 +213,19 @@ async function cargarPedidos() {
 
 
 async function cargarProductos() {
-  adminLista.innerHTML = '';
+  adminListaProductos.innerHTML = ''; // Solo esta es necesaria
+
   const { data, error } = await supabase.from('productos').select('*');
   if (error) {
     alert("Error cargando productos");
     return;
   }
-adminListaProductos.innerHTML = '';
+
   for (const prod of data) {
     let imagenURL = 'images/placeholder.webp'; // Imagen por defecto
 
-    if (prod.imagen) {
-      imagenURL = prod.imagen;
+    if (prod.imagen_url) {
+      imagenURL = prod.imagen_url;
     }
 
     const div = document.createElement('div');
@@ -234,14 +235,14 @@ adminListaProductos.innerHTML = '';
       <p>Precio: S/ ${prod.precio}</p>
       <p>Stock: ${prod.stock}</p>
       <p>Categoría: ${prod.categoria}</p>
-      <img src="${imagenURL}" alt="${prod.nombre}" width="100" />
+      <img src="${imagenURL}" alt="${prod.nombre}" width="100" onerror="this.src='images/error-img.webp';" />
       <button onclick="editarProducto(${prod.id})">Editar</button>
       <button onclick="eliminarProducto(${prod.id})">Eliminar</button>
     `;
-    adminLista.appendChild(div);
+
+    adminListaProductos.appendChild(div);
   }
 }
-
 
 
 

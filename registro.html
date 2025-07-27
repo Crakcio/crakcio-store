@@ -96,7 +96,45 @@
 
     <div class="mensaje" id="mensaje"></div>
   </div>
+<script type="module">
+    import { supabase } from './supabaseClient.js';
 
+    document.addEventListener("DOMContentLoaded", () => {
+      const registerForm = document.getElementById("registerForm");
+
+      registerForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById("registerEmail").value;
+        const password = document.getElementById("registerPassword").value;
+
+        // Registro
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+        });
+
+        if (error) {
+          alert("❌ Error al registrar: " + error.message);
+          return;
+        }
+
+        // Login automático
+        const { session, error: loginError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (loginError) {
+          alert("✅ Cuenta creada, pero no se pudo iniciar sesión automáticamente: " + loginError.message);
+        } else {
+          alert("✅ Registro exitoso. Iniciando sesión...");
+          window.location.href = "cliente.html";
+        }
+      });
+    });
+  </script>
+</body>
   <!-- Solo carga auth.js, que ya contiene toda la lógica -->
   <script type="module" src="supabaseClient.js"></script>
   <script type="module" src="auth.js"></script>

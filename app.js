@@ -23,13 +23,31 @@ if (registerForm) {
     const email = document.getElementById('registerEmail').value;
     const password = document.getElementById('registerPassword').value;
 
-    const { data, error } = await supabase.auth.signUp({ email, password });
-    if (error) {
-      alert('Error al registrar: ' + error.message);
-    } else {
-      alert('Registro exitoso. Revisa tu correo para confirmar tu cuenta.');
-      registerForm.reset();
-    }
+   const { data, error } = await supabase.auth.signUp({ email, password });
+
+if (error) {
+  alert('Error al registrar: ' + error.message);
+} else {
+  const user = data.user;
+  
+  // Si el usuario requiere confirmación por correo, no se logueará automáticamente
+  if (!user.confirmed_at && user.confirmation_sent_at) {
+    alert('Registro exitoso. Revisa tu correo para confirmar tu cuenta.');
+    registerForm.reset();
+    return;
+  }
+
+  // Si el usuario está confirmado, se inicia sesión automáticamente
+  const { session, error: loginError } = await supabase.auth.signInWithPassword({ email, password });
+  if (loginError) {
+    alert('Cuenta creada pero no se pudo iniciar sesión: ' + loginError.message);
+  } else {
+    alert('Registro exitoso e inicio de sesión realizado.');
+    document.getElementById('registerModal').classList.add('hidden');
+    verificarSesion(); // actualiza botones
+  }
+}
+
   });
 }
 

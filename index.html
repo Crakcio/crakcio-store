@@ -13,39 +13,42 @@
 </head>
 <body>
   <header>
-    <nav class="navbar">
-  <div class="logo">Crackio Store</div>
-
-  <!-- Botón flotante del carrito con contador -->
-  <div id="boton-carrito" title="Ver carrito">
-    <i class="fas fa-shopping-cart fa-2x"></i>
-    <span id="contadorCarrito">0</span>
+   <nav class="navbar">
+  <div class="navbar-left">
+    <div class="logo">Crackio Store</div>
   </div>
 
-  <!-- Menú de navegación -->
-  <ul class="nav-links">
-    <li><a href="#inicio">Inicio</a></li>
-    <li class="dropdown">
-      <a href="#productos">Productos</a>
-      <ul class="submenu">
-        <li><a href="#luces">Luces</a></li>
-        <li><a href="#smart">Smart</a></li>
-        <li><a href="#mouse">Mouse</a></li>
-        <li><a href="#teclado">Teclado</a></li>
-      </ul>
-    </li>
-    <li><a href="#contacto">Contacto</a></li>
-  </ul>
+  <div class="navbar-center">
+    <ul class="nav-links">
+      <li><a href="#inicio">Inicio</a></li>
+      <li class="dropdown">
+        <a href="#productos">Productos</a>
+        <ul class="submenu">
+          <li><a href="#luces">Luces</a></li>
+          <li><a href="#smart">Smart</a></li>
+          <li><a href="#mouse">Mouse</a></li>
+          <li><a href="#teclado">Teclado</a></li>
+        </ul>
+      </li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </div>
 
-      <div id="user-controls">
-        <button id="boton-admin" class="oculto">Panel Admin</button>
-      </div>
-      <div class="auth-links">
+  <div class="navbar-right">
+    <div id="user-controls">
+      <button id="boton-admin" class="oculto">Panel Admin</button>
+    </div>
+    <div class="auth-links">
       <a href="login.html" id="btnLogin">Iniciar sesión</a>
       <a href="registro.html" id="btnRegistro">Crear cuenta</a>
       <button id="btnCerrarSesion" style="display: none;">Cerrar sesión</button>
-      </div>
-      </nav>
+    </div>
+  </div>
+</nav>
+    <div id="boton-carrito" title="Ver carrito">
+  <i class="fas fa-shopping-cart fa-2x"></i>
+  <span id="contadorCarrito">0</span>
+</div>
   </header>
 
   <main class="contenedor">

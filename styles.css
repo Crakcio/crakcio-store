@@ -551,4 +551,27 @@ footer .redes {
   border: 1px dashed #007bff;
   border-radius: 8px;
 }
+.productos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columnas iguales */
+  gap: 20px;
+  padding: 20px;
+}
+
+.producto-card, .admin-producto {
+  background-color: #1a1a1a;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  color: #fff;
+  text-align: center;
+}
+
+.producto-card img, .admin-producto img {
+  width: 100%;
+  height: auto;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+}
 

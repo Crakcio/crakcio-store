@@ -218,11 +218,17 @@ const pedido = {
 
   // Llamar función que revisa si el usuario está logueado y tiene productos para procesar compra automáticamente
 
+import { obtenerCarrito, guardarCarrito, actualizarContadorCarrito, mostrarCarrito } from './carrito.js';
+import { supabase } from './supabaseClient.js';
+
 async function procesarPedidoAutomaticamenteSiExiste() {
-  
+  const carrito = obtenerCarrito(); // ✅ Usando el nombre correcto
+
   if (carrito.length === 0) return;
-    document.getElementById('modalCarrito')?.classList.remove('oculto');
+
+  document.getElementById('modalCarrito')?.classList.remove('oculto');
   mostrarCarrito();
+
   const { data: { session }, error: sessionError } = await supabase.auth.getSession();
   if (sessionError || !session || !session.user) return;
 
@@ -235,27 +241,24 @@ async function procesarPedidoAutomaticamenteSiExiste() {
     precio: item.precio
   }));
 
-    const total = productos.reduce((sum, p) => sum + (p.precio * p.cantidad), 0);
+  const total = productos.reduce((sum, p) => sum + (p.precio * p.cantidad), 0);
 
   const fechaPedido = new Date().toISOString();
   const pedido = {
-  usuario_id: session.user.id,
-  productos,
-  total,
-  fecha: fechaPedido
-};
-
+    usuario_id: userId,
+    productos,
+    total,
+    fecha: fechaPedido
+  };
 
   const { error: pedidoError } = await supabase.from('pedidos').insert([pedido]);
-
 
   if (pedidoError) {
     alert('Error al registrar pedido: ' + pedidoError.message);
     return;
   }
 
-  carrito = [];
-  localStorage.removeItem('carrito');
+  localStorage.removeItem('carrito'); // Vaciar carrito manualmente
   actualizarContadorCarrito();
   mostrarCarrito();
   alert('Compra realizada con éxito. Gracias por tu pedido.');

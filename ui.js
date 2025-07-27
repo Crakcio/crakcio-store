@@ -47,30 +47,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   await mostrarProductosMasRecientes();
   // await mostrarTodosLosProductos(); // Si deseas mostrar todos también
 });
-export function agregarAlCarrito(producto) {
-  const carrito = obtenerDeLocalStorage("carrito") || [];
-
-  const productoExistente = carrito.find(item => item.id === producto.id);
-  if (productoExistente) {
-    productoExistente.cantidad = (productoExistente.cantidad || 1) + 1;
-  } else {
-    const nuevoProducto = {
-      id: producto.id,
-      nombre: producto.nombre,
-      descripcion: producto.descripcion,
-      precio: producto.precio,
-      stock: producto.stock,
-      imagen: producto.imagen || "", // si usas imagen
-      cantidad: 1
-    };
-    carrito.push(nuevoProducto);
-  }
-  guardarEnLocalStorage("carrito", carrito);
-  actualizarContadorCarrito();
-  mostrarPopupCarrito();
-  mostrarAlerta("Producto agregado al carrito", "success");
-}
-
 
 // Mostrar productos genéricos
 export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") {

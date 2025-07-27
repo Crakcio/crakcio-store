@@ -367,9 +367,12 @@ footer .redes {
   display: none;
   position: absolute;
   background-color: #222;
-  padding: 0.5rem;
-  list-style: none;
-  margin-top: 0.5rem;
+  padding: 10px;
+  border-radius: 8px;
+  top: 100%;
+  left: 0;
+  z-index: 999;
+  transition: opacity 0.3s ease;
 }
 
 .submenu li {
@@ -389,6 +392,9 @@ footer .redes {
 }
 
 /* Mostrar el submenú al pasar el mouse */
+.dropdown {
+  position: relative;
+}
 .dropdown .submenu {
   display: none;
   position: absolute;

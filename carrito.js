@@ -55,6 +55,11 @@ export function mostrarCarrito() {
   const total = carrito.reduce((sum, p) => sum + (p.precio * p.cantidad), 0);
   totalSpan.textContent = total.toFixed(2);
 }
+export function vaciarCarrito() {
+  localStorage.removeItem("carrito");
+  actualizarContadorCarrito();
+  mostrarCarrito();
+}
 
 // Esta función necesita ser accesible globalmente para el botón onclick
 window.eliminarProducto = function (id) {

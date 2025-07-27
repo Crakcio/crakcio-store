@@ -143,7 +143,7 @@ window.eliminarDelCarrito = function(index) {
     console.log("Se encontró el botón Finalizar Compra ✅");
   finalizarBtn.addEventListener('click', async () => {
   try {
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    
     console.log("Click en Finalizar compra");
 
     const { data: { session }, error: sessionError } = await supabase.auth.getSession();
@@ -162,13 +162,6 @@ window.eliminarDelCarrito = function(index) {
       alert('Tu carrito está vacío.');
       return;
     }
-
-    const productos = carrito.map(item => ({
-      idProducto: item.id,
-      nombre: item.nombre,
-      cantidad: item.cantidad,
-      precio: item.precio
-    }));
 
     const total = productos.reduce((sum, p) => sum + (p.precio * (p.cantidad || 1)), 0);
       const fechaPedido = new Date().toISOString();

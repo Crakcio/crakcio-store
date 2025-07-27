@@ -2,214 +2,141 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Crackio Store - Panel Cliente</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <style>
-    body {
-      background-color: #0a0a0a;
-      color: white;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crakcio Store</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" href="favicon.ico" />
 
-    header {
-      background-color: #111;
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid #00aaff;
-    }
 
-    header h1 {
-      margin: 0;
-      color: #00aaff;
-    }
-
-    #logoutBtn {
-      background-color: #00aaff;
-      border: none;
-      padding: 0.5rem 1rem;
-      color: white;
-      cursor: pointer;
-      border-radius: 6px;
-    }
-
-    #logoutBtn:hover {
-      background-color: #0077cc;
-    }
-
-    #boton-carrito {
-      position: relative;
-      cursor: pointer;
-    }
-
-    #contadorCarrito {
-      position: absolute;
-      top: -5px;
-      right: -10px;
-      background-color: red;
-      color: white;
-      border-radius: 50%;
-      padding: 2px 6px;
-      font-size: 0.75rem;
-    }
-
-    .productos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      padding: 1rem;
-    }
-
-    .producto {
-      background-color: #111;
-      border: 1px solid #00aaff44;
-      border-radius: 8px;
-      padding: 1rem;
-      text-align: center;
-      box-shadow: 0 0 10px #00aaff22;
-    }
-
-    .producto img {
-      width: 100%;
-      max-height: 150px;
-      object-fit: contain;
-      margin-bottom: 0.5rem;
-    }
-
-    .producto h3 {
-      margin: 0.5rem 0;
-    }
-
-    .producto p {
-      color: #ccc;
-      font-size: 0.9rem;
-    }
-
-    .producto span {
-      color: #00ffcc;
-      font-weight: bold;
-    }
-
-    .producto button {
-      margin-top: 0.5rem;
-      background-color: #00aaff;
-      border: none;
-      padding: 0.5rem 1rem;
-      color: white;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    .producto button:hover {
-      background-color: #008ecc;
-    }
-
-    /* 🎯 POPUP centrado */
-    #popup-carrito {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #111;
-      color: #00ffcc;
-      padding: 1rem 2rem;
-      border: 2px solid #00ffcc;
-      border-radius: 10px;
-      box-shadow: 0 0 20px #00ffcc88;
-      z-index: 9999;
-      display: none;
-      animation: aparecer 0.5s ease;
-    }
-
-    @keyframes aparecer {
-      from { opacity: 0; transform: translate(-50%, -60%); }
-      to { opacity: 1; transform: translate(-50%, -50%); }
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 2rem;
-      color: #666;
-    }
-  </style>
 </head>
 <body>
   <header>
-  <h1>Bienvenido a Crackio Store</h1>
-  <nav>
-    <button id="logoutBtn">Cerrar sesión</button>
+   <nav class="navbar">
+  <div class="navbar-left">
+    <div class="logo">Crackio Store</div>
+  </div>
 
-    <div id="boton-carrito" title="Ver carrito">
-      <i class="fas fa-shopping-cart fa-2x"></i>
-      <span id="contadorCarrito">0</span>
+  <div class="navbar-center">
+    <ul class="nav-links">
+      <li><a href="#inicio">Inicio</a></li>
+      <li class="dropdown">
+        <a href="#productos">Productos</a>
+        <ul class="submenu">
+          <li><a href="#luces">Luces</a></li>
+          <li><a href="#smart">Smart</a></li>
+          <li><a href="#mouse">Mouse</a></li>
+          <li><a href="#teclado">Teclado</a></li>
+        </ul>
+      </li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </div>
+
+  <div class="navbar-right">
+    <div id="user-controls">
+      <button id="boton-admin" class="oculto">Panel Admin</button>
     </div>
-  </nav>
-</header>
-<!-- Popup oculto para confirmación -->
-<div id="popup-carrito" class="popup-cliente">
-  <div id="contenido-carrito"></div>
-  <p id="totalCarrito">Total: S/ 0.00</p>
-  <button id="finalizarCompra">Finalizar compra</button>
+    <div class="auth-links">
+        <button id="btnCerrarSesion" style="display: none;">Cerrar sesión</button>
+    </div>
+  </div>
+</nav>
+    <div id="boton-carrito" title="Ver carrito">
+  <i class="fas fa-shopping-cart fa-2x"></i>
+  <span id="contadorCarrito">0</span>
+</div>
+  </header>
+
+  <main class="contenedor">
+     <h2>Productos más vendidos</h2>
+
+    <div id="productos-mas-vendidos" class="grid-productos"></div>
+
+    <h2>Productos más recientes</h2>
+    <div id="productos-mas-recientes" class="grid-productos"></div>
+    <section id="banner">
+      <!-- Imagen del banner se cargará luego -->
+      <img id="banner-image" src="images/Banner2.png" alt="Banner Crakcio Store" />
+    </section>
+        
+        <!-- Productos dinámicos desde Supabase -->
+    <div id="contenedor-productos"></div>
+   <!-- <div id="menu"></div> -->
+
+  </main>
+  <footer>
+      <div class="redes" style="display: flex; gap: 15px;">
+      <a href="https://www.facebook.com/people/Crakcio-Store/61578344680156/" target="_blank" title="Facebook">
+    <i class="fab fa-facebook fa-2x" style="color:#00bfff;"></i>
+      </a>
+    <a href="https://wa.me/51999207025" target="_blank" title="WhatsApp">
+    <i class="fab fa-whatsapp fa-2x" style="color:#00ff88;"></i>
+    </a>
+    <a href="https://www.instagram.com/crakciostore/" target="_blank" title="Instagram">
+    <i class="fab fa-instagram fa-2x" style="color:#ff4f9c;"></i>
+    </a>
+      </div>
+    
+    <div class="politicas">
+      <a href="politica.html" target="_blank">Política de privacidad</a>
+      <a href="condiciones.html" target="_blank">Términos y condiciones</a>
+      <p>&copy; 2025 Crakcio Store. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+  
+  <!-- Modales y ventanas para login, admin y pago -->
+  <div id="modal-login" class="modal hidden">
+  
+    <!-- Formulario de inicio de sesión/registro -->
+  </div>
+
+  <div id="modal-pago" class="modal hidden">
+    <h3>Selecciona método de pago:</h3>
+    <ul>
+      <li><button id="pago-yape">Yape</button></li>
+      <li><button id="pago-plin">Plin</button></li>
+      <li><button id="pago-tarjeta">Tarjeta</button></li>
+    </ul>
+  </div>
+  <p id="userEmail"></p>
+<!-- Modal del carrito -->
+<div id="modal" class="modal oculto">
+  <div class="modal-contenido">
+    <span id="cerrarCarrito" class="cerrar">&times;</span>
+    <h2>Tu Carrito</h2>
+     <div id="contenedor-carrito"></div>
+    <p id="totalCarrito">Total: S/ 0.00</p>
+    <button id="vaciar-carrito">Vaciar carrito</button>
+    <button id="finalizarCompra">Finalizar compra</button>
+  </div>
 </div>
 
 
-  <main>
-     <div id="contenedor-productos"></div>
-    <section>
-      <h2>Productos más vendidos</h2>
-      <div id="productosMasVendidos" class="productos"></div>
-    </section>
-
-    <section>
-      <h2>Nuevos productos</h2>
-      <div id="productosMasRecientes" class="productos"></div>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 Crackio Store. Todos los derechos reservados.</p>
-  </footer>
-
-  <!-- Popup oculto para confirmación -->
-  <div id="popup-confirmacion">¡Producto añadido al carrito!</div>
-
-  <!-- Scripts -->
-  <script type="module" src="supabaseClient.js"></script>
-  <script type="module" src="auth.js"></script>
-  <script type="module" src="helpers.js"></script>
-  <script type="module" src="ui.js"></script>
-  <script type="module" src="products.js"></script>
-  <script type="module" src="js/appCliente.js"></script>
-  <script type="module" src="app.js"></script>
-
   <script type="module">
-      import { supabase } from './supabaseClient.js';
-      import { obtenerMasVendidos, obtenerMasRecientes } from './products.js';
-      import {
-      actualizarContadorCarrito,
-      mostrarProductosMasVendidos,
-      mostrarProductosMasRecientes
-      } from './ui.js'; 
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('modal');
+    const botonCarrito = document.getElementById('boton-carrito');
+    const cerrarCarrito = document.getElementById('cerrarCarrito');
 
-    const { data: { user } } = await supabase.auth.getUser();
-
-    if (!user) {
-      location.href = "login.html";
-    } else {
-      await mostrarProductosMasVendidos();
-      await mostrarProductosMasRecientes();
-      actualizarContadorCarrito();
+    if (botonCarrito && modal) {
+      botonCarrito.addEventListener('click', () => {
+        modal.classList.remove('oculto');
+        modal.classList.add('activo');
+      });
     }
 
-    // Cerrar sesión
-    document.getElementById("logoutBtn")?.addEventListener("click", async () => {
-      await supabase.auth.signOut();
-      location.href = "index.html";
-    });
-  </script>
+    if (cerrarCarrito && modal) {
+      cerrarCarrito.addEventListener('click', () => {
+        modal.classList.remove('activo');
+        modal.classList.add('oculto');
+      });
+    }
+  });
+</script>
+
+<script type="module" src="app.js"></script>
 </body>
 </html>
 

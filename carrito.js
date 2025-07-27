@@ -15,7 +15,16 @@ export function agregarAlCarrito(producto) {
   actualizarContadorCarrito();
   mostrarCarrito();
 }
+export function agregarAlCarrito(producto) {
+  const carrito = obtenerCarritoDesdeStorage();
+  const productoExistente = carrito.find(p => p.id === producto.id);
 
+  if (productoExistente) {
+    productoExistente.cantidad += 1;
+  } else {
+    producto.cantidad = 1;
+    carrito.push(producto);
+  }
 export function obtenerCarritoDesdeStorage() {
   return JSON.parse(localStorage.getItem("carrito")) || [];
 }

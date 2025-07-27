@@ -11,10 +11,8 @@ import {
   agregarAlCarrito,
   actualizarContadorCarrito,
   mostrarCarrito,
-  eliminarProductoDelCarrito,
-  vaciarCarrito,
-  obtenerCarrito
 } from './carrito.js';
+
 import { finalizarCompra } from './pedido.js';
 import { supabase } from './supabaseClient.js';
 import { obtenerProductos } from './products.js';

@@ -223,11 +223,8 @@ async function cargarProductos() {
   for (const prod of data) {
     let imagenURL = 'images/placeholder.webp'; // Imagen por defecto
 
-    // Obtener URL pública desde Supabase si hay imagen
-   if (prod.imagen) {
-  imagenURL = prod.imagen;
-} // << Aquí se usa la ruta completa
-
+    if (prod.imagen) {
+      imagenURL = prod.imagen;
     }
 
     const div = document.createElement('div');
@@ -243,6 +240,8 @@ async function cargarProductos() {
     `;
     adminLista.appendChild(div);
   }
+}
+
 
 
 

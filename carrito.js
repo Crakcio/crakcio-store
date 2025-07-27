@@ -15,7 +15,7 @@ export function agregarAlCarrito(producto) {
   actualizarContadorCarrito();
   mostrarCarrito();
 }
-export function obtenerCarritoDesdeStorage() {
+export function obtenerCarrito() {
   return JSON.parse(localStorage.getItem("carrito")) || [];
 }
 
@@ -24,7 +24,7 @@ export function guardarCarrito(carrito) {
 }
 
 export function actualizarContadorCarrito() {
-  const carrito = obtenerCarritoDesdeStorage();
+  const carrito = obtenerCarrito();
   const total = carrito.reduce((sum, p) => sum + p.cantidad, 0);
   const contador = document.getElementById("cart-count");
   if (contador) {
@@ -33,7 +33,7 @@ export function actualizarContadorCarrito() {
 }
 
 export function mostrarCarrito() {
-  const carrito = obtenerCarritoDesdeStorage();
+  const carrito = obtenerCarrito();
   const contenedor = document.getElementById("carrito-contenido");
   const totalSpan = document.getElementById("total-carrito");
 
@@ -58,7 +58,7 @@ export function mostrarCarrito() {
 
 // Esta función necesita ser accesible globalmente para el botón onclick
 window.eliminarProducto = function (id) {
-  let carrito = obtenerCarritoDesdeStorage();
+  let carrito = obtenerCarrito();
   carrito = carrito.filter(p => p.id !== id);
   guardarCarrito(carrito);
   actualizarContadorCarrito();

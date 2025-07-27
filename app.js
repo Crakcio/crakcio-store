@@ -20,7 +20,7 @@ import { supabase } from './supabaseClient.js';
 import { obtenerProductos } from './products.js';
 
 // ------------------------- AUTENTICACIÓN -----------------------------
-let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
 document.addEventListener("DOMContentLoaded", async () => {
    const productos = await obtenerProductos();
   mostrarProductos(productos, 'contenedor-productos');
@@ -115,23 +115,6 @@ function obtenerUrlImagen(path) {
   const { data } = supabase.storage.from('imgproductos').getPublicUrl(path);
   return data.publicUrl || 'images/placeholder.webp';
 }
-
-function guardarCarrito() {
-  localStorage.setItem('carrito', JSON.stringify(carrito));
-  actualizarContadorCarrito();
-}
-
-function calcularTotalCarrito() {
-  return carrito.reduce((total, producto) => {
-    return total + (producto.precio * (producto.cantidad || 1));
-  }, 0);
-}
-
-window.eliminarDelCarrito = function(index) {
-  carrito.splice(index, 1);
-  guardarCarrito();
-  mostrarCarrito();
-};
 
   verificarSesion();
   mostrarCarrito();
@@ -233,8 +216,7 @@ const pedido = {
   // Llamar función que revisa si el usuario está logueado y tiene productos para procesar compra automáticamente
 
 async function procesarPedidoAutomaticamenteSiExiste() {
-  let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-
+  
   if (carrito.length === 0) return;
     document.getElementById('modalCarrito')?.classList.remove('oculto');
   mostrarCarrito();

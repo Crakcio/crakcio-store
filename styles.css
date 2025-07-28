@@ -451,6 +451,9 @@ footer .redes {
 .modal-contenido {
   background: transparent;
 }
+#modal-pago.modal {
+  z-index: 1001; /* asegúrate que este sea más alto que el modal del carrito */
+}
 /* Diseño responsivo para pantallas pequeñas */
 @media (max-width: 768px) {
   .admin-header {

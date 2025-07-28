@@ -17,11 +17,16 @@ import { obtenerProductos } from './products.js';
 // ------------------------- AUTENTICACIÓN -----------------------------
 
 document.addEventListener('DOMContentLoaded', async () => {
-  productos = await obtenerProductos(); // o local si es el caso
-  mostrarProductos(productos);
-  actualizarContadorCarrito();
-  mostrarCarrito();
+  try {
+    const productos = await obtenerProductos(); // ✅ obtener desde Supabase o local
+    mostrarProductos(productos); // ✅ mostrar los productos
+    actualizarContadorCarrito(); // ✅ actualizar contador del carrito
+    mostrarCarrito(); // ✅ mostrar contenido del carrito si lo hay
+  } catch (error) {
+    console.error('Error al obtener productos:', error);
+  }
 });
+
  // Evento de añadir al carrito
 document.addEventListener("click", (e) => {
   if (e.target.classList.contains("add-to-cart")) {

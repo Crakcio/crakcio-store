@@ -119,6 +119,17 @@ function verificarSesion() {
 
   });
 }
+////////////////////////////////////////////////////////////////////////////
+const hoverZone = document.getElementById('sidebar-hover-zone');
+const sidebarMenu = document.getElementById('sidebar-menu');
+
+hoverZone.addEventListener('mouseenter', () => {
+  sidebarMenu.style.transform = 'translateX(0)';
+});
+
+sidebarMenu.addEventListener('mouseleave', () => {
+  sidebarMenu.style.transform = 'translateX(-100%)';
+});
 
 // ------------------------- CARRITO DE COMPRAS -----------------------------
 

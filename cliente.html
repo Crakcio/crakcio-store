@@ -121,6 +121,7 @@
     <p id="totalCarrito">Total: S/ 0.00</p>
     <button id="vaciar-carrito">Vaciar carrito</button>
     <button id="finalizarCompra">Finalizar compra</button>
+    <button id="cerrar-popup-carrito">Cerrar</button>
   </div>
 </div>
 
@@ -144,8 +145,7 @@
         modal.classList.add('oculto');
       });
     }
-   
-
+  
   if (cerrarPopup && modal) {
     cerrarPopup.addEventListener('click', () => {
     modal.classList.remove('activo');

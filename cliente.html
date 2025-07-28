@@ -18,27 +18,24 @@
     <div class="logo">Crackio Store</div>
   </div>
 
-  <div class="navbar-center">
-    <ul class="nav-links">
-      <li><a href="#inicio">Inicio</a></li>
-      <li class="dropdown">
-        <a href="#productos">Productos</a>
-        <ul class="submenu">
-          <li><a href="categoria/iluminacion.html">Iluminación</a></li>
-          <li><a href="categoria/smart-home.html">Smart Home</a></li>
-          <li><a href="categoria/accesorios-gamer.html">Accesorios Gamer</a></li>
-        </ul>
-      </li>
-      <li><a href="#contacto">Contacto</a></li>
-    </ul>
-    
-  </div>
+<!-- Zona invisible para detectar el hover -->
+<div id="sidebar-hover-zone"></div>
+
+<!-- Menú lateral oculto -->
+<div id="sidebar-menu">
+  <ul>
+    <li><a href="#inicio">Inicio</a></li>
+    <li class="dropdown">
+    <li><a href="#productos">Productos</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</div>
 
   <div class="navbar-right">
     <div id="user-controls">
       <button id="boton-admin" class="oculto">Panel Admin</button>
     </div>
-    <div class="auth-links">
+        <div class="auth-links">
         <button id="btnCerrarSesion" style="display: none;">Cerrar sesión</button>
     </div>
   </div>

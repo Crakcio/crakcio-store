@@ -130,7 +130,7 @@
     const modal = document.getElementById('modal');
     const botonCarrito = document.getElementById('boton-carrito');
     const cerrarCarrito = document.getElementById('cerrarCarrito');
-
+    const cerrarPopup = document.getElementById('cerrar-popup-carrito');
     if (botonCarrito && modal) {
       botonCarrito.addEventListener('click', () => {
         modal.classList.remove('oculto');
@@ -144,6 +144,15 @@
         modal.classList.add('oculto');
       });
     }
+   
+
+  if (cerrarPopup && modal) {
+    cerrarPopup.addEventListener('click', () => {
+    modal.classList.remove('activo');
+    modal.classList.add('oculto');
+  });
+}
+
   });
 </script>
 <script>

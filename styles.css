@@ -203,31 +203,19 @@ footer .redes {
   position: relative;
   font-size: 24px;
 }
-#boton-carrito {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #00aaff;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 50px;
-  box-shadow: 0 0 10px #00aaff;
-  cursor: pointer;
-  z-index: 9999;
-}
 
 #boton-carrito:hover {
   background-color: #333;
 }
 #contadorCarrito {
-  background-color: red;
+  background: red;
   color: white;
-  font-size: 0.8rem;
-  padding: 2px 6px;
   border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.8rem;
   position: absolute;
-  top: -8px;
-  right: -8px;
+  top: -10px;
+  right: -10px;
 }
 .logo {
   font-size: 1.8rem;
@@ -329,9 +317,9 @@ footer .redes {
   flex: 1;
 }
 .navbar-center {
-  flex: 2;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  gap: 20px; /* espacio entre menú y carrito */
 }
 
 .navbar-right {
@@ -626,11 +614,10 @@ footer .redes {
     max-height: 240px;
   }
 
-  #boton-carrito {
-    bottom: 15px;
-    right: 15px;
-    transform: scale(0.9);
-  }
+#boton-carrito {
+  cursor: pointer;
+  position: relative;
+}
 
   .submenu {
     position: static;

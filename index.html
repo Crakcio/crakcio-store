@@ -136,7 +136,7 @@
     const modal = document.getElementById('modal');
     const botonCarrito = document.getElementById('boton-carrito');
     const cerrarCarrito = document.getElementById('cerrarCarrito');
-
+    const cerrarPopup = document.getElementById('cerrar-popup-carrito');
     if (botonCarrito && modal) {
       botonCarrito.addEventListener('click', () => {
         modal.classList.remove('oculto');
@@ -150,6 +150,11 @@
         modal.classList.add('oculto');
       });
     }
+    cerrarPopup.addEventListener('click', () => {
+    console.log("Botón Cerrar presionado");
+    modal.classList.remove('activo');
+    modal.classList.add('oculto');
+});
   });
 </script>
 <script>

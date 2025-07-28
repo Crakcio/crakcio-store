@@ -294,10 +294,4 @@ async function procesarPedidoAutomaticamenteSiExiste() {
   alert('Compra realizada con éxito. Gracias por tu pedido.');
 }
 
-
-// ------------------------- FINALIZAR COMPRA -----------------------------
-
- 
-
-
-
+// ------------------------ FINALIZAR COMPRA -----------------------------

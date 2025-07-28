@@ -307,11 +307,7 @@ footer .redes {
 .navbar-left {
   flex: 1;
 }
-.navbar-center {
-  display: flex;
-  align-items: center;
-  gap: 20px; /* espacio entre menú y carrito */
-}
+
 
 .navbar-right {
   flex: 1;

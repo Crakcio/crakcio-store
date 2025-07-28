@@ -135,14 +135,16 @@ function obtenerUrlImagen(path) {
    console.log("finalizarBtn:", finalizarBtn);
   if (finalizarBtn) {
     console.log("Se encontró el botón Finalizar Compra ✅");
-  finalizarBtn.addEventListener('click', async () => {
+finalizarBtn.addEventListener('click', async () => {
   try {
-    
     console.log("Click en Finalizar compra");
 
     const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-    console.log("Resultado de getSession():", session);
-    console.log("¿Hay error?", sessionError);
+    if (sessionError) {
+      console.error("Error al obtener la sesión:", sessionError.message);
+      alert("Error al verificar tu sesión. Intenta iniciar sesión nuevamente.");
+      return;
+    }
 
     if (!session || !session.user) {
       alert('Debes iniciar sesión para finalizar la compra.');
@@ -150,7 +152,6 @@ function obtenerUrlImagen(path) {
       return;
     }
 
-    const user = session.user;
     const carrito = obtenerCarrito();
     if (carrito.length === 0) {
       alert('Tu carrito está vacío.');
@@ -158,20 +159,13 @@ function obtenerUrlImagen(path) {
     }
 
     const total = carrito.reduce((sum, p) => sum + (p.precio * (p.cantidad || 1)), 0);
-      const fechaPedido = new Date().toISOString();
-const pedido = {
-  usuario_id: user.id,
-  productos,
-  total,
-  fecha: fechaPedido
-};
-
+    const fechaPedido = new Date().toISOString();
 
     const { error: pedidoError } = await supabase.from('pedidos').insert([{
-      usuario_id: user.id,
-      productos: productos,
+      usuario_id: session.user.id,
+      productos: carrito,
       total: total,
-      fecha: new Date().toISOString()
+      fecha: fechaPedido
     }]);
 
     if (pedidoError) {
@@ -187,7 +181,7 @@ const pedido = {
 
     // WhatsApp
     let mensaje = `🛒 *Nuevo Pedido desde Crackio Store*%0A`;
-    mensaje += `👤 Cliente: ${user.email}%0A`;
+    mensaje += `👤 Cliente: ${session.user.email}%0A`;
     mensaje += `📦 Productos:%0A`;
 
     carrito.forEach(p => {
@@ -206,11 +200,15 @@ const pedido = {
     console.error("🧨 Error en finalizarCompra:", err);
     alert("Ocurrió un error al finalizar la compra. Revisa la consola.");
   }
+});
 
-
-  });
    
-}
+
+  
+  
+  
+  
+  }
 
   document.getElementById("abrirCarrito")?.addEventListener("click", () => {
     document.getElementById("modalCarrito").classList.remove("oculto");

@@ -668,4 +668,13 @@ footer .redes {
 .hidden {
   display: none !important;
 }
-
+#boton-carrito {
+  all: unset;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: red;
+  color: white;
+  padding: 10px;
+  z-index: 9999;
+}

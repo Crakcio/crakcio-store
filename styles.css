@@ -207,16 +207,7 @@ footer .redes {
 #boton-carrito:hover {
   background-color: #333;
 }
-#contadorCarrito {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  font-size: 12px;
-  padding: 2px 5px;
-}
+
 .logo {
   font-size: 1.8rem;
   color: white;

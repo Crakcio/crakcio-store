@@ -26,7 +26,7 @@ export function guardarCarrito(carrito) {
 export function actualizarContadorCarrito() {
   const carrito = obtenerCarrito();
   const total = carrito.reduce((sum, p) => sum + p.cantidad, 0);
-  const contador = document.getElementById("cart-count");
+  const contador = document.getElementById("contadorCarrito");
   if (contador) {
     contador.textContent = total;
   }

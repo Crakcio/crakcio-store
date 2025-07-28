@@ -210,22 +210,7 @@ async function registrarPedidoConMetodoPago(metodoPago) {
   alert("Pedido registrado con éxito por " + metodoPago);
 
   // Redirigir a WhatsApp (si quieres)
-const numeroTienda = "519999207025";
-const fecha = new Date().toLocaleDateString();
 
-let mensaje = `🛒 *Nuevo pedido* (${metodoPago})
-👤 Cliente: ${session.user.email}
-📦 Productos:`;
-
-productos.forEach(p => {
-  mensaje += `\n- ${p.nombre} x${p.cantidad} - S/ ${(p.precio * p.cantidad).toFixed(2)}`;
-});
-
-mensaje += `\n💰 Total: S/ ${total.toFixed(2)}`;
-mensaje += `\n📅 Fecha: ${fecha}`;
-
-const url = `https://wa.me/${numeroTienda}?text=${encodeURIComponent(mensaje)}`;
-window.open(url, '_blank'); // Abre WhatsApp en nueva pestaña
 
 
 

@@ -198,11 +198,7 @@ footer .redes {
 .carrito.visible {
   display: block;
 }
-.carrito-icono {
-  cursor: pointer;
-  position: relative;
-  font-size: 24px;
-}
+
 
 #boton-carrito:hover {
   background-color: #333;

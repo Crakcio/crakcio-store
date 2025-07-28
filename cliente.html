@@ -158,15 +158,18 @@
 </script>
 <script>
   document.getElementById('pago-yape').addEventListener('click', () => {
-    mostrarInstruccion('Yape', 'Escanea este QR o envía a <strong>945678321</strong>');
+    mostrarInstruccion('Yape', 'Envía a <strong>9999207025</strong>');
+    enviarPedido("Yape");
   });
 
   document.getElementById('pago-plin').addEventListener('click', () => {
-    mostrarInstruccion('Plin', 'Envía tu pago a <strong>956789123</strong>');
+    mostrarInstruccion('Plin', 'Envía tu pago a <strong>999207025</strong>');
+    enviarPedido("Plin");
   });
 
   document.getElementById('pago-tarjeta').addEventListener('click', () => {
     mostrarInstruccion('Tarjeta', 'Serás redirigido a nuestra pasarela de pago seguro.');
+    enviarPedido("Tarjeta");
   });
 
   function mostrarInstruccion(metodo, mensaje) {

@@ -5,6 +5,7 @@ import {
   mostrarMensaje
 } from "./ui.js";
 import {
+  obtenerCarrito,
   agregarAlCarrito,
   actualizarContadorCarrito,
   mostrarCarrito,
@@ -150,13 +151,13 @@ function obtenerUrlImagen(path) {
     }
 
     const user = session.user;
-
+    const carrito = obtenerCarrito();
     if (carrito.length === 0) {
       alert('Tu carrito está vacío.');
       return;
     }
 
-    const total = productos.reduce((sum, p) => sum + (p.precio * (p.cantidad || 1)), 0);
+    const total = carrito.reduce((sum, p) => sum + (p.precio * (p.cantidad || 1)), 0);
       const fechaPedido = new Date().toISOString();
 const pedido = {
   usuario_id: user.id,
@@ -189,7 +190,7 @@ const pedido = {
     mensaje += `👤 Cliente: ${user.email}%0A`;
     mensaje += `📦 Productos:%0A`;
 
-    productos.forEach(p => {
+    carrito.forEach(p => {
       mensaje += `- ${p.nombre} x${p.cantidad} - S/ ${p.precio * p.cantidad}%0A`;
     });
 

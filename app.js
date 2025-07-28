@@ -145,6 +145,14 @@ if (finalizarBtn) {
       alert("Debes iniciar sesión para finalizar la compra.");
       return;
     }
+    // Cierra el modal del carrito (si está abierto)
+  const modalCarrito = document.getElementById('modal');
+  modalCarrito.classList.remove('activo');
+  modalCarrito.classList.add('oculto');
+
+// Abre el modal de método de pago
+const modalPago = document.getElementById('modal-pago');
+modalPago.classList.remove('hidden');
 
     // Mostrar el modal de métodos de pago
     document.getElementById("modalCarrito")?.classList.add("oculto"); // 👈 Oculta el modal del carrito

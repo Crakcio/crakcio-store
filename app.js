@@ -19,7 +19,7 @@ let productos = [];
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     const productos = await obtenerProductos(); // ✅ obtener desde Supabase o local
-    mostrarProductos(productos, "contenedor-productos"); // ✅ mostrar los productos
+    //mostrarProductos(productos, "contenedor-productos"); // ✅ mostrar los productos
     actualizarContadorCarrito(); // ✅ actualizar contador del carrito
     mostrarCarrito(); // ✅ mostrar contenido del carrito si lo hay
   } catch (error) {

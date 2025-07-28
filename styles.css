@@ -434,7 +434,9 @@ footer .redes {
   align-items: center;
   z-index: 1000;
 }
-
+.modal.visible {
+  display: flex;
+}
 
 #contenido-modal {
   background: white;
@@ -671,5 +673,7 @@ footer .redes {
     gap: 10px;
   }
 }
-
+.hidden {
+  display: none !important;
+}
 

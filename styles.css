@@ -615,16 +615,16 @@ footer .redes {
   }
 
 #boton-carrito {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
+  position: fixed; !important;
+  bottom: 20px; !important;
+  right: 20px; !important;
   background-color: #00aaff;
   color: white;
   padding: 10px 15px;
   border-radius: 50px;
   box-shadow: 0 0 10px #00aaff;
   cursor: pointer;
-  z-index: 9999;
+  z-index: 9999; !important;
 }
 
   .submenu {

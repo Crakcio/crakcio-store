@@ -4,7 +4,13 @@ const form = document.getElementById('agregarProductoForm');
 const cerrarSesionAdmin = document.getElementById('cerrarSesionAdmin');
 const formEditar = document.getElementById('formEditarProducto');
 const cancelarEditar = document.getElementById('cancelarEditar');
+const rol = localStorage.getItem("rol");
 
+// Si no eres admin, redirige a index.html
+if (rol !== "admin") {
+  alert("Acceso no autorizado.");
+  window.location.href = "index.html";
+}
 // Cerrar sesión
 cerrarSesionAdmin.addEventListener('click', async () => {
   await supabase.auth.signOut();

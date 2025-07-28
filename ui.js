@@ -50,6 +50,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Mostrar productos genéricos
 export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") {
   const contenedor = document.getElementById(contenedorId);
+  if (!contenedor) {
+    console.warn(`Contenedor con id "${contenedorId}" no existe. No se mostrarán productos.`);
+    return; // detener ejecución
+  }
+
   contenedor.innerHTML = "";
 
   productos
@@ -61,12 +66,11 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
       const card = document.createElement("div");
       card.classList.add("producto");
 
-      // Aquí va lo que preguntaste
       const imagen = document.createElement("img");
       imagen.src = obtenerUrlImagen(producto.imagen_url || producto.imagen);
       imagen.alt = producto.nombre;
       imagen.classList.add("producto-img");
-      
+
       const nombre = document.createElement("h3");
       nombre.textContent = producto.nombre;
 
@@ -75,7 +79,8 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
 
       const boton = document.createElement("button");
       boton.textContent = "Agregar al carrito";
-      boton.addEventListener("click", () => agregarAlCarrito(producto));
+      boton.classList.add("add-to-cart");
+      boton.dataset.id = producto.id;
 
       card.appendChild(imagen);
       card.appendChild(nombre);
@@ -85,6 +90,7 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
       contenedor.appendChild(card);
     });
 }
+
 
 export function mostrarMensaje(mensaje, tipo = "info") {
   const mensajeDiv = document.createElement("div");

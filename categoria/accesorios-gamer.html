@@ -1,1 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accesorios Gamer | Crackio Store</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <header>
+    <!-- Tu navbar aquí -->
+  </header>
+
+  <main>
+    <h1>Accesorios Gamer</h1>
+    <div id="contenedor-productos" class="productos-grid"></div>
+  </main>
+
+  <script type="module">
+    import { getProductos } from '../products.js';
+    import { mostrarProductos } from '../ui.js';
+
+    async function cargarProductosPorCategoria(categoria, contenedorId) {
+      const productos = await getProductos();
+      const filtrados = productos.filter(p => p.categoria === categoria);
+      mostrarProductos(filtrados, contenedorId);
+    }
+
+    cargarProductosPorCategoria("accesorio-gamer", "contenedor-productos");
+  </script>
+</body>
+</html>
 

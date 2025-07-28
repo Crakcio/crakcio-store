@@ -9,6 +9,7 @@ import {
   agregarAlCarrito,
   actualizarContadorCarrito,
   mostrarCarrito,
+  guardarCarrito
 } from './carrito.js';
 
 import { finalizarCompra } from './pedido.js';
@@ -248,7 +249,6 @@ try {
 
   // Llamar función que revisa si el usuario está logueado y tiene productos para procesar compra automáticamente
 
-import { guardarCarrito } from './carrito.js';
 
 
 async function procesarPedidoAutomaticamenteSiExiste() {

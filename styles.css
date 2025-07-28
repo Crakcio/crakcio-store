@@ -630,20 +630,21 @@ footer .redes {
   }
 
 #boton-carrito {
-  position: fixed; !important;
-  bottom: 20px; !important;
-  right: 20px; !important;
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
   background-color: #111;
   color: white;
   padding: 12px;
   border-radius: 50%;
-  z-index: 9999; !important;
+  z-index: 9999 !important;
   cursor: pointer;
   box-shadow: 0 0 10px #00bfff;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 
   .submenu {
     position: static;

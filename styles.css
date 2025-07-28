@@ -621,20 +621,23 @@ footer .redes {
   }
 
 #boton-carrito {
-  position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
-  background-color: #111;
+  all: unset; /* Limpia cualquier estilo anterior */
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #00aaff;
   color: white;
-  padding: 12px;
-  border-radius: 50%;
-  z-index: 9999 !important;
+  padding: 15px;
+  border-radius: 50px;
+  box-shadow: 0 0 10px #00aaff;
   cursor: pointer;
-  box-shadow: 0 0 10px #00bfff;
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.2s ease;
 }
+
 
 
   .submenu {
@@ -667,14 +670,4 @@ footer .redes {
 }
 .hidden {
   display: none !important;
-}
-#boton-carrito {
-  all: unset;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: red;
-  color: white;
-  padding: 10px;
-  z-index: 9999;
 }

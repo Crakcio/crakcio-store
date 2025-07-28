@@ -224,7 +224,7 @@ const pedido = {
 
   // Llamar función que revisa si el usuario está logueado y tiene productos para procesar compra automáticamente
 
-import { obtenerCarrito, guardarCarrito } from './carrito.js';
+import { guardarCarrito } from './carrito.js';
 
 
 async function procesarPedidoAutomaticamenteSiExiste() {

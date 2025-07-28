@@ -574,5 +574,94 @@ footer .redes {
   object-fit: cover;
   border-radius: 10px;
 }
+/* 🔻 Responsive general para Crackio Store (pantallas menores a 768px) */
+@media (max-width: 768px) {
+  header, .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .navbar-left, .navbar-center, .navbar-right {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .menu {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .auth-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .productos-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    padding: 10px;
+    gap: 15px;
+  }
+
+  .producto {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .producto-img {
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+
+  .banner {
+    max-height: 240px;
+  }
+
+  #boton-carrito {
+    bottom: 15px;
+    right: 15px;
+    transform: scale(0.9);
+  }
+
+  .carrito {
+    width: 100vw;
+    top: 0;
+    height: 100vh;
+    padding: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .submenu {
+    position: static;
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .footer {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .redes {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  #contenido-modal {
+    width: 90%;
+    max-width: 95%;
+    padding: 1rem;
+  }
+
+  .botones-pago {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
 
 

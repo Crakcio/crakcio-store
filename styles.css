@@ -670,3 +670,49 @@ footer .redes {
   align-items: center !important;
   justify-content: center !important;
 }
+/* Zona invisible que activa el menú */
+#sidebar-hover-zone {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px; /* fino, solo detecta borde */
+  height: 100vh;
+  z-index: 999;
+}
+
+/* Menú lateral oculto */
+#sidebar-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 100vh;
+  background-color: #111;
+  color: white;
+  padding-top: 60px;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+/* Estilo del contenido del menú */
+#sidebar-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#sidebar-menu li {
+  margin: 20px 0;
+  padding-left: 20px;
+}
+
+#sidebar-menu a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+#sidebar-menu a:hover {
+  text-decoration: underline;
+}

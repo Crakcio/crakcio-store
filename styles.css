@@ -169,7 +169,11 @@ footer .redes {
   transition: opacity 0.3s ease, transform 0.3s ease;
   display: none; /* se activa con JS */
 }
-
+.carrito-icono {
+  cursor: pointer;
+  position: relative;
+  font-size: 24px;
+}
 #contadorCarrito {
   position: absolute;
   top: 5px;
@@ -616,26 +620,6 @@ footer .redes {
     max-height: 240px;
   }
 
-#boton-carrito {
-  all: unset !important;
-  position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
-  background-color: #00aaff !important;
-  color: white !important;
-  padding: 15px !important;
-  border-radius: 50% !important;
-  box-shadow: 0 0 10px #00aaff !important;
-  cursor: pointer !important;
-  z-index: 9999 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-
-
-
   .submenu {
     position: static;
     background-color: transparent;
@@ -666,4 +650,20 @@ footer .redes {
 }
 .hidden {
   display: none !important;
+}
+#boton-carrito {
+  all: unset !important;
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  background-color: #00aaff !important;
+  color: white !important;
+  padding: 15px !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 10px #00aaff !important;
+  cursor: pointer !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }

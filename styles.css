@@ -170,7 +170,7 @@ footer .redes {
   display: none; /* se activa con JS */
 }
 
-#contador-carrito {
+#contadorCarrito {
   position: absolute;
   top: 5px;
   right: 5px;

@@ -131,84 +131,87 @@ function obtenerUrlImagen(path) {
   mostrarCarrito();
    procesarPedidoAutomaticamenteSiExiste();
   
-  const finalizarBtn = document.getElementById('finalizarCompra');
-   console.log("finalizarBtn:", finalizarBtn);
-  if (finalizarBtn) {
-    console.log("Se encontró el botón Finalizar Compra ✅");
-finalizarBtn.addEventListener('click', async () => {
-  try {
-    console.log("Click en Finalizar compra");
-
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-    if (sessionError) {
-      console.error("Error al obtener la sesión:", sessionError.message);
-      alert("Error al verificar tu sesión. Intenta iniciar sesión nuevamente.");
-      return;
-    }
-
-    if (!session || !session.user) {
-      alert('Debes iniciar sesión para finalizar la compra.');
-      window.location.href = 'login.html';
-      return;
-    }
-
+ const finalizarBtn = document.getElementById('finalizarCompra');
+if (finalizarBtn) {
+  finalizarBtn.addEventListener('click', async () => {
     const carrito = obtenerCarrito();
     if (carrito.length === 0) {
-      alert('Tu carrito está vacío.');
+      alert("Tu carrito está vacío.");
       return;
     }
 
-    const total = carrito.reduce((sum, p) => sum + (p.precio * (p.cantidad || 1)), 0);
-    const fechaPedido = new Date().toISOString();
-
-    const { error: pedidoError } = await supabase.from('pedidos').insert([{
-      usuario_id: session.user.id,
-      productos: carrito,
-      total: total,
-      fecha: fechaPedido
-    }]);
-
-    if (pedidoError) {
-      console.error('❌ Error al registrar pedido:', pedidoError);
-      alert('Error al registrar pedido: ' + pedidoError.message);
+    const { data: { session }, error } = await supabase.auth.getSession();
+    if (error || !session?.user) {
+      alert("Debes iniciar sesión para finalizar la compra.");
       return;
     }
 
-    alert("¡Compra realizada con éxito!");
-    localStorage.removeItem("carrito");
-    actualizarContadorCarrito();
-    mostrarCarrito();
+    // Mostrar el modal de métodos de pago
+    document.getElementById("modal-pago")?.classList.remove("hidden");
+  });
+}
 
-    // WhatsApp
-    let mensaje = `🛒 *Nuevo Pedido desde Crackio Store*%0A`;
-    mensaje += `👤 Cliente: ${session.user.email}%0A`;
-    mensaje += `📦 Productos:%0A`;
-
-    carrito.forEach(p => {
-      mensaje += `- ${p.nombre} x${p.cantidad} - S/ ${p.precio * p.cantidad}%0A`;
-    });
-
-    mensaje += `💰 Total: S/ ${total.toFixed(2)}%0A`;
-    mensaje += `📅 Fecha: ${new Date().toLocaleDateString()}`;
-
-    const numeroTienda = '519999207025';
-    const url = `https://wa.me/${numeroTienda}?text=${mensaje}`;
-
-    window.location.href = url;
-
-  } catch (err) {
-    console.error("🧨 Error en finalizarCompra:", err);
-    alert("Ocurrió un error al finalizar la compra. Revisa la consola.");
-  }
+// Escuchar botones de método de pago
+document.querySelectorAll("#modal-pago button").forEach(boton => {
+  boton.addEventListener("click", async (e) => {
+    const metodo = e.currentTarget.id.replace("pago-", ""); // yape, plin, tarjeta
+    await registrarPedidoConMetodoPago(metodo);
+  });
 });
 
-   
-
-  
-  
-  
-  
+async function registrarPedidoConMetodoPago(metodoPago) {
+  const carrito = obtenerCarrito();
+  const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+  if (sessionError || !session?.user) {
+    alert("Sesión no válida. Intenta iniciar sesión.");
+    return;
   }
+
+  const userId = session.user.id;
+  const productos = carrito.map(p => ({
+    idProducto: p.id,
+    nombre: p.nombre,
+    cantidad: p.cantidad,
+    precio: p.precio
+  }));
+
+  const total = productos.reduce((sum, p) => sum + (p.precio * p.cantidad), 0);
+
+  const pedido = {
+    usuario_id: userId,
+    productos,
+    total,
+    metodo_pago: metodoPago,
+    fecha: new Date().toISOString()
+  };
+
+  const { error: pedidoError } = await supabase.from('pedidos').insert([pedido]);
+  if (pedidoError) {
+    alert("Error al registrar pedido: " + pedidoError.message);
+    return;
+  }
+
+  localStorage.removeItem("carrito");
+  actualizarContadorCarrito();
+  mostrarCarrito();
+
+  document.getElementById("modal-pago")?.classList.add("hidden");
+
+  alert("Pedido registrado con éxito por " + metodoPago);
+
+  // Redirigir a WhatsApp (si quieres)
+  const numero = "519999207025";
+  const mensaje = encodeURIComponent(`
+🛒 Nuevo pedido (${metodoPago})
+Cliente: ${session.user.email}
+Total: S/ ${total.toFixed(2)}
+`);
+  window.location.href = `https://wa.me/${numero}?text=${mensaje}`;
+}
+
+
+
+
 
   document.getElementById("abrirCarrito")?.addEventListener("click", () => {
     document.getElementById("modalCarrito").classList.remove("oculto");

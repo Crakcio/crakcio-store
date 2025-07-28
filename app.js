@@ -15,7 +15,7 @@ import { supabase } from './supabaseClient.js';
 import { obtenerProductos } from './products.js';
 
 // ------------------------- AUTENTICACIÓN -----------------------------
-
+let productos = [];
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     const productos = await obtenerProductos(); // ✅ obtener desde Supabase o local

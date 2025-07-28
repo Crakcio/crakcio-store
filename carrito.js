@@ -34,8 +34,8 @@ export function actualizarContadorCarrito() {
 
 export function mostrarCarrito() {
   const carrito = obtenerCarrito();
-  const contenedor = document.getElementById("carrito-contenido");
-  const totalSpan = document.getElementById("total-carrito");
+  const contenedor = document.getElementById("contenedor-carrito");
+  const totalSpan = document.getElementById("totalCarrito");
 
   if (!contenedor || !totalSpan) return;
 

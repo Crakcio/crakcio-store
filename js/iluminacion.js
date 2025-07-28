@@ -1,5 +1,7 @@
 // iluminacion.js
-import { mostrarProductos, cargarProductosPorCategoria } from '../products.js';
+import { cargarProductosPorCategoria } from '../products.js';
+import { mostrarProductos } from '../ui.js';
+
 
 
 document.addEventListener('DOMContentLoaded', async () => {

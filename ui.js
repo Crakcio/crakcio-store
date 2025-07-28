@@ -81,7 +81,9 @@ export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") 
       boton.textContent = "Agregar al carrito";
       boton.classList.add("add-to-cart");
       boton.dataset.id = producto.id;
-
+      boton.addEventListener("click", () => {
+      agregarAlCarrito(producto);
+      });
       card.appendChild(imagen);
       card.appendChild(nombre);
       card.appendChild(precio);

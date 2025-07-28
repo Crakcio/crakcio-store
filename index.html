@@ -31,15 +31,32 @@
       </li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
-    
   </div>
-
-  <div class="navbar-right">
      
+<!-- Zona invisible para detectar el hover -->
+<div id="sidebar-hover-zone"></div>
+
+<!-- Menú lateral oculto -->
+<div id="sidebar-menu">
+  <ul>
+    <li><a href="#inicio">Inicio</a></li>
+    <li class="dropdown">
+    <li><a href="#productos">Productos</a></li>
+        <ul class="submenu">
+          <li><a href="categoria/iluminacion.html">Iluminación</a></li>
+          <li><a href="categoria/smart-home.html">Smart Home</a></li>
+          <li><a href="categoria/accesorios-gamer.html">Accesorios Gamer</a></li>
+        </ul>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</div>
+
+     
+  <div class="navbar-right">
     <div id="user-controls">
       <button id="boton-admin" class="oculto">Panel Admin</button>
     </div>
-    <div class="auth-links">
+      <div class="auth-links">
       <a href="login.html" id="btnLogin">Iniciar sesión</a>
       <a href="registro.html" id="btnRegistro">Crear cuenta</a>
       <button id="btnCerrarSesion" style="display: none;">Cerrar sesión</button>

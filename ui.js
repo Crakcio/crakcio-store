@@ -35,10 +35,10 @@ export async function mostrarProductosMasRecientes() {
 }
 
 // Mostrar todos los productos (opcional, si tienes una vista de todos)
-export async function mostrarTodosLosProductos() {
-  const productos = await obtenerProductos();
-  mostrarProductos(productos, "contenedor-productos");
-}
+//export async function mostrarTodosLosProductos() {
+ // const productos = await obtenerProductos();
+ // mostrarProductos(productos, "contenedor-productos");
+//}
 
 // Ejecutar funciones al cargar la página
 document.addEventListener("DOMContentLoaded", async () => {

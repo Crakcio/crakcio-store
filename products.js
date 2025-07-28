@@ -59,4 +59,17 @@ export async function obtenerMasRecientes(limit = 4) {
   }
 }
 
+export async function cargarProductosPorCategoria(categoria) {
+  const { data, error } = await supabase
+    .from('productos')
+    .select('*')
+    .eq('categoria', categoria);
+
+  if (error) {
+    console.error('Error al obtener productos:', error);
+    return [];
+  }
+
+  return data;
+}
 

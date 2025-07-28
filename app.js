@@ -210,25 +210,23 @@ async function registrarPedidoConMetodoPago(metodoPago) {
   alert("Pedido registrado con éxito por " + metodoPago);
 
   // Redirigir a WhatsApp (si quieres)
- const numeroTienda = "519999207025";
+const numeroTienda = "519999207025";
 const fecha = new Date().toLocaleDateString();
 
-let mensaje = `
-🛒 *Nuevo pedido* (${metodoPago})%0A
-👤 Cliente: ${session.user.email}%0A
-📦 Productos:%0A`;
+let mensaje = `🛒 *Nuevo pedido* (${metodoPago})
+👤 Cliente: ${session.user.email}
+📦 Productos:`;
 
 productos.forEach(p => {
-  mensaje += `- ${p.nombre} x${p.cantidad} - S/ ${(p.precio * p.cantidad).toFixed(2)}%0A`;
+  mensaje += `\n- ${p.nombre} x${p.cantidad} - S/ ${(p.precio * p.cantidad).toFixed(2)}`;
 });
 
-mensaje += `💰 Total: S/ ${total.toFixed(2)}%0A`;
-mensaje += `📅 Fecha: ${fecha}`;
+mensaje += `\n💰 Total: S/ ${total.toFixed(2)}`;
+mensaje += `\n📅 Fecha: ${fecha}`;
 
 const url = `https://wa.me/${numeroTienda}?text=${encodeURIComponent(mensaje)}`;
+window.open(url, '_blank'); // Abre WhatsApp en nueva pestaña
 
-  window.location.href = `https://wa.me/${numero}?text=${mensaje}`;
-}
 
 
 

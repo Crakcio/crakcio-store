@@ -422,7 +422,7 @@ footer .redes {
   display: none !important;
 }
 
-#modal {
+.modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -434,6 +434,7 @@ footer .redes {
   align-items: center;
   z-index: 1000;
 }
+
 
 #contenido-modal {
   background: white;
@@ -455,14 +456,7 @@ footer .redes {
   z-index: 1000;
 }
 .modal-contenido {
-  background: #fff;
-  padding: 20px;
-  width: 90%;
-  max-width: 400px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px black;
-  position: relative;
-  text-align: center;
+  background: transparent;
 }
 /* Diseño responsivo para pantallas pequeñas */
 @media (max-width: 768px) {

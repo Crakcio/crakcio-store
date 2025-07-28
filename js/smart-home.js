@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function mostrarProductos(productos) {
-  const container = document.getElementById('productos-container');
+  const container = document.getElementById('contenedor-productos');
 
   if (productos.length === 0) {
     container.innerHTML = "<p>No hay productos disponibles aún.</p>";

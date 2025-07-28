@@ -154,17 +154,22 @@ footer .redes {
 
 .carrito {
   position: fixed;
-  right: 0;
-  top: 80px;
-  width: 300px;
-  background: var(--color-secundario);
-  border-left: 2px solid var(--color-acento);
-  padding: 1rem;
-  z-index: 999;
-  height: calc(100% - 80px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 400px;
+  max-height: 90vh;
   overflow-y: auto;
-  display: none;
+  background-color: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  z-index: 1000;
+  border-radius: 15px;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  display: none; /* se activa con JS */
 }
+
 #contador-carrito {
   position: absolute;
   top: 5px;
@@ -625,14 +630,6 @@ footer .redes {
     bottom: 15px;
     right: 15px;
     transform: scale(0.9);
-  }
-
-  .carrito {
-    width: 100vw;
-    top: 0;
-    height: 100vh;
-    padding: 1rem;
-    font-size: 0.95rem;
   }
 
   .submenu {

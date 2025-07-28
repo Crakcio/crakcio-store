@@ -621,22 +621,22 @@ footer .redes {
   }
 
 #boton-carrito {
-  all: unset; /* Limpia cualquier estilo anterior */
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background-color: #00aaff;
-  color: white;
-  padding: 15px;
-  border-radius: 50px;
-  box-shadow: 0 0 10px #00aaff;
-  cursor: pointer;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s ease;
+  all: unset !important;
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  background-color: #00aaff !important;
+  color: white !important;
+  padding: 15px !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 10px #00aaff !important;
+  cursor: pointer !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
+
 
 
 

@@ -293,5 +293,4 @@ async function procesarPedidoAutomaticamenteSiExiste() {
   mostrarCarrito();
   alert('Compra realizada con éxito. Gracias por tu pedido.');
 }
-
-// ------------------------ FINALIZAR COMPRA -----------------------------
+console.log("Archivo cargado completamente");

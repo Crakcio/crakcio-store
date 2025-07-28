@@ -147,7 +147,9 @@ if (finalizarBtn) {
     }
 
     // Mostrar el modal de métodos de pago
-    document.getElementById("modal-pago")?.classList.remove("hidden");
+    document.getElementById("modalCarrito")?.classList.add("oculto"); // 👈 Oculta el modal del carrito
+  document.getElementById("modal-pago")?.classList.remove("hidden"); // 👈 Muestra el modal de pago
+
   });
 }
 

@@ -7,8 +7,9 @@ const cancelarEditar = document.getElementById('cancelarEditar');
 
 // Cerrar sesión
 cerrarSesionAdmin.addEventListener('click', async () => {
+  console.log("Cerrando sesión...");
   await supabase.auth.signOut();
-  window.location.href = 'login.html';
+  window.location.href = "index.html";
 });
 
 // Verificación de rol antes de cargar cualquier dato

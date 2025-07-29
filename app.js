@@ -27,6 +27,35 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (error) {
     console.error('Error al obtener productos:', error);
   }
+  //////////////////icono de subcategorias////////////////////////////
+    const productosToggle = document.getElementById('productosToggle');
+    const submenu = document.getElementById('subcategorias');
+    const icon = document.getElementById('toggleIcon');
+
+    if (productosToggle && submenu && icon) {
+    productosToggle.addEventListener('click', () => {
+    submenu.classList.toggle('visible');
+    submenu.classList.toggle('oculto');
+
+    const isOpen = submenu.classList.contains('visible');
+    icon.textContent = isOpen ? '▾' : '▸';
+  });
+}
+
+ 
+// Mostrar sidebar al acercar el mouse al borde izquierdo
+  document.addEventListener('mousemove', e => {
+  const sidebar = document.getElementById('sidebar');
+  if (!sidebar) return;
+
+  if (e.clientX < 30) {
+    sidebar.classList.add('visible');
+  } else if (!sidebar.matches(':hover')) {
+    sidebar.classList.remove('visible');
+  }
+  });
+
+ 
 });
 
  // Evento de añadir al carrito
@@ -119,17 +148,8 @@ function verificarSesion() {
 
   });
 }
-////////////////////////////////////////////////////////////////////////////
-const hoverZone = document.getElementById('sidebar-hover-zone');
-const sidebarMenu = document.getElementById('sidebar-menu');
 
-hoverZone.addEventListener('mouseenter', () => {
-  sidebarMenu.style.transform = 'translateX(0)';
-});
 
-sidebarMenu.addEventListener('mouseleave', () => {
-  sidebarMenu.style.transform = 'translateX(-100%)';
-});
 
 // ------------------------- CARRITO DE COMPRAS -----------------------------
 
@@ -143,28 +163,28 @@ function obtenerUrlImagen(path) {
   mostrarCarrito();
    procesarPedidoAutomaticamenteSiExiste();
   
- const finalizarBtn = document.getElementById('finalizarCompra');
-if (finalizarBtn) {
-  finalizarBtn.addEventListener('click', async () => {
-    const carrito = obtenerCarrito();
-    if (carrito.length === 0) {
-      alert("Tu carrito está vacío.");
-      return;
-    }
+  const finalizarBtn = document.getElementById('finalizarCompra');
+  if (finalizarBtn) {
+    finalizarBtn.addEventListener('click', async () => {
+      const carrito = obtenerCarrito();
+      if (carrito.length === 0) {
+        alert("Tu carrito está vacío.");
+        return;
+      }
 
-    const { data: { session }, error } = await supabase.auth.getSession();
-    if (error || !session?.user) {
-      alert("Debes iniciar sesión para finalizar la compra.");
-      return;
-    }
+      const { data: { session }, error } = await supabase.auth.getSession();
+      if (error || !session?.user) {
+        alert("Debes iniciar sesión para finalizar la compra.");
+        return;
+      }
     // Cierra el modal del carrito (si está abierto)
   const modalCarrito = document.getElementById('modal');
   modalCarrito.classList.remove('activo');
   modalCarrito.classList.add('oculto');
 
 // Abre el modal de método de pago
-const modalPago = document.getElementById('modal-pago');
-modalPago.classList.remove('hidden');
+  const modalPago = document.getElementById('modal-pago');
+  modalPago.classList.remove('hidden');
 
     // Mostrar el modal de métodos de pago
     document.getElementById("modalCarrito")?.classList.add("oculto"); // 👈 Oculta el modal del carrito

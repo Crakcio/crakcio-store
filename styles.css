@@ -336,7 +336,8 @@ footer .redes {
   top: 100%;
   left: 0;
   z-index: 999;
-  transition: opacity 0.3s ease;
+  margin-left: 10px;
+  transition: all 0.3s ease;
 }
 
 .submenu li {
@@ -604,11 +605,8 @@ footer .redes {
   }
 
   .submenu {
-    position: static;
-    background-color: transparent;
-    box-shadow: none;
-    padding: 0;
-  }
+  display: none;
+}
 
   .footer {
     padding: 1rem;
@@ -659,40 +657,54 @@ footer .redes {
   height: 100vh;
   z-index: 999;
 }
-
-/* Menú lateral oculto */
-#sidebar-menu {
+/* Menú lateral oculto que aparece al pasar el mouse */
+.sidebar {
   position: fixed;
-  top: 0;
   left: 0;
-  width: 220px;
-  height: 100vh;
-  background-color: #111;
+  top: 0;
+  bottom: 0;
+  width: 250px;
+  background-color: #1a1a1a;
   color: white;
-  padding-top: 60px;
+  padding: 20px;
   transform: translateX(-100%);
   transition: transform 0.3s ease;
-  z-index: 1000;
+  z-index: 999;
 }
 
 /* Estilo del contenido del menú */
-#sidebar-menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+
+.sidebar.visible {
+  transform: translateX(0);
+}
+#sidebar ul li {
+  cursor: pointer !important;
 }
 
-#sidebar-menu li {
-  margin: 20px 0;
-  padding-left: 20px;
+#sidebar ul {
+  list-style-type: disc !important;
+  padding-left: 15px;
 }
 
-#sidebar-menu a {
+
+.sidebar ul li a {
   color: white;
   text-decoration: none;
-  font-size: 18px;
+}
+.submenu.oculto {
+  display: none;
 }
 
-#sidebar-menu a:hover {
-  text-decoration: underline;
+.submenu.visible {
+  display: block;
+}
+#productosToggle {
+  cursor: pointer !important;
+}
+#productosToggle ul {
+  display: none;
+}
+
+#productosToggle:hover ul {
+  display: block;
 }

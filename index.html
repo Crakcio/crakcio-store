@@ -13,10 +13,18 @@
 </head>
 <body>
   <header>
-   <nav class="navbar">
-  <div class="navbar-left">
-    <div class="logo">Crackio Store</div>
+    <!-- Icono de 3 barras -->
+  <div id="menu-toggle" class="menu-icon">
+  <span></span>
+  <span></span>
+  <span></span>
   </div>
+
+
+   <nav class="navbar">
+    <div class="navbar-left">
+      <div class="logo">Crackio Store</div>
+    </div>
 <!-- Barra de busqueda -->
 <div class="barra-busqueda">
   <input type="text" id="inputBusqueda" placeholder="Buscar productos o categorías...">
@@ -41,8 +49,6 @@
 </div>
 
 
-
-
      
 <!-- Zona invisible para detectar el hover -->
 <div id="sidebar-hover-zone"></div>
@@ -65,12 +71,11 @@
   </ul>
 </div>
 
-     
   <div class="navbar-right">
           <div class="auth-links">
-      <button id="btnCerrarSesion" style="display: none;">Cerrar sesión</button>
     </div>
   </div>
+
 </nav>
  
   </header>
@@ -90,10 +95,10 @@
      <h2>Productos más vendidos</h2>
     
 
-    <div id="productos-mas-vendidos" class="grid-productos"></div>
+    <div id="productos-mas-vendidos" class="productos-grid"></div>
 
     <h2>Productos más recientes</h2>
-    <div id="productos-mas-recientes" class="grid-productos"></div>
+    <div id="productos-mas-recientes" class="productos-grid"></div>
     
     
         
@@ -245,4 +250,6 @@
        <script type="module" src="app.js"></script>
 </body>
 </html>
+
+
 

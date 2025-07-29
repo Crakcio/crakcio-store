@@ -22,21 +22,21 @@
 <!-- Zona invisible para detectar el hover -->
 <div id="sidebar-hover-zone"></div>
 
-<!-- Zona invisible para detectar el hover -->
-<div id="sidebar-hover-zone"></div>
-
 <!-- Menú lateral oculto -->
-<div id="sidebar-menu">
+<div id="sidebar" class="sidebar">
   <ul>
-    <li><a href="#inicio">Inicio</a></li>
-      <li id="productos-toggle" class="has-submenu">
-        <a href="javascript:void(0)">Productos ▸</a>
-        <ul class="submenu">
-        <li><a href="#accesorios">🎮 Accesorios Gamer</a></li>
-        <li><a href="#iluminacion">💡 Iluminación</a></li>
-        <li><a href="#smarthome">🏠 Smart Home</a></li>
+    <li><a href="index.html">Inicio</a></li>
+
+    <li id="productosToggle" class="dropdown">
+       <span id="toggleIcon">▸</span> Productos
+       <ul id="subcategorias" class="submenu">
+         <li><a href="categoria/accesorios-gamer.html">Accesorios Gamer</a></li>
+         <li><a href="categoria/iluminacion.html">Iluminación</a></li>
+         <li><a href="categoria/smart-home.html">Smart Home</a></li>
         </ul>
-      </li>
+    </li>
+
+
     <li><a href="#contacto">Contacto</a></li>
   </ul>
 </div>
@@ -167,7 +167,7 @@
 </script>
 <script>
   document.getElementById('pago-yape').addEventListener('click', () => {
-    mostrarInstruccion('Yape', 'Escanea este QR o envía a <strong>999207025</strong>');
+    mostrarInstruccion('Yape', 'Envía a <strong>999207025</strong>');
   });
 
   document.getElementById('pago-plin').addEventListener('click', () => {
@@ -185,13 +185,13 @@
   }
 </script>
   
-<script type="module" src="app.js"></script>
-
-<div id="fondo-modal" class="fondo-modal oculto"></div>
- <div id="boton-carrito" title="Ver carrito">
-    <i class="fas fa-shopping-cart fa-2x"></i>
-    <span id="contadorCarrito">0</span>
+      <div id="fondo-modal" class="fondo-modal oculto"></div>
+        <div id="boton-carrito" title="Ver carrito">
+            <i class="fas fa-shopping-cart fa-2x"></i>
+           <span id="contadorCarrito">0</span>
        </div>
+       <script type="module" src="app.js"></script>
 </body>
 </html>
+
 

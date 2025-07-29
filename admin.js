@@ -146,7 +146,7 @@ document.getElementById('cancelarEditar').addEventListener('click', () => {
 });
 // Cerrar sesión (placeholder)
 document.getElementById('cerrarSesionAdmin').addEventListener('click', () => {
-  alert('Cerrar sesión aún no implementado');
+  alert('Cerrar sesión');
 });
 
 // Iniciar carga inicial

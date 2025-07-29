@@ -57,9 +57,9 @@ main {
 
 .producto {
   background-color: #1a1a1a;
-  border: 1px solid #222;
+  border: 1px solid #ccc;
   border-radius: 10px;
-  padding: 15px;
+  padding: 10px;
   margin: 15px;
   width: 240px;
   box-shadow: 0 0 10px #000;
@@ -67,13 +67,11 @@ main {
 }
 
 .producto:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px #00bfff;
+  transform: scale(1.03);
 }
 .producto-img {
-  width: 150px;
+  max-width: 100%;
   height: auto;
-  object-fit: cover;
   border-radius: 8px;
 }
 button {
@@ -513,11 +511,12 @@ footer .redes {
   border-radius: 8px;
 }
 .productos-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columnas iguales */
-  gap: 20px;
-  padding: 20px;
+   display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Siempre 4 columnas en escritorio */
+  gap: 15px;
+  padding: 10px;
 }
+
 
 .producto-card, .admin-producto {
   background-color: #1a1a1a;
@@ -562,15 +561,37 @@ footer .redes {
   }
 
   .productos-grid {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    padding: 10px;
-    gap: 15px;
-  }
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Fuerza 4 columnas */
+  gap: 15px;
+  padding: 10px;
+}
+
+
 
   .producto {
+     background-color: white;
+     padding: 10px;
+      border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: center;
     width: 100%;
-    margin: 10px 0;
+    box-sizing: border-box;
+    transition: transform 0.2s;
   }
+/* Adaptación a tablets */
+@media (max-width: 992px) {
+  .productos-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en tablets */
+  }
+}
+
+/* Adaptación a celulares */
+@media (max-width: 576px) {
+  .productos-grid {
+    grid-template-columns: 1fr; /* 1 columna en celulares */
+  }
+}
 
   .producto-img {
     width: 100%;
@@ -838,3 +859,40 @@ footer .redes {
   color: #888;
   pointer-events: none;
 }
+.menu-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 1000;
+  cursor: pointer;
+}
+
+.menu-icon span {
+  height: 4px;
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+/* Si tienes fondo oscuro en el header, mejorará el contraste */
+@media (max-width: 768px) {
+  .menu-icon {
+    top: 10px;
+    left: 10px;
+    width: 25px;
+    height: 20px;
+  }
+
+  .menu-icon span {
+    height: 3px;
+  }
+}
+
+

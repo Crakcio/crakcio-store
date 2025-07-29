@@ -17,6 +17,31 @@
   <div class="navbar-left">
     <div class="logo">Crackio Store</div>
   </div>
+<!-- Barra de busqueda -->
+<div class="barra-busqueda">
+  <input type="text" id="inputBusqueda" placeholder="Buscar productos o categorías...">
+  <span class="icono-busqueda">🔍</span>
+</div>
+
+
+
+  <!-- icono de perfil -->
+<div class="perfil-container">
+  <div id="perfilIcono" class="perfil-icono">
+    <svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 0 24 24" fill="#00bfff">
+      <path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.9v2.5h19.2v-2.5c0-3.3-6.4-4.9-9.6-4.9z"/>
+    </svg>
+  </div>
+  <div id="perfilMenu" class="perfil-menu oculto">
+    <div class="nube-con-cola">
+      <a href="login.html">🔐 Iniciar sesión</a>
+      <a href="registro.html">📝 Crear cuenta</a>
+    </div>
+  </div>
+</div>
+
+
+
 
      
 <!-- Zona invisible para detectar el hover -->
@@ -27,29 +52,22 @@
   <ul>
     <li><a href="index.html">Inicio</a></li>
 
-    <li id="productosToggle" class="dropdown">
-       <span id="toggleIcon">▸</span> Productos
-       <ul id="subcategorias" class="submenu">
-         <li><a href="categoria/accesorios-gamer.html">Accesorios Gamer</a></li>
-         <li><a href="categoria/iluminacion.html">Iluminación</a></li>
-         <li><a href="categoria/smart-home.html">Smart Home</a></li>
-        </ul>
-    </li>
-
+    <li id="productosToggle" style="cursor: pointer;">
+    <span id="toggleIcon">▸</span> Productos
+    <ul id="subcategorias" class="submenu oculto">
+      <li><a href="#">Accesorios Gamer</a></li>
+      <li><a href="#">Iluminación</a></li>
+      <li><a href="#">Smart Home</a></li>
+    </ul>
+  </li>
 
     <li><a href="#contacto">Contacto</a></li>
   </ul>
 </div>
 
-
      
   <div class="navbar-right">
-    <div id="user-controls">
-      <button id="boton-admin" class="oculto">Panel Admin</button>
-    </div>
-      <div class="auth-links">
-      <a href="login.html" id="btnLogin">Iniciar sesión</a>
-      <a href="registro.html" id="btnRegistro">Crear cuenta</a>
+          <div class="auth-links">
       <button id="btnCerrarSesion" style="display: none;">Cerrar sesión</button>
     </div>
   </div>
@@ -58,6 +76,17 @@
   </header>
 
   <main class="contenedor" id="inicio">
+    <section id="banner">
+      <!-- Imagen del banner se cargará luego -->
+      <img id="banner-image" src="images/Banner2.png" alt="Banner Crakcio Store" />
+    </section>
+
+
+    <div id="listaProductos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+    
+      <!-- Aquí aparecerán los productos -->
+    </div>
+
      <h2>Productos más vendidos</h2>
     
 
@@ -66,13 +95,9 @@
     <h2>Productos más recientes</h2>
     <div id="productos-mas-recientes" class="grid-productos"></div>
     
-    <section id="banner">
-      <!-- Imagen del banner se cargará luego -->
-      <img id="banner-image" src="images/Banner2.png" alt="Banner Crakcio Store" />
-    </section>
+    
         
         <!-- Productos dinámicos desde Supabase -->
-  
 
    <!-- <div id="menu"></div> -->
 
@@ -184,7 +209,34 @@
     instrucciones.innerHTML = `<h4>Pago con ${metodo}</h4><p>${mensaje}</p>`;
   }
 </script>
-  
+
+<script>
+  const productosToggle = document.getElementById('productosToggle');
+  const subcategorias = document.getElementById('subcategorias');
+  const toggleIcon = document.getElementById('toggleIcon');
+
+  productosToggle.addEventListener('click', () => {
+    subcategorias.classList.toggle('open');
+    toggleIcon.textContent = subcategorias.classList.contains('open') ? '▾' : '▸';
+  });
+</script>
+
+<script>
+  const perfilIcono = document.getElementById("perfilIcono");
+  const perfilMenu = document.getElementById("perfilMenu");
+
+  perfilIcono.addEventListener("click", () => {
+    perfilMenu.classList.toggle("oculto");
+  });
+
+  // Opcional: cerrar si haces clic fuera
+  document.addEventListener("click", (e) => {
+    if (!perfilIcono.contains(e.target) && !perfilMenu.contains(e.target)) {
+      perfilMenu.classList.add("oculto");
+    }
+  });
+</script>
+
       <div id="fondo-modal" class="fondo-modal oculto"></div>
         <div id="boton-carrito" title="Ver carrito">
             <i class="fas fa-shopping-cart fa-2x"></i>
@@ -193,5 +245,4 @@
        <script type="module" src="app.js"></script>
 </body>
 </html>
-
 

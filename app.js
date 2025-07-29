@@ -20,27 +20,53 @@ import { obtenerProductos } from './products.js';
 let productos = [];
 document.addEventListener('DOMContentLoaded', async () => {
   try {
-    const productos = await obtenerProductos(); // ✅ obtener desde Supabase o local
-    mostrarProductos(productos, "listaProductos"); // ✅ mostrar los productos
+    productos = await obtenerProductos(); // ✅ obtener desde Supabase o local
+    //mostrarProductos(productos, "listaProductos"); // ✅ mostrar los productos
     actualizarContadorCarrito(); // ✅ actualizar contador del carrito
     mostrarCarrito(); // ✅ mostrar contenido del carrito si lo hay
   } catch (error) {
     console.error('Error al obtener productos:', error);
   }
+
+// 🔍 Agrega el buscador después de haber cargado los productos
+const inputBusqueda = document.getElementById("inputBusqueda");
+
+inputBusqueda.addEventListener("input", () => {
+  const texto = inputBusqueda.value.toLowerCase().trim();
+
+  if (texto === "") {
+    // Si el campo está vacío, limpiamos la zona de productos
+    document.getElementById("listaProductos").innerHTML = "";
+    return;
+  }
+
+  const productosFiltrados = productos.filter(producto =>
+    producto.nombre.toLowerCase().includes(texto) ||
+    (producto.categoria && producto.categoria.toLowerCase().includes(texto))
+  );
+
+  mostrarProductos(productosFiltrados, "listaProductos");
+});
+
+
+
   //////////////////icono de subcategorias////////////////////////////
     const productosToggle = document.getElementById('productosToggle');
     const submenu = document.getElementById('subcategorias');
-    const icon = document.getElementById('toggleIcon');
 
-    if (productosToggle && submenu && icon) {
+    if (productosToggle && submenu) {
     productosToggle.addEventListener('click', () => {
     submenu.classList.toggle('visible');
     submenu.classList.toggle('oculto');
 
-    const isOpen = submenu.classList.contains('visible');
-    icon.textContent = isOpen ? '▾' : '▸';
-  });
-}
+    // Cambiar el símbolo ▸ a ▾ y viceversa
+    const icono = document.getElementById('toggleIcon');
+    if (icono) {
+      icono.textContent = submenu.classList.contains('visible') ? '▾' : '▸';
+    }
+    });
+    }
+
 
  
 // Mostrar sidebar al acercar el mouse al borde izquierdo
@@ -54,6 +80,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     sidebar.classList.remove('visible');
   }
   });
+// JavaScript para abrir/cerrar el menú
+const perfilIcono = document.getElementById("perfilIcono");
+const perfilMenu = document.getElementById("perfilMenu");
+
+if (perfilIcono && perfilMenu) {
+  perfilIcono.addEventListener("click", (e) => {
+    e.stopPropagation();
+    perfilMenu.classList.toggle("visible");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!perfilIcono.contains(e.target) && !perfilMenu.contains(e.target)) {
+      perfilMenu.classList.remove("visible");
+    }
+  });
+}
+
+
 
  
 });
@@ -264,8 +308,6 @@ try {
 } catch (e) {
   console.error("Error al generar mensaje de WhatsApp:", e);
 }
-
-
 
 
   document.getElementById("abrirCarrito")?.addEventListener("click", () => {

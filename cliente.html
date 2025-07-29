@@ -22,20 +22,25 @@
 <div id="sidebar-hover-zone"></div>
 
 <!-- Menú lateral oculto -->
-<div id="sidebar-menu">
+<div id="sidebar" class="sidebar">
   <ul>
-    <li><a href="#inicio">Inicio</a></li>
-      <li id="productos-toggle" class="has-submenu">
-        <a href="javascript:void(0)">Productos ▸</a>
-        <ul class="submenu">
-        <li><a href="#accesorios">🎮 Accesorios Gamer</a></li>
-        <li><a href="#iluminacion">💡 Iluminación</a></li>
-        <li><a href="#smarthome">🏠 Smart Home</a></li>
+    <li><a href="index.html">Inicio</a></li>
+
+    <li id="productosToggle" class="dropdown">
+       <span id="toggleIcon">▸</span> Productos
+       <ul id="subcategorias" class="submenu">
+         <li><a href="categoria/accesorios-gamer.html">Accesorios Gamer</a></li>
+         <li><a href="categoria/iluminacion.html">Iluminación</a></li>
+         <li><a href="categoria/smart-home.html">Smart Home</a></li>
         </ul>
-      </li>
+    </li>
+
+
     <li><a href="#contacto">Contacto</a></li>
   </ul>
 </div>
+
+
 
   <div class="navbar-right">
     <div id="user-controls">

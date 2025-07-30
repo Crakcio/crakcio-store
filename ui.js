@@ -44,25 +44,54 @@ export async function mostrarTodosLosProductos() {
 document.addEventListener("DOMContentLoaded", async () => {
   await mostrarProductosMasVendidos();
   await mostrarProductosMasRecientes();
+  actualizarContadorCarrito();
   // await mostrarTodosLosProductos(); // Si deseas mostrar todos también
+ const botonCarrito = document.getElementById('boton-carrito');
+  const modal = document.getElementById('modal');
+  const cerrarCarrito = document.getElementById('cerrarCarrito');
+const vaciarBtn = document.getElementById("vaciar-carrito");
+if (vaciarBtn) {
+  vaciarBtn.addEventListener("click", () => {
+    guardarEnLocalStorage("carrito", []);
+    mostrarCarrito();
+    actualizarContadorCarrito();
+  });
+}
+
+  if (botonCarrito && modal && cerrarCarrito) {
+    botonCarrito.addEventListener('click', () => {
+  mostrarCarrito();
+  modal.classList.add('activo');
+  modal.classList.remove('oculto');
+});
+
+    cerrarCarrito.addEventListener('click', () => {
+      modal.classList.remove('activo');
+      modal.classList.add('oculto');
+    });
+  }
+
+
 });
 
 // Mostrar productos genéricos
 export function mostrarProductos(productos, contenedorId, categoriaFiltro = "") {
   const contenedor = document.getElementById(contenedorId);
+  contenedor.innerHTML = "";
   if (!contenedor) {
     console.warn(`Contenedor con id "${contenedorId}" no existe. No se mostrarán productos.`);
     return; // detener ejecución
   }
 
-  contenedor.innerHTML = "";
+  
 
   productos
     .filter(producto =>
       categoriaFiltro === "" ||
       (producto.categoria || "").toLowerCase().includes(categoriaFiltro.toLowerCase())
     )
-    .forEach(producto => {
+                       // 🧹 Limpia productos anteriores y sus eventos
+    productos.forEach(producto => {
       const card = document.createElement("div");
       card.classList.add("producto");
 
@@ -113,33 +142,4 @@ export function mostrarPopupCarrito() {
   fondo.classList.remove("oculto");
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  actualizarContadorCarrito();
-});
-document.addEventListener("DOMContentLoaded", () => {
-  const botonCarrito = document.getElementById('boton-carrito');
-  const modal = document.getElementById('modal');
-  const cerrarCarrito = document.getElementById('cerrarCarrito');
-const vaciarBtn = document.getElementById("vaciar-carrito");
-if (vaciarBtn) {
-  vaciarBtn.addEventListener("click", () => {
-    guardarEnLocalStorage("carrito", []);
-    mostrarCarrito();
-    actualizarContadorCarrito();
-  });
-}
-
-  if (botonCarrito && modal && cerrarCarrito) {
-    botonCarrito.addEventListener('click', () => {
-  mostrarCarrito();
-  modal.classList.add('activo');
-  modal.classList.remove('oculto');
-});
-
-    cerrarCarrito.addEventListener('click', () => {
-      modal.classList.remove('activo');
-      modal.classList.add('oculto');
-    });
-  }
-});
 

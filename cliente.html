@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+  
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,11 +9,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="icon" href="favicon.ico" />
-
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 <body>
   <header>
+     <!-- Icono de 3 barras -->
+  <div id="menu-toggle" class="menu-icon">
+  <span></span>
+  <span></span>
+  <span></span>
+  </div>
    <nav class="navbar">
   <div class="navbar-left">
     <div class="logo">Crackio Store</div>
@@ -35,7 +42,7 @@
   <div id="perfilMenu" class="perfil-menu oculto">
     <div class="nube-con-cola">
       <!--<a href="login.html">🔐 Iniciar sesión</a>-->
-      <!--<a href="registro.html">📝 Crear cuenta</a>-->
+      <button id="btnCerrarSesion">Cerrar sesión</button>
     </div>
   </div>
 </div>
@@ -47,7 +54,7 @@
 <!-- Menú lateral oculto -->
 <div id="sidebar" class="sidebar">
   <ul>
-    <li><a href="cliente.html">Inicio</a></li>
+    <li><a href="index.html">Inicio</a></li>
 
     <li id="productosToggle" style="cursor: pointer;">
     <span id="toggleIcon">▸</span> Productos
@@ -56,10 +63,9 @@
       <li><a href="#">Iluminación</a></li>
       <li><a href="#">Smart Home</a></li>
     </ul>
-    </li>
+  </li>
 
     <li><a href="#contacto">Contacto</a></li>
-    <button id="btnCerrarSesion" style="display: none;">Cerrar sesión</button>
   </ul>
 </div>
 
@@ -67,6 +73,7 @@
           <div class="auth-links">
     </div>
   </div>
+
 </nav>
  
   </header>
@@ -86,14 +93,15 @@
      <h2>Productos más vendidos</h2>
     
 
-    <div id="productos-mas-vendidos" class="grid-productos"></div>
+    <div id="productos-mas-vendidos" class="productos-grid"></div>
 
     <h2>Productos más recientes</h2>
-    <div id="productos-mas-recientes" class="grid-productos"></div>
+    <div id="productos-mas-recientes" class="productos-grid"></div>
+    
     
         
         <!-- Productos dinámicos desde Supabase -->
-    <div id="listaProductos" class="productos-grid"></div>
+
    <!-- <div id="menu"></div> -->
 
   </main>
@@ -125,18 +133,41 @@
 
  <div id="modal-pago" class="modal hidden">
     <div class="modal-contenido">
-  <h3>Selecciona método de pago:</h3>
-  <div class="botones-pago">
-    <button id="pago-yape">
+      <div id="formulario-pedido" class="space-y-3 p-4">
+      <label>Teléfono:</label>
+      <input type="text" id="telefono" placeholder="Tu número de teléfono" required class="w-full border p-2 rounded" />
+      <label>Dirección:</label>
+      <input type="text" id="direccion" placeholder="Dirección de entrega" required class="w-full border p-2 rounded" />      <label>Notas adicionales:</label>
+      <textarea id="notas" placeholder="Notas adicionales (opcional)" class="w-full border p-2 rounded"></textarea>
+</div>
+
+ <h3>Selecciona método de pago:</h3>
+<div class="botones-pago">
+  <label>
+    <input type="radio" name="metodo-pago" value="Yape" class="hidden" />
+    <button type="button" class="btn-pago" data-metodo="Yape">
       <img src="images/Yape.png" alt="Yape" width="60"><br>Yape
     </button>
-    <button id="pago-plin">
+  </label>
+
+  <label>
+    <input type="radio" name="metodo-pago" value="Plin" class="hidden" />
+    <button type="button" class="btn-pago" data-metodo="Plin">
       <img src="images/Plin.jpg" alt="Plin" width="60"><br>Plin
     </button>
-    <button id="pago-tarjeta">
+  </label>
+
+  <label>
+    <input type="radio" name="metodo-pago" value="Tarjeta" class="hidden" />
+    <button type="button" class="btn-pago" data-metodo="Tarjeta">
       <img src="images/Tarjeta.png" alt="Tarjeta" width="60"><br>Tarjeta
     </button>
-    </div>
+  </label>
+</div>
+
+    <!-- Este botón va dentro del modal -->
+    <button id="btnConfirmarPedido">Confirmar pedido</button>
+
   </div>
 
   <div id="instrucciones-pago" class="hidden">
@@ -145,7 +176,6 @@
 </div>
 
   <p id="userEmail"></p>
-  
 <!-- Modal del carrito -->
 <div id="modal" class="modal oculto">
   <div class="modal-contenido">
@@ -187,18 +217,7 @@
   });
 </script>
 <script>
-  document.getElementById('pago-yape').addEventListener('click', () => {
-    mostrarInstruccion('Yape', 'Envía a <strong>999207025</strong>');
-  });
-
-  document.getElementById('pago-plin').addEventListener('click', () => {
-    mostrarInstruccion('Plin', 'Envía tu pago a <strong>999207025</strong>');
-  });
-
-  document.getElementById('pago-tarjeta').addEventListener('click', () => {
-    mostrarInstruccion('Tarjeta', 'Serás redirigido a nuestra pasarela de pago seguro.');
-  });
-
+ 
   function mostrarInstruccion(metodo, mensaje) {
     const instrucciones = document.getElementById('instrucciones-pago');
     instrucciones.classList.remove('hidden');
@@ -238,8 +257,14 @@
             <i class="fas fa-shopping-cart fa-2x"></i>
            <span id="contadorCarrito">0</span>
        </div>
-       <script type="module" src="app.js"></script>
+       
+       
+
+     <div id="confirmacion" style="display: none;">
+      <h3>✅ ¡Pedido confirmado!</h3>
+      <p>Gracias por tu compra.</p>
+    </div>
+<script type="module" src="app.js"></script>
+  
 </body>
 </html>
-
-

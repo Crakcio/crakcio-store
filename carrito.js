@@ -1,14 +1,17 @@
 // carrito.js
 
 export function agregarAlCarrito(producto) {
+  console.log("✅ agregarAlCarrito llamado para:", producto.nombre);
+  console.trace();
   const carrito = obtenerCarrito();
   const productoExistente = carrito.find(p => p.id === producto.id);
 
   if (productoExistente) {
     productoExistente.cantidad += 1;
   } else {
-    producto.cantidad = 1;
-    carrito.push(producto);
+    const productoCopia = { ...producto, cantidad: 1 };
+    carrito.push(productoCopia);
+
   }
 
   guardarCarrito(carrito);

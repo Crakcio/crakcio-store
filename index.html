@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="icon" href="favicon.ico" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 </head>
@@ -48,8 +49,6 @@
   </div>
 </div>
 
-
-     
 <!-- Zona invisible para detectar el hover -->
 <div id="sidebar-hover-zone"></div>
 
@@ -135,18 +134,30 @@
 
  <div id="modal-pago" class="modal hidden">
     <div class="modal-contenido">
+      <div id="formulario-pedido" class="space-y-3 p-4">
+      <label>Teléfono:</label>
+      <input type="text" id="telefono" placeholder="Tu número de teléfono" required class="w-full border p-2 rounded" />
+      <label>Dirección:</label>
+      <input type="text" id="direccion" placeholder="Dirección de entrega" required class="w-full border p-2 rounded" />
+      <label>Notas adicionales:</label>
+      <textarea id="notas" placeholder="Notas adicionales (opcional)" class="w-full border p-2 rounded"></textarea>
+</div>
+
   <h3>Selecciona método de pago:</h3>
-  <div class="botones-pago">
-    <button id="pago-yape">
-      <img src="images/Yape.png" alt="Yape" width="60"><br>Yape
-    </button>
-    <button id="pago-plin">
-      <img src="images/Plin.jpg" alt="Plin" width="60"><br>Plin
-    </button>
-    <button id="pago-tarjeta">
-      <img src="images/Tarjeta.png" alt="Tarjeta" width="60"><br>Tarjeta
-    </button>
+    <div class="botones-pago">
+         <button id="pago-yape">
+            <img src="images/Yape.png" alt="Yape" width="60"><br>Yape
+         </button>
+         <button id="pago-plin">
+            <img src="images/Plin.jpg" alt="Plin" width="60"><br>Plin
+         </button>
+         <button id="pago-tarjeta">
+            <img src="images/Tarjeta.png" alt="Tarjeta" width="60"><br>Tarjeta
+         </button>
     </div>
+    <!-- Este botón va dentro del modal -->
+    <button id="btnConfirmarPedido">Confirmar pedido</button>
+
   </div>
 
   <div id="instrucciones-pago" class="hidden">
@@ -247,9 +258,14 @@
             <i class="fas fa-shopping-cart fa-2x"></i>
            <span id="contadorCarrito">0</span>
        </div>
-       <script type="module" src="app.js"></script>
+       
+
+  <div id="confirmacion" style="display: none;">
+  <h3>✅ ¡Pedido confirmado!</h3>
+  <p>Gracias por tu compra.</p>
+</div>
+<script type="module" src="app.js"></script>
 </body>
 </html>
-
 
 

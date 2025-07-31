@@ -111,9 +111,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
-      // Mostrar modal de pago
-      document.getElementById("modalCarrito")?.classList.add("oculto");
-      document.getElementById("modal-pago")?.classList.remove("hidden");
 
       // Escuchar confirmación del pedido (solo una vez)
       const confirmarBtn = document.getElementById("btnConfirmarPedido");
@@ -151,10 +148,10 @@ function verificarSesion() {
     const btnCerrarSesion = document.getElementById('btnCerrarSesion');
     if (user) {
       loginBtn?.classList.add('hidden');
-      btnCerrarSesion.style.display = "inline-block";
+      if (btnCerrarSesion) btnCerrarSesion.style.display = "inline-block";
     } else {
       loginBtn?.classList.remove('hidden');
-      btnCerrarSesion.style.display = "none";
+      if (btnCerrarSesion) btnCerrarSesion.style.display = "none";
     }
   });
 }

@@ -64,8 +64,6 @@ if (carrito.length === 0) {
   // 🔍 Buscar nombre desde tabla usuarios
   
 
-
-
     const { data: usuarioData, error: usuarioError } = await supabase
   .from('usuarios')
   .select('nombre')
@@ -86,7 +84,7 @@ const nombreCliente = usuarioData.nombre;
     const telefono = document.getElementById("telefono")?.value.trim() || "";
     const direccion = document.getElementById("direccion")?.value.trim() || "";
     const notas = document.getElementById("notas")?.value.trim() || "";
-    const metodoPago = document.querySelector('input[name="metodo-pago"]:checked')?.value || "";
+    const metodoPago = document.getElementById("metodo-pago")?.value || "";
     const email = user?.email || "";
     console.log("Telefono:", telefono);
     console.log("Direccion:", direccion);
@@ -102,12 +100,13 @@ const nombreCliente = usuarioData.nombre;
   return;
 }
     // Formatear productos para guardar
-   const productos = carrito.map(item => ({
+ const productos = carrito.map(item => ({
   id: item.id,
   nombre: item.nombre,
-  cantidad: item.cantidad,
-  precio: item.precio
+  cantidad: item.cantidad || 1, // asegura cantidad mínima
+  precio: item.precio || 0,
 }));
+
 
     const total = productos.reduce((sum, p) => sum + (p.precio * (p.cantidad || 1)), 0);
 
@@ -212,19 +211,14 @@ setTimeout(() => {
   window.location.href = url;
 }, 2000);
 
-
-
-if (errorPedido) {
-  Swal.fire("Error", "Ocurrió un error inesperado", "error");
-  pedidoYaProcesado = false; // 👈 AÑADIR AQUÍ
-  return;
-}
   } catch (error) {
   console.error("Error inesperado:", error);
   Swal.fire("Error", "Ocurrió un error inesperado", "error");
   pedidoYaProcesado = false; // 👈 AÑADIR AQUÍ
 }
 }
+window.finalizarCompra = finalizarCompra;
+
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".btn-pago").forEach(boton => {
     boton.addEventListener("click", () => {
@@ -241,4 +235,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-

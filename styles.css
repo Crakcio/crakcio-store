@@ -643,6 +643,104 @@ footer .redes {
   align-items: center !important;
   justify-content: center !important;
 }
+#panel-carrito {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80vh; /* 80% de la pantalla */
+  background: linear-gradient(180deg, #0f0f0f, #1a1a2e); /* Degradado oscuro */
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.6);
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 20px;
+  color: #f0f0f0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#panel-carrito.visible {
+  transform: translateY(0);
+}
+#cerrar-panel {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 22px;
+  color: #ff4c4c;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#panel-carrito h2 {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  font-size: 24px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 10px;
+}
+.panel-header h3 {
+  margin: 0;
+}
+
+.panel-header button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.panel-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+#panel-carrito input,
+#panel-carrito textarea,
+#panel-carrito select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  background: #1f1f2f;
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #fff;
+}
+.panel-footer button,
+#confirmar-pedido {
+ width: 100%;
+  padding: 12px;
+  background-color: #00bcd4;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+#confirmar-pedido:hover {
+  background-color: #0097a7;
+}
+#formulario-pedido input,
+#formulario-pedido textarea,
+#formulario-pedido select {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+}
+
+
 /* Zona invisible que activa el menú */
 #sidebar-hover-zone {
   position: fixed;
@@ -860,24 +958,24 @@ footer .redes {
   pointer-events: none;
 }
 .menu-icon {
-  position: absolute;
-  top: 50%;
-  left: 15px;
-  transform: translateY(-50%);
-  width: 30px;
-  height: 25px;
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 999;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  z-index: 1000;
-  cursor: pointer;
+  gap: 5px;
+  padding: 10px;
 }
 
+/* Estilo de las barras */
 .menu-icon span {
+  display: block;
+  width: 30px;
   height: 4px;
-  width: 100%;
-  background-color: #ffffff;
-  border-radius: 4px;
+  background-color: #000; /* o #fff según fondo */
+  border-radius: 2px;
   transition: all 0.3s ease;
 }
 
@@ -894,5 +992,6 @@ footer .redes {
     height: 3px;
   }
 }
+
 
 

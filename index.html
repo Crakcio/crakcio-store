@@ -12,7 +12,7 @@
 
 
 </head>
-<body>
+<body id="index">
   <header>
     <!-- Icono de 3 barras -->
   <div id="menu-toggle" class="menu-icon">
@@ -132,53 +132,7 @@
     <!-- Formulario de inicio de sesión/registro -->
   </div>
 
- <div id="modal-pago" class="modal hidden">
-    <div class="modal-contenido">
-      <div id="formulario-pedido" class="space-y-3 p-4">
-      <label>Teléfono:</label>
-      <input type="text" id="telefono" placeholder="Tu número de teléfono" required class="w-full border p-2 rounded" />
-      <label>Dirección:</label>
-      <input type="text" id="direccion" placeholder="Dirección de entrega" required class="w-full border p-2 rounded" />
-      <label>Notas adicionales:</label>
-      <textarea id="notas" placeholder="Notas adicionales (opcional)" class="w-full border p-2 rounded"></textarea>
-</div>
-
-  <h3>Selecciona método de pago:</h3>
-    <div class="botones-pago">
-         <button id="pago-yape">
-            <img src="images/Yape.png" alt="Yape" width="60"><br>Yape
-         </button>
-         <button id="pago-plin">
-            <img src="images/Plin.jpg" alt="Plin" width="60"><br>Plin
-         </button>
-         <button id="pago-tarjeta">
-            <img src="images/Tarjeta.png" alt="Tarjeta" width="60"><br>Tarjeta
-         </button>
-    </div>
-    <!-- Este botón va dentro del modal -->
-    <button id="btnConfirmarPedido">Confirmar pedido</button>
-
-  </div>
-
-  <div id="instrucciones-pago" class="hidden">
-    <!-- Aquí mostraremos las instrucciones según el método -->
-  </div>
-</div>
-
   <p id="userEmail"></p>
-<!-- Modal del carrito -->
-<div id="modal" class="modal oculto">
-  <div class="modal-contenido">
-    <span id="cerrarCarrito" class="cerrar">&times;</span>
-    <h2>Tu Carrito</h2>
-     <div id="contenedor-carrito"></div>
-    <p id="totalCarrito">Total: S/ 0.00</p>
-    <button id="vaciar-carrito">Vaciar carrito</button>
-    <button id="finalizarCompra">Finalizar compra</button>
-    <button id="cerrar-popup-carrito">Cerrar</button>
-  </div>
-</div>
-
 
   <script type="module">
   document.addEventListener('DOMContentLoaded', () => {
@@ -186,12 +140,12 @@
     const botonCarrito = document.getElementById('boton-carrito');
     const cerrarCarrito = document.getElementById('cerrarCarrito');
     const cerrarPopup = document.getElementById('cerrar-popup-carrito');
-    if (botonCarrito && modal) {
-      botonCarrito.addEventListener('click', () => {
-        modal.classList.remove('oculto');
-        modal.classList.add('activo');
-      });
-    }
+if (cerrarPopup) {
+  cerrarPopup.addEventListener('click', () => {
+    modal.classList.remove('activo');
+    modal.classList.add('oculto');
+  });
+}
 
     if (cerrarCarrito && modal) {
       cerrarCarrito.addEventListener('click', () => {
@@ -206,25 +160,7 @@
 });
   });
 </script>
-<script>
-  document.getElementById('pago-yape').addEventListener('click', () => {
-    mostrarInstruccion('Yape', 'Envía a <strong>999207025</strong>');
-  });
 
-  document.getElementById('pago-plin').addEventListener('click', () => {
-    mostrarInstruccion('Plin', 'Envía tu pago a <strong>999207025</strong>');
-  });
-
-  document.getElementById('pago-tarjeta').addEventListener('click', () => {
-    mostrarInstruccion('Tarjeta', 'Serás redirigido a nuestra pasarela de pago seguro.');
-  });
-
-  function mostrarInstruccion(metodo, mensaje) {
-    const instrucciones = document.getElementById('instrucciones-pago');
-    instrucciones.classList.remove('hidden');
-    instrucciones.innerHTML = `<h4>Pago con ${metodo}</h4><p>${mensaje}</p>`;
-  }
-</script>
 
 <script>
   const productosToggle = document.getElementById('productosToggle');
@@ -263,9 +199,45 @@
   <div id="confirmacion" style="display: none;">
   <h3>✅ ¡Pedido confirmado!</h3>
   <p>Gracias por tu compra.</p>
+
 </div>
+<!-- Panel deslizante de compra -->
+<div id="panel-carrito" class="panel-carrito oculto">
+  <div class="panel-header">
+    <h3>Resumen del Pedido</h3>
+    <button id="cerrar-panel">✕</button>
+  </div>
+
+  <div id="panel-contenido">
+    <!-- Aquí se insertará el contenido del carrito desde JS -->
+  </div>
+
+  <div id="formulario-pedido" class="oculto">
+    <h4>Datos para el envío</h4>
+    <input type="text" id="direccion" placeholder="Dirección de entrega">
+    <input type="text" id="telefono" placeholder="Teléfono">
+    <textarea id="notas" placeholder="Notas adicionales"></textarea>
+
+    <h4>Método de pago</h4>
+    <select id="metodo-pago">
+      <option value="yape">Yape</option>
+      <option value="plin">Plin</option>
+      <option value="tarjeta">Tarjeta</option>
+    </select>
+
+    <button id="btnConfirmarPedido">Confirmar pedido</button>
+  </div>
+
+  <div class="panel-footer">
+    <button id="ir-a-formulario">Finalizar compra</button>
+  </div>
+</div>
+
 <script type="module" src="app.js"></script>
 </body>
 </html>
+
+
+
 
 

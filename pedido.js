@@ -3,220 +3,322 @@ import { actualizarContadorCarrito, mostrarCarrito } from './carrito.js';
 import { supabase } from './supabaseClient.js';
 // 🔒 Bandera global
 let pedidoYaProcesado = false;
+
 export async function finalizarCompra() {
-  const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-  if (pedidoYaProcesado) {
-    console.warn("⛔ Ya se procesó este pedido. Ignorando clic duplicado.");
-    return; // No continuar si ya se procesó
-  }
-   pedidoYaProcesado = true; // ✅ Marcar como procesado
-  try {
-    console.log("🧾 Procesando pedido...");
-    
-    console.log("Click en Finalizar compra");
-    console.log("➡ Paso 1: obteniendo sesión");
-    
+  if (pedidoYaProcesado) return;
+  pedidoYaProcesado = true;
 
-      let user = null;
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+  const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-
-    console.log("Resultado de getSession():", session);
-    console.log("¿Hay error?", sessionError);
-
-
-   if (sessionError || !session || !session.user) {
-  console.error("⚠ No se pudo obtener la sesión del usuario:", sessionError);
-  pedidoYaProcesado = false; // 👈 AÑADIR AQUÍ
-  return;
-}
-
-    console.log("➡ Paso 3: obteniendo usuario");
-
-if (session?.user) {
-  user = session.user;
-} else {
-  const { data: { user: currentUser }, error: userError, } = await supabase.auth.getUser();
-
-  if (currentUser) {
-    user = currentUser;
-  } else {
-    console.error("No hay usuario activo:", error || userError);
-    alert("Tu sesión ha expirado. Inicia sesión nuevamente.");
-    pedidoYaProcesado = false; // 👈 AÑADIR AQUÍ
+  if (!carrito.length) {
+    Swal.fire("Carrito vacío", "Agrega productos antes de continuar.", "warning");
+    pedidoYaProcesado = false;
     return;
   }
-}
-await new Promise(resolve => setTimeout(resolve, 500)); // Espera 500ms antes de continuar
 
-console.log("✅ Usuario autenticado:", user.id);
+  // Verificar sesión
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.user) {
+    Swal.fire("No logueado", "Debes iniciar sesión para comprar.", "warning");
+    pedidoYaProcesado = false;
+    return;
+  }
 
+  const user = session.user;
 
+  // Obtener nombre del cliente
+  const { data: usuarioData, error: usuarioError } = await supabase
+    .from("usuarios")
+    .select("nombre")
+    .eq("id", user.id)
+    .single();
 
-console.log("➡ Paso 4: validando carrito");
-if (carrito.length === 0) {
-  alert('Tu carrito está vacío.');
-  pedidoYaProcesado = false; // 👈 AÑADIR AQUÍ
-  return;
-}
+  const nombreCliente = usuarioData?.nombre || "Cliente";
 
+  // Obtener campos del formulario
+  const telefono = document.getElementById("telefono")?.value.trim();
+  const direccion = document.getElementById("direccion")?.value.trim();
+  const notas = document.getElementById("notas")?.value.trim() || "";
+  const metodoPago = window.metodoSeleccionado || "";
+  console.log("🧾 Método de pago seleccionado:", metodoPago);
+  const email = user.email;
 
-  // 🔍 Buscar nombre desde tabla usuarios
-  
+  if (!telefono || !direccion || !metodoPago) {
+    Swal.fire("Campos requeridos", "Completa todos los campos antes de continuar.", "warning");
+    pedidoYaProcesado = false;
+    return;
+  }
 
-    const { data: usuarioData, error: usuarioError } = await supabase
-  .from('usuarios')
-  .select('nombre')
-  .eq('id', user.id)
-  .single();
+  const productos = carrito
+    .filter(p => p.cantidad > 0)
+    .map(p => ({
+      id: p.id,
+      nombre: p.nombre,
+      cantidad: p.cantidad,
+      precio: p.precio
+    }));
 
-if (usuarioError || !usuarioData) {
-  alert("No se pudo obtener tu nombre. Intenta nuevamente.");
-  pedidoYaProcesado = false; // 👈 AÑADIR AQUÍ
-  return;
-}
+  // Calculamos el total del carrito sumando precio * cantidad
+  const total = productos.reduce((sum, p) => sum + p.precio * p.cantidad, 0);
 
-const nombreCliente = usuarioData.nombre;
+  // 💳 PAGO CON TARJETA (Culqi)
+  if (window.metodoSeleccionado === "tarjeta") {
+    Culqi.publicKey = "TU_LLAVE_PUBLICA"; // ⚠️ Reemplaza esto con tu llave pública real de Culqi
 
+    Culqi.settings({
+      title: "Crakcio Store",
+      currency: "PEN", // Soles peruanos
+      description: "Compra de productos",
+      amount: total * 100, // Culqi trabaja en centavos
+    });
 
+    Culqi.open();
 
-// Obtener datos del formulario
-    const telefono = document.getElementById("telefono")?.value.trim() || "";
-    const direccion = document.getElementById("direccion")?.value.trim() || "";
-    const notas = document.getElementById("notas")?.value.trim() || "";
-    const metodoPago = document.getElementById("metodo-pago")?.value || "";
-    const email = user?.email || "";
-    console.log("Telefono:", telefono);
-    console.log("Direccion:", direccion);
-    console.log("Metodo de pago:", metodoPago);
-    console.log("Email:", email);
-    if (!telefono || !direccion || !metodoPago || !email) {
-  Swal.fire({
-    icon: "warning",
-    title: "Campos incompletos",
-    text: "Por favor completa todos los campos requeridos antes de confirmar el pedido.",
+    // Esta función se llama automáticamente cuando el pago Culqi termina
+    window.culqi = async function () {
+      if (Culqi.token) {
+        const token = Culqi.token.id;
+
+        // Llamamos a Supabase Function para procesar el cobro
+        const res = await fetch("https://TU-PROYECTO.functions.supabase.co/crear-cobro", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            token,
+            monto: total * 100,
+            descripcion: "Pedido Crakcio Store",
+            email, // ⚠️ asegúrate de tener disponible el correo del cliente
+          }),
+        });
+
+        const result = await res.json();
+
+        if (result.object === "charge" && result.outcome.type === "venta_exitosa") {
+          // Si el pago fue exitoso, guardamos el pedido
+          await guardarPedidoYDetalle(); // ⚠️ Asegúrate de tener esta función implementada
+        } else {
+          // Si el pago falló
+          Swal.fire("Pago fallido", result.user_message || "Intenta con otra tarjeta", "error");
+          pedidoYaProcesado = false;
+        }
+      } else {
+        // Si hubo error con Culqi
+        Swal.fire("Error", Culqi.error.user_message || "No se completó el pago", "error");
+        pedidoYaProcesado = false;
+      }
+    };
+
+  // 🔵 PAGO CON PLIN
+} else if (window.metodoSeleccionado === "plin") {
+  await Swal.fire({
+    title: "Pago con Plin",
+    html: `
+      <p>Escanea el código QR y escribe el número de operación en el formulario.</p>
+      <img src='images/plin-qr.jpeg' alt='QR Plin' style='width:200px;'>
+      <p>Después de pagar, presiona Enviar Comprobante para enviar tu comprobante por WhatsApp.</p>
+    `,
+    confirmButtonText: "Enviar comprobante",
   });
-  pedidoYaProcesado = false;
-  return;
-}
-    // Formatear productos para guardar
- const productos = carrito.map(item => ({
-  id: item.id,
-  nombre: item.nombre,
-  cantidad: item.cantidad || 1, // asegura cantidad mínima
-  precio: item.precio || 0,
-}));
 
+  console.log("⚡ Entrando al bloque después del SweetAlert de Plin");
 
-    const total = productos.reduce((sum, p) => sum + (p.precio * (p.cantidad || 1)), 0);
+  try {
+    console.log("🚀 Forzando ejecución de guardarPedidoYDetalle...");
+    await guardarPedidoYDetalle();
+    pedidoYaProcesado = true;
+  } catch (error) {
+    console.error("🧨 Error al ejecutar guardarPedidoYDetalle:", error);
+    Swal.fire("Error", "No se pudo completar el pedido", "error");
+  }
 
+  // Redirigir a WhatsApp
+  const resumen = productos.map(p => `• ${p.nombre} x${p.cantidad}`).join("%0A");
+  const totalTexto = productos.reduce((sum, p) => sum + p.precio * p.cantidad, 0).toFixed(2);
+  const metodo = window.metodoSeleccionado;
+  const fecha = new Date().toLocaleString();
 
-console.log("📦 Insertando pedido con usuario_id:", user?.id);
-console.log("📤 Enviando pedido a Supabase...");
+  const mensaje = `Hola, soy un cliente de Crakcio Store 🛒.%0A` +
+    `He pagado con *${metodo.toUpperCase()}* el siguiente pedido:%0A` +
+    `${resumen}%0A` +
+    `Total: S/ ${totalTexto}%0A` +
+    `Fecha: ${fecha}%0A` +
+    `Aquí está mi comprobante:`;
 
+  const whatsappLink = `https://wa.me/51999207025?text=${mensaje}`;
+  window.open(whatsappLink, "_blank");
 
+// 🟣 PAGO CON YAPE
+} else if (window.metodoSeleccionado === "yape") {
+  await Swal.fire({
+    title: "Pago con Yape",
+    html: `
+      <p>Escanea el código QR y escribe el número de operación en el formulario.</p>
+      <img src='images/yape-qr.jpeg' alt='QR Yape' style='width:200px;'>
+      <p>Después de pagar, presiona Enviar Comprobante para enviar tu comprobante por WhatsApp.</p>
+    `,
+    confirmButtonText: "Enviar comprobante",
+  });
 
+  console.log("⚡ Entrando al bloque después del SweetAlert de Yape");
 
-// ✅ Verificar UID antes del insert
-console.log("user.id:", user.id);
-const { data: userData, error: userError } = await supabase.auth.getUser();
-console.log("auth.uid():", userData?.user?.id);
+  try {
+    console.log("🚀 Forzando ejecución de guardarPedidoYDetalle...");
+    await guardarPedidoYDetalle();
+    pedidoYaProcesado = true;
+  } catch (error) {
+    console.error("🧨 Error al ejecutar guardarPedidoYDetalle:", error);
+    Swal.fire("Error", "No se pudo completar el pedido", "error");
+  }
 
-if (userError) {
-  console.error("❌ Error obteniendo user con getUser():", userError.message);
-}
+  // Redirigir a WhatsApp
+  const resumen = productos.map(p => `• ${p.nombre} x${p.cantidad}`).join("%0A");
+  const totalTexto = productos.reduce((sum, p) => sum + p.precio * p.cantidad, 0).toFixed(2);
+  const metodo = window.metodoSeleccionado;
+  const fecha = new Date().toLocaleString();
 
+  const mensaje = `Hola, soy un cliente de Crakcio Store 🛒.%0A` +
+    `He pagado con *${metodo.toUpperCase()}* el siguiente pedido:%0A` +
+    `${resumen}%0A` +
+    `Total: S/ ${totalTexto}%0A` +
+    `Fecha: ${fecha}%0A` +
+    `Aquí está mi comprobante:`;
 
+  const whatsappLink = `https://wa.me/51999207025?text=${mensaje}`;
+  window.open(whatsappLink, "_blank");
+}else {
+    Swal.fire("Error", "Método de pago no implementado o no seleccionado", "error");
+    return;
+  }
 
- 
-// Aquí va el log 👇
-console.clear();
-console.log("🧾 Enviando a Supabase el siguiente pedido:");
-console.log({
-  usuario_id: user.id,
-  email: user.email,
-  productos: productos,
-  total: total,
-  estado: "pendiente",
-  nombre_cliente: nombreCliente,
-  telefono: telefono,
-  direccion: direccion,
-  metodo_pago: metodoPago,
-  notas: notas,
-  fecha: new Date().toISOString()
-});
-console.table(productos);
-// Guardar pedido en Supabase
-// Crear objeto del pedido
-const pedido = {
-  usuario_id: user.id,
-  email: user.email,
-  productos,
-  total,
-  estado: "pendiente",
-  nombre_cliente: nombreCliente,
-  telefono,
-  direccion,
-  metodo_pago: metodoPago,
-  notas,
-  fecha: new Date().toISOString()
-};
+async function guardarPedidoYDetalle() {
+  console.log("🧪 Ejecutando guardarPedidoYDetalle...");
 
-// Guardar pedido en Supabase
-const { data, error: errorPedido } = await supabase.from("pedidos").insert([pedido]);
+  try {
+    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    console.log("🛒 Carrito obtenido:", carrito);
 
-if (errorPedido) {
-  console.error("❌ Error inesperado al insertar pedido:", errorPedido.message);
-  Swal.fire("Error", "No se pudo registrar el pedido. Intenta nuevamente.", "error");
-  pedidoYaProcesado = false;
-  return;
-}
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError || !session?.user) {
+      console.error("❌ No hay sesión activa o error:", sessionError);
+      return;
+    }
 
-if (data && data.length > 0) {
-  console.log("✅ Pedido registrado exitosamente:", data[0]);
-} else {
-  console.warn("⚠ Pedido registrado, pero sin respuesta de datos.");
-}
+    const user = session.user;
+    const email = user.email;
+    const productos = carrito;
+    const total = productos.reduce((sum, p) => sum + p.precio * p.cantidad, 0);
 
-// Mostrar alerta y redirigir a WhatsApp
+    // ⚠️ Obtener datos del formulario
+    const nombreCliente = document.getElementById("nombreCliente")?.value || "Sin nombre";
+    const telefono = document.getElementById("telefono")?.value || "Sin número";
+    const direccion = document.getElementById("direccion")?.value || "Sin dirección";
+    const notas = document.getElementById("notas")?.value || "";
+    const metodo = window.metodoSeleccionado || "desconocido";
+
+    console.log("📧 Email:", email);
+    console.log("📞 Teléfono:", telefono);
+    console.log("🏠 Dirección:", direccion);
+    console.log("💬 Notas:", notas);
+    console.log("🏷 Método de pago:", metodo);
+    console.log("💳 Total:", total);
+
+    const pedido = {
+      usuario_id: user.id,
+      email,
+      productos,
+      total,
+      estado: "pagado",
+      nombre_cliente: nombreCliente,
+      telefono,
+      direccion,
+      metodo_pago: metodo,
+      notas,
+      fecha: new Date().toISOString(),
+    };
+console.log("👤 Supabase UID (auth.uid):", user.id);
+console.log("📝 Pedido.usuario_id:", pedido.usuario_id);
+
+    console.log("📤 Insertando pedido:", pedido);
+
+    const { data, error } = await supabase
+      .from("pedidos")
+      .insert([pedido])
+      .select();
+
+    if (error || !data?.[0]) {
+      console.error("❌ Error Supabase al guardar pedido:", error);
+      Swal.fire("Error", "No se pudo guardar el pedido", "error");
+      pedidoYaProcesado = false;
+      return;
+    }
+
+    console.log("✅ Pedido guardado:", data[0]);
+
+    const pedidoId = data[0].id;
+
+    const detalle = productos.map(p => ({
+      nombre: p.nombre,
+      cantidad: p.cantidad,
+      precio_unitario: p.precio,
+      productos_id: p.id,
+      pedidos_id: pedidoId,
+    }));
+
+    console.log("📄 Insertando detalle:", detalle);
+
+    const { error: detalleError } = await supabase
+      .from("detalle_pedido")
+      .insert(detalle);
+
+    if (detalleError) {
+      console.warn("⚠️ Detalle no guardado:", detalleError.message);
+    } else {
+      console.log("✅ Detalle guardado correctamente");
+    }
+
+    // Mostrar alerta y limpiar carrito
+    Swal.fire("✅ Pedido confirmado", "Tu compra fue exitosa", "success");
+    localStorage.removeItem("carrito");
+    actualizarContadorCarrito();
+    mostrarCarrito();
+
+    // Redirigir a WhatsApp
+    let mensaje = `🛒 *Nuevo Pedido desde Crakcio Store*%0A`;
+    mensaje += `👤 Cliente: ${email}%0A`;
+    mensaje += `📞 Teléfono: ${telefono}%0A`;
+    mensaje += `📦 Productos:%0A`;
+
+    productos.forEach(p => {
+      mensaje += `- ${p.nombre} x${p.cantidad} - S/ ${p.precio * p.cantidad}%0A`;
+    });
+
+    mensaje += `💰 Total: S/ ${total.toFixed(2)}%0A`;
+    mensaje += `🗓 Fecha: ${new Date().toLocaleDateString()}`;
+
+    const numeroTienda = "51999207025";
+    const url = `https://wa.me/${numeroTienda}?text=${mensaje}`;
+    console.log("📲 Redirección lista, pero pausada para ver errores");
+
 Swal.fire({
-  title: "✅ ¡Pedido realizado!",
-  text: "Tu pedido ha sido registrado exitosamente. Te contactaremos pronto.",
   icon: "success",
-  confirmButtonText: "Aceptar",
+  title: "Pedido guardado",
+  text: "En 5 segundos serás redirigido a WhatsApp para enviar tu comprobante...",
   timer: 5000,
   timerProgressBar: true,
+  showConfirmButton: false,
+  willClose: () => {
+    window.location.href = url;
+  }
 });
-
-localStorage.removeItem("carrito");
-actualizarContadorCarrito();
-mostrarCarrito();
-
-// Redirigir a WhatsApp
-let mensaje = `🛒 *Nuevo Pedido desde Crackio Store*%0A`;
-mensaje += `👤 Cliente: ${user.email}%0A`;
-mensaje += `📦 Productos:%0A`;
-
-productos.forEach(p => {
-  mensaje += `- ${p.nombre} x${p.cantidad} - S/ ${p.precio * p.cantidad}%0A`;
-});
-
-mensaje += `💰 Total: S/ ${total.toFixed(2)}%0A`;
-mensaje += `📅 Fecha: ${new Date().toLocaleDateString()}`;
-
-const numeroTienda = '519999207025';
-const url = `https://wa.me/${numeroTienda}?text=${mensaje}`;
-
-setTimeout(() => {
-  window.location.href = url;
-}, 2000);
 
   } catch (error) {
-  console.error("Error inesperado:", error);
-  Swal.fire("Error", "Ocurrió un error inesperado", "error");
-  pedidoYaProcesado = false; // 👈 AÑADIR AQUÍ
+    console.error("🧨 Error inesperado en guardarPedidoYDetalle:", error);
+    Swal.fire("Error", "Hubo un error inesperado al guardar el pedido", "error");
+  }
 }
+
 }
+
 window.finalizarCompra = finalizarCompra;
 
 document.addEventListener("DOMContentLoaded", () => {

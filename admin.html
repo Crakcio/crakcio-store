@@ -10,6 +10,13 @@
   <header class="admin-header">
     <h1>Panel de Administración</h1>
     <button id="cerrarSesionAdmin">Cerrar sesión</button>
+    
+    <nav class="admin-nav">
+     <button id="btnProductos">Productos</button>
+     <button id="btnPedidos">Pedidos</button>
+    </nav>
+
+    
   </header>
 
   <main class="admin-main">
@@ -29,6 +36,17 @@
 
     <section class="admin-productos">
       <h2>Mis Productos</h2>
+      <div id="filtros-admin" style="margin-bottom: 1rem;">
+  <input type="text" id="buscarProducto" placeholder="Buscar por nombre..." />
+  <select id="filtrarCategoria">
+    <option value="">Todas las categorías</option>
+    <option value="Smart Home">Smart Home</option>
+    <option value="gamer">Gamer</option>
+    <option value="Iluminación">Iluminación</option>
+    <!-- Agrega las categorías que uses -->
+  </select>
+</div>
+
       <div id="adminListaProductos" class="productos-grid"></div>
     </section>
    <section class="admin-pedidos">

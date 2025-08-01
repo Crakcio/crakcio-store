@@ -992,6 +992,17 @@ footer .redes {
     height: 3px;
   }
 }
+.btn-pago.selected {
+  outline: 2px solid #00bfff;
+  background-color: #f0f8ff;
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+.btn-pago img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
 
 
 

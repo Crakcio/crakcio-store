@@ -171,10 +171,14 @@ async function cargarPedidos() {
   const pedidosContainer = document.getElementById('adminListaPedidos');
   pedidosContainer.innerHTML = '';
 
-  const { data: pedidos, error } = await supabase.from('pedidos').select('*');
+  // 1. Obtener todos los pedidos
+  const { data: pedidos, error: errorPedidos } = await supabase
+    .from('pedidos')
+    .select('*')
+    .order('fecha', { ascending: false });
 
-  if (error) {
-    console.error('Error al cargar pedidos:', error.message);
+  if (errorPedidos) {
+    console.error('❌ Error al cargar pedidos:', errorPedidos.message);
     pedidosContainer.innerHTML = '<p>Error al cargar pedidos</p>';
     return;
   }
@@ -185,49 +189,78 @@ async function cargarPedidos() {
   }
 
   for (const pedido of pedidos) {
-    const div = document.createElement('div');
-    div.className = 'admin-pedido';
+    // 2. Obtener detalle de ese pedido desde `detalle_pedido`
+    const { data: detalles, error: errorDetalles } = await supabase
+      .from('detalle_pedido')
+      .select('*')
+      .eq('pedido_id', pedido.id);
 
-    // Formatear productos
+    if (errorDetalles) {
+      console.warn(`⚠️ Error obteniendo detalle del pedido ${pedido.id}:`, errorDetalles.message);
+      continue;
+    }
+
+    // 3. Armar HTML del detalle
     let productosHTML = '<ul>';
-    try {
-      const productos = JSON.parse(pedido.productos);
-      for (const item of productos) {
-        productosHTML += `<li>${item.nombre} x${item.cantidad} - S/ ${item.precio}</li>`;
-      }
-    } catch (e) {
-      productosHTML = '<li>Error al leer productos</li>';
+    for (const item of detalles) {
+      productosHTML += `<li>${item.nombre} x${item.cantidad} - S/ ${item.precio_unitario}</li>`;
     }
     productosHTML += '</ul>';
 
+    // 4. Armar HTML del pedido completo
+    const div = document.createElement('div');
+    div.className = 'admin-pedido';
+
     div.innerHTML = `
-      <p><strong>Cliente:</strong> ${pedido.email || 'sin email'}</p>
-      <p><strong>Estado:</strong> ${pedido.estado || 'pendiente'}</p>
+      <p><strong>Cliente:</strong> ${pedido.nombre_cliente}</p>
+      <p><strong>Correo:</strong> ${pedido.email}</p>
+      <p><strong>Teléfono:</strong> ${pedido.telefono}</p>
+      <p><strong>Dirección:</strong> ${pedido.direccion}</p>
+      <p><strong>Notas:</strong> ${pedido.notas || 'Ninguna'}</p>
+      <p><strong>Método de pago:</strong> ${pedido.metodo_pago}</p>
+      <p><strong>Estado:</strong> ${pedido.estado}</p>
+      <p><strong>Total:</strong> S/ ${pedido.total.toFixed(2)}</p>
+      <p><strong>Fecha:</strong> ${new Date(pedido.fecha).toLocaleString()}</p>
       <p><strong>Productos:</strong> ${productosHTML}</p>
       <button onclick="marcarEntregado(${pedido.id})">Marcar como entregado</button>
+      <hr>
     `;
 
     pedidosContainer.appendChild(div);
   }
 }
 
-
 async function cargarProductos() {
-  adminListaProductos.innerHTML = ''; // Solo esta es necesaria
+  const contenedor = document.getElementById('adminListaProductos');
+  contenedor.innerHTML = '';
+
+  const busqueda = document.getElementById('buscarProducto')?.value?.toLowerCase() || '';
+  const categoriaSeleccionada = document.getElementById('filtrarCategoria')?.value || '';
 
   const { data, error } = await supabase.from('productos').select('*');
+
   if (error) {
     alert("Error cargando productos");
     return;
   }
 
-  for (const prod of data) {
-    let imagenURL = 'images/placeholder.webp'; // Imagen por defecto
+  // 🔍 Filtro por nombre y categoría
+  const filtrados = data.filter(p => {
+    const coincideNombre = p.nombre.toLowerCase().includes(busqueda);
+    const coincideCategoria = categoriaSeleccionada ? p.categoria === categoriaSeleccionada : true;
+    return coincideNombre && coincideCategoria;
+  });
 
+  if (filtrados.length === 0) {
+    contenedor.innerHTML = "<p>No se encontraron productos.</p>";
+    return;
+  }
+
+  for (const prod of filtrados) {
+    let imagenURL = 'images/placeholder.webp';
     if (prod.imagen_url) {
-    imagenURL = `https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/${prod.imagen_url}`;
+      imagenURL = `https://twznikjjvtoedfaxbuvf.supabase.co/storage/v1/object/public/imgproductos/${prod.imagen_url}`;
     }
-
 
     const div = document.createElement('div');
     div.className = 'admin-producto';
@@ -240,12 +273,9 @@ async function cargarProductos() {
       <button onclick="editarProducto(${prod.id})">Editar</button>
       <button onclick="eliminarProducto(${prod.id})">Eliminar</button>
     `;
-
-    adminListaProductos.appendChild(div);
+    contenedor.appendChild(div);
   }
 }
-
-
 
 
 // Mostrar modal con los datos del producto a editar
@@ -282,4 +312,36 @@ window.eliminarProducto = async function (id) {
 
 // Iniciar verificación de acceso
 verificarAdmin();
+
+// Búsqueda y filtro
+document.getElementById('buscarProducto').addEventListener('input', () => cargarProductos());
+document.getElementById('filtrarCategoria').addEventListener('change', () => cargarProductos());
+
+// Alternar entre secciones
+const btnProductos = document.getElementById("btnProductos");
+const btnPedidos = document.getElementById("btnPedidos");
+
+btnProductos.addEventListener("click", () => {
+  document.querySelector(".admin-agregar").style.display = "block";
+  document.querySelector(".admin-productos").style.display = "block";
+  document.querySelector(".admin-pedidos").style.display = "none";
+  btnProductos.classList.add("activo");
+  btnPedidos.classList.remove("activo");
+});
+
+btnPedidos.addEventListener("click", () => {
+  document.querySelector(".admin-agregar").style.display = "none";
+  document.querySelector(".admin-productos").style.display = "none";
+  document.querySelector(".admin-pedidos").style.display = "block";
+  btnPedidos.classList.add("activo");
+  btnProductos.classList.remove("activo");
+});
+
+// Mostrar productos por defecto al cargar
+window.addEventListener("DOMContentLoaded", () => {
+  document.querySelector(".admin-agregar").style.display = "block";
+  document.querySelector(".admin-productos").style.display = "block";
+  document.querySelector(".admin-pedidos").style.display = "none";
+  btnProductos.classList.add("activo");
+});
 

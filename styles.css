@@ -459,6 +459,61 @@ footer .redes {
     padding-top: 0.5rem;
   }
 }
+.admin-pedido {
+  background-color: #111;  /* fondo oscuro */
+  color: #fff;             /* texto blanco */
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.1);
+}
+.admin-pedido {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  background: #fff;
+}
+.admin-pedido button {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.admin-nav {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.admin-nav button {
+   padding: 0.5rem 1rem;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.admin-nav button:hover {
+  background-color: #0056b3;
+}
+.admin-nav button.activo {
+  background-color: #28a745; /* verde como destacado */
+}
+.admin-agregar, .admin-productos, .admin-pedidos {
+  background-color: #111;
+  color: #fff;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+}
 #popup-carrito {
   position: fixed;
   top: 50%;
@@ -1002,6 +1057,9 @@ footer .redes {
   width: 40px;
   height: 40px;
   object-fit: contain;
+}
+#btn-vaciar-carrito {
+  margin-bottom: 10px;
 }
 
 

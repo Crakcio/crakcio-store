@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-  
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,219 +9,136 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="icon" href="favicon.ico" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 </head>
 <body id="cliente">
   <header>
-     <!-- Icono de 3 barras -->
-  <div id="menu-toggle" class="menu-icon">
-  <span></span>
-  <span></span>
-  <span></span>
-  </div>
-   <nav class="navbar">
-  <div class="navbar-left">
-    <div class="logo">Crackio Store</div>
-  </div>
-<!-- Barra de busqueda -->
-<div class="barra-busqueda">
-  <input type="text" id="inputBusqueda" placeholder="Buscar productos o categorías...">
-  <span class="icono-busqueda">🔍</span>
-</div>
-
-
-
-  <!-- icono de perfil -->
-<div class="perfil-container">
-  <div id="perfilIcono" class="perfil-icono">
-    <svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 0 24 24" fill="#00bfff">
-      <path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.9v2.5h19.2v-2.5c0-3.3-6.4-4.9-9.6-4.9z"/>
-    </svg>
-  </div>
-  <div id="perfilMenu" class="perfil-menu oculto">
-    <div class="nube-con-cola">
-      <!--<a href="login.html">🔐 Iniciar sesión</a>-->
-      <button id="btnCerrarSesion">Cerrar sesión</button>
+    <div id="menu-toggle" class="menu-icon">
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
-  </div>
-</div>
 
-     
-<!-- Zona invisible para detectar el hover -->
-<div id="sidebar-hover-zone"></div>
+    <nav class="navbar">
+      <div class="navbar-left">
+        <div class="logo">Crackio Store</div>
+      </div>
 
-<!-- Menú lateral oculto -->
-<div id="sidebar" class="sidebar">
-  <ul>
-    <li><a href="index.html">Inicio</a></li>
+      <div class="barra-busqueda">
+        <input type="text" id="inputBusqueda" placeholder="Buscar productos o categorías...">
+        <span class="icono-busqueda">🔍</span>
+      </div>
 
-    <li id="productosToggle" style="cursor: pointer;">
-    <span id="toggleIcon">▸</span> Productos
-    <ul id="subcategorias" class="submenu oculto">
-      <li><a href="#">Accesorios Gamer</a></li>
-      <li><a href="#">Iluminación</a></li>
-      <li><a href="#">Smart Home</a></li>
-    </ul>
-  </li>
+      <div class="perfil-container">
+        <div id="perfilIcono" class="perfil-icono">
+          <svg xmlns="http://www.w3.org/2000/svg" height="26" viewBox="0 0 24 24" fill="#00bfff">
+            <path d="M12 12c2.7 0 4.9-2.2 4.9-4.9S14.7 2.2 12 2.2 7.1 4.4 7.1 7.1 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.9v2.5h19.2v-2.5c0-3.3-6.4-4.9-9.6-4.9z"/>
+          </svg>
+        </div>
+        <div id="perfilMenu" class="perfil-menu oculto">
+          <div class="nube-con-cola">
+            <button id="btnCerrarSesion">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
 
-    <li><a href="#contacto">Contacto</a></li>
-  </ul>
-</div>
+      <div id="sidebar-hover-zone"></div>
+      <div id="sidebar" class="sidebar">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li id="productosToggle" style="cursor: pointer;">
+            <span id="toggleIcon">▸</span> Productos
+            <ul id="subcategorias" class="submenu oculto">
+              <li><a href="#">Accesorios Gamer</a></li>
+              <li><a href="#">Iluminación</a></li>
+              <li><a href="#">Smart Home</a></li>
+            </ul>
+          </li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
 
-  <div class="navbar-right">
-          <div class="auth-links">
-    </div>
-  </div>
-
-</nav>
- 
+      <div class="navbar-right">
+        <div class="auth-links"></div>
+      </div>
+    </nav>
   </header>
 
   <main class="contenedor" id="inicio">
     <section id="banner">
-      <!-- Imagen del banner se cargará luego -->
       <img id="banner-image" src="images/Banner2.png" alt="Banner Crakcio Store" />
     </section>
 
+    <div id="listaProductos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4"></div>
 
-    <div id="listaProductos" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-    
-      <!-- Aquí aparecerán los productos -->
-    </div>
-
-     <h2>Productos más vendidos</h2>
-    
-
+    <h2>Productos más vendidos</h2>
     <div id="productos-mas-vendidos" class="productos-grid"></div>
 
     <h2>Productos más recientes</h2>
     <div id="productos-mas-recientes" class="productos-grid"></div>
-    
-    
-        
-        <!-- Productos dinámicos desde Supabase -->
-
-   <!-- <div id="menu"></div> -->
-
   </main>
+
   <footer>
-      <div class="redes" style="display: flex; gap: 15px;">
+    <div class="redes" style="display: flex; gap: 15px;">
       <a href="https://www.facebook.com/people/Crakcio-Store/61578344680156/" target="_blank" title="Facebook">
-    <i class="fab fa-facebook fa-2x" style="color:#00bfff;"></i>
+        <i class="fab fa-facebook fa-2x" style="color:#00bfff;"></i>
       </a>
-    <a href="https://wa.me/51999207025" target="_blank" title="WhatsApp">
-    <i class="fab fa-whatsapp fa-2x" style="color:#00ff88;"></i>
-    </a>
-    <a href="https://www.instagram.com/crakciostore/" target="_blank" title="Instagram">
-    <i class="fab fa-instagram fa-2x" style="color:#ff4f9c;"></i>
-    </a>
-      </div>
-    
+      <a href="https://wa.me/51999207025" target="_blank" title="WhatsApp">
+        <i class="fab fa-whatsapp fa-2x" style="color:#00ff88;"></i>
+      </a>
+      <a href="https://www.instagram.com/crakciostore/" target="_blank" title="Instagram">
+        <i class="fab fa-instagram fa-2x" style="color:#ff4f9c;"></i>
+      </a>
+    </div>
+
     <div class="politicas">
       <a href="politica.html" target="_blank">Política de privacidad</a>
       <a href="condiciones.html" target="_blank">Términos y condiciones</a>
       <p>&copy; 2025 Crakcio Store. Todos los derechos reservados.</p>
     </div>
   </footer>
-  
-  <!-- Modales y ventanas para login, admin y pago -->
-  <div id="modal-login" class="modal hidden">
-  
-    <!-- Formulario de inicio de sesión/registro -->
-  </div>
 
- 
- <h3>Selecciona método de pago:</h3>
-<div class="botones-pago">
-  <label>
-    <input type="radio" name="metodo-pago" value="Yape" class="hidden" />
-    <button type="button" class="btn-pago" data-metodo="Yape">
-      <img src="images/Yape.png" alt="Yape" width="60"><br>Yape
-    </button>
-  </label>
+  <div id="panel-carrito" class="panel-carrito oculto">
+    <div class="panel-header">
+      <h3>Resumen del Pedido</h3>
+      <button id="cerrar-panel">✕</button>
+    </div>
 
-  <label>
-    <input type="radio" name="metodo-pago" value="Plin" class="hidden" />
-    <button type="button" class="btn-pago" data-metodo="Plin">
-      <img src="images/Plin.jpg" alt="Plin" width="60"><br>Plin
-    </button>
-  </label>
+    <div id="panel-contenido"></div>
 
-  <label>
-    <input type="radio" name="metodo-pago" value="Tarjeta" class="hidden" />
-    <button type="button" class="btn-pago" data-metodo="Tarjeta">
-      <img src="images/Tarjeta.png" alt="Tarjeta" width="60"><br>Tarjeta
-    </button>
-  </label>
+    <div id="formulario-pedido" class="oculto">
+      <h4>Datos para el envío</h4>
+      <input type="text" id="direccion" placeholder="Dirección de entrega">
+      <input type="text" id="telefono" placeholder="Teléfono">
+      <textarea id="notas" placeholder="Notas adicionales"></textarea>
+
+      <h4>Método de pago</h4>
+      <div class="botones-pago">
+  <button type="button" class="btn-pago" data-metodo="yape">
+    <img src="images/Yape.png" alt="Yape"><br>Yape
+  </button>
+  <button type="button" class="btn-pago" data-metodo="plin">
+    <img src="images/Plin.jpg" alt="Plin"><br>Plin
+  </button>
+  <button type="button" class="btn-pago" data-metodo="tarjeta">
+    <img src="images/Tarjeta.png" alt="Tarjeta"><br>Tarjeta
+  </button>
 </div>
 
+      <button id="btnConfirmarPedido">Confirmar pedido</button>
+    </div>
 
+    <div class="panel-footer">
+      <button id="ir-a-formulario">Finalizar compra</button>
+    </div>
   </div>
 
-  <div id="instrucciones-pago" class="hidden">
-    <!-- Aquí mostraremos las instrucciones según el método -->
+  <div id="boton-carrito" title="Ver carrito">
+    <i class="fas fa-shopping-cart fa-2x"></i>
+    <span id="contadorCarrito">0</span>
   </div>
-</div>
-
-  <p id="userEmail"></p>
 
 
-
-  <script type="module">
-  document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.getElementById('modal');
-    const boton = document.getElementById("btnConfirmarPedido");
-    const botonCarrito = document.getElementById('boton-carrito');
-    const cerrarCarrito = document.getElementById('cerrarCarrito');
-    const cerrarPopup = document.getElementById('cerrar-popup-carrito');
-     if (boton) {
-      boton.addEventListener("click", finalizarCompra);
-    } else {
-      console.warn("⚠ No se encontró el botón Confirmar pedido.");
-    }
-    if (botonCarrito && modal) {
-      botonCarrito.addEventListener('click', () => {
-        modal.classList.remove('oculto');
-        modal.classList.add('activo');
-      });
-    }
-
-    if (cerrarCarrito && modal) {
-      cerrarCarrito.addEventListener('click', () => {
-        modal.classList.remove('activo');
-        modal.classList.add('oculto');
-      });
-    }
-    cerrarPopup.addEventListener('click', () => {
-    console.log("Botón Cerrar presionado");
-    modal.classList.remove('activo');
-    modal.classList.add('oculto');
-});
-  });
-</script>
-
-
-<script>
- 
-  function mostrarInstruccion(metodo, mensaje) {
-    const instrucciones = document.getElementById('instrucciones-pago');
-    instrucciones.classList.remove('hidden');
-    instrucciones.innerHTML = `<h4>Pago con ${metodo}</h4><p>${mensaje}</p>`;
-  }
-</script>
-
-<script>
-  const productosToggle = document.getElementById('productosToggle');
-  const subcategorias = document.getElementById('subcategorias');
-  const toggleIcon = document.getElementById('toggleIcon');
-
-  productosToggle.addEventListener('click', () => {
-    subcategorias.classList.toggle('open');
-    toggleIcon.textContent = subcategorias.classList.contains('open') ? '▾' : '▸';
-  });
-</script>
-
-<script>
+  <script>
   const perfilIcono = document.getElementById("perfilIcono");
   const perfilMenu = document.getElementById("perfilMenu");
 
@@ -237,54 +153,8 @@
     }
   });
 </script>
-
-      <div id="fondo-modal" class="fondo-modal oculto"></div>
-        <div id="boton-carrito" title="Ver carrito">
-            <i class="fas fa-shopping-cart fa-2x"></i>
-           <span id="contadorCarrito">0</span>
-       </div>
-           
-     <div id="confirmacion" style="display: none;">
-      <h3>✅ ¡Pedido confirmado!</h3>
-      <p>Gracias por tu compra.</p>
-    </div>
-
-    <!-- Panel deslizante de compra -->
-<div id="panel-carrito" class="panel-carrito oculto">
-   <div class="panel-header">
-    <h3>Resumen del Pedido</h3>
-    <button id="cerrar-panel">✕</button>
-  </div>
-
-  <div id="panel-contenido">
-    <!-- Aquí se insertará el contenido del carrito desde JS -->
-  </div>
-
-  <div id="formulario-pedido" class="oculto">
-    <h4>Datos para el envío</h4>
-    <input type="text" id="direccion" placeholder="Dirección de entrega">
-    <input type="text" id="telefono" placeholder="Teléfono">
-    <textarea id="notas" placeholder="Notas adicionales"></textarea>
-
-    <h4>Método de pago</h4>
-    <select id="metodo-pago">
-      <option value="yape">Yape</option>
-      <option value="plin">Plin</option>
-      <option value="tarjeta">Tarjeta</option>
-    </select>
-
-    <button id="btnConfirmarPedido">Confirmar pedido</button>
-  </div>
-
-  <div class="panel-footer">
-    <button id="ir-a-formulario">Finalizar compra</button>
-  </div>
-</div>
-
-<!-- Scripts importantes -->
-<script src="supabaseClient.js" defer></script>
-<script src="pedido.js" defer></script>
-<script type="module" src="app.js"></script>
-  
+  <script type="module" src="supabaseClient.js"></script>
+  <script type="module" src="pedido.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

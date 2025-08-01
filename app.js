@@ -32,8 +32,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error('Error al obtener productos:', error);
   }
 
-
-  // 🔍 Buscador de productos
   const inputBusqueda = document.getElementById("inputBusqueda");
   if (inputBusqueda) {
     inputBusqueda.addEventListener("input", () => {
@@ -48,10 +46,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-
-
-  //////////////////icono de subcategorias////////////////////////////
-    // Subcategorías toggle
   const productosToggle = document.getElementById('productosToggle');
   const submenu = document.getElementById('subcategorias');
   if (productosToggle && submenu) {
@@ -63,10 +57,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-
- 
-// Mostrar sidebar al acercar el mouse al borde izquierdo
-  // Sidebar hover
   document.addEventListener('mousemove', e => {
     const sidebar = document.getElementById('sidebar');
     if (!sidebar) return;
@@ -77,7 +67,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  // Menú perfil
   const perfilIcono = document.getElementById("perfilIcono");
   const perfilMenu = document.getElementById("perfilMenu");
   if (perfilIcono && perfilMenu) {
@@ -95,7 +84,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   mostrarCarrito();
   procesarPedidoAutomaticamenteSiExiste(); 
 
-// 🔘 BOTÓN FINALIZAR COMPRA
   const finalizarBtn = document.getElementById('finalizarCompra');
   if (finalizarBtn) {
     finalizarBtn.addEventListener('click', async () => {
@@ -111,13 +99,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
-
-      // Escuchar confirmación del pedido (solo una vez)
-      const confirmarBtn = document.getElementById("btnConfirmarPedido");
-      confirmarBtn?.addEventListener("click", finalizarCompra, { once: true });
     });
   }
-   // Abrir/Cerrar carrito
+
   document.getElementById("abrirCarrito")?.addEventListener("click", () => {
     document.getElementById("modalCarrito").classList.remove("oculto");
     mostrarCarrito();
@@ -127,7 +111,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById("modalCarrito")?.classList.add("oculto");
   });
 
-  // Mostrar bienvenida solo una vez
   if (!sessionStorage.getItem("bienvenidaMostrada")) {
     Swal.fire({
       title: "🎁 ¡Bienvenido a Crackio Store!",
@@ -140,6 +123,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
     sessionStorage.setItem("bienvenidaMostrada", "true");
   }
+
+  const botonFinalizar = document.getElementById("ir-a-formulario");
+  botonFinalizar?.addEventListener("click", () => {
+    const form = document.getElementById("formulario-pedido");
+    if (form) {
+      form.classList.remove("oculto");
+      inicializarBotonesPago();
+
+    const confirmarBtn = document.getElementById("btnConfirmarPedido");
+    if (confirmarBtn) {
+      confirmarBtn.addEventListener("click", finalizarCompra, { once: true });
+    }
+
+    }
+  });
 });
 
 function verificarSesion() {
@@ -148,10 +146,10 @@ function verificarSesion() {
     const btnCerrarSesion = document.getElementById('btnCerrarSesion');
     if (user) {
       loginBtn?.classList.add('hidden');
-      if (btnCerrarSesion) btnCerrarSesion.style.display = "inline-block";
+      btnCerrarSesion.style.display = "inline-block";
     } else {
       loginBtn?.classList.remove('hidden');
-      if (btnCerrarSesion) btnCerrarSesion.style.display = "none";
+      btnCerrarSesion.style.display = "none";
     }
   });
 }
@@ -163,55 +161,24 @@ document.getElementById('btnCerrarSesion')?.addEventListener('click', async () =
   location.reload();
 });
 
-const registerForm = document.getElementById('registerForm');
-if (registerForm) {
-  registerForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('registerEmail').value;
-    const password = document.getElementById('registerPassword').value;
+function inicializarBotonesPago() {
+  const botones = document.querySelectorAll(".btn-pago");
 
-    const { data, error } = await supabase.auth.signUp({ email, password });
+  if (botones.length === 0) {
+    console.warn("⚠️ No se encontraron botones de método de pago.");
+    return;
+  }
 
-    if (error) {
-      alert('Error al registrar: ' + error.message);
-      return;
-    }
-
-    if (!data.user?.confirmed_at) {
-      alert('Registro exitoso. Revisa tu correo para confirmar tu cuenta.');
-      registerForm.reset();
-    } else {
-      const { session, error: loginError } = await supabase.auth.signInWithPassword({ email, password });
-      if (loginError) {
-        alert('Cuenta creada pero no se pudo iniciar sesión: ' + loginError.message);
-      } else {
-        alert('Registro e inicio de sesión exitoso.');
-        document.getElementById('registerModal').classList.add('hidden');
-        verificarSesion();
-      }
-    }
+  botones.forEach(button => {
+    button.addEventListener("click", () => {
+      botones.forEach(btn => btn.classList.remove("selected"));
+      button.classList.add("selected");
+      window.metodoSeleccionado = button.getAttribute("data-metodo");
+      console.log("✅ Método seleccionado:", window.metodoSeleccionado);
+    });
   });
 }
 
-const loginForm = document.getElementById('loginForm');
-if (loginForm) {
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-
-    const { session, error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) {
-      alert('Error al iniciar sesión: ' + error.message);
-    } else {
-      alert('Bienvenido/a');
-      document.getElementById('loginModal').classList.add('hidden');
-      verificarSesion();
-    }
-  });
-}
-
-// Automatiza pedido si ya hay productos y usuario logueado
 async function procesarPedidoAutomaticamenteSiExiste() {
   const carrito = obtenerCarrito();
   if (!carrito.length) return;
@@ -250,4 +217,3 @@ async function procesarPedidoAutomaticamenteSiExiste() {
   mostrarCarrito();
   alert('Compra realizada con éxito. Gracias por tu pedido.');
 }
-

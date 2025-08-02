@@ -27,6 +27,7 @@ export async function finalizarCompra() {
   const user = session.user;
 
   // Obtener nombre del cliente
+  
   const { data: usuarioData, error: usuarioError } = await supabase
     .from("usuarios")
     .select("nombre")
@@ -108,8 +109,8 @@ export async function finalizarCompra() {
       }
     };
 
-  // 🔵 PAGO CON PLIN
-} else if (window.metodoSeleccionado === "plin") {
+ // 🔵 PAGO CON PLIN
+} else if (window.metodoSeleccionado?.toLowerCase() === "plin") {
   await Swal.fire({
     title: "Pago con Plin",
     html: `
@@ -118,37 +119,41 @@ export async function finalizarCompra() {
       <p>Después de pagar, presiona Enviar Comprobante para enviar tu comprobante por WhatsApp.</p>
     `,
     confirmButtonText: "Enviar comprobante",
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      console.log("🧪 Confirmado (Plin): Ejecutando guardarPedidoYDetalle()...");
+
+      try {
+        await guardarPedidoYDetalle();
+        pedidoYaProcesado = true;
+        console.log("✅ Pedido y detalle guardados correctamente (Plin)");
+
+        const resumen = carrito.map(p => `• ${p.nombre} x${p.cantidad}`).join("%0A");
+        const totalTexto = carrito.reduce((sum, p) => sum + p.precio * p.cantidad, 0).toFixed(2);
+        const metodo = window.metodoSeleccionado;
+        const fecha = new Date().toLocaleString();
+
+        const mensaje = `Hola, soy un cliente de Crakcio Store 🛒.%0A` +
+          `He pagado con *${metodo.toUpperCase()}* el siguiente pedido:%0A` +
+          `${resumen}%0A` +
+          `Total: S/ ${totalTexto}%0A` +
+          `Fecha: ${fecha}%0A` +
+          `Aquí está mi comprobante:`;
+
+        const whatsappLink = `https://wa.me/51999207025?text=${mensaje}`;
+        console.log("📲 Redirigiendo a WhatsApp...");
+        window.open(whatsappLink, "_blank");
+
+      } catch (error) {
+        console.error("🧨 Error al guardar pedido (Plin):", error);
+        Swal.fire("Error", "No se pudo completar el pedido", "error");
+        pedidoYaProcesado = false;
+      }
+    }
   });
 
-  console.log("⚡ Entrando al bloque después del SweetAlert de Plin");
-
-  try {
-    console.log("🚀 Forzando ejecución de guardarPedidoYDetalle...");
-    await guardarPedidoYDetalle();
-    pedidoYaProcesado = true;
-  } catch (error) {
-    console.error("🧨 Error al ejecutar guardarPedidoYDetalle:", error);
-    Swal.fire("Error", "No se pudo completar el pedido", "error");
-  }
-
-  // Redirigir a WhatsApp
-  const resumen = productos.map(p => `• ${p.nombre} x${p.cantidad}`).join("%0A");
-  const totalTexto = productos.reduce((sum, p) => sum + p.precio * p.cantidad, 0).toFixed(2);
-  const metodo = window.metodoSeleccionado;
-  const fecha = new Date().toLocaleString();
-
-  const mensaje = `Hola, soy un cliente de Crakcio Store 🛒.%0A` +
-    `He pagado con *${metodo.toUpperCase()}* el siguiente pedido:%0A` +
-    `${resumen}%0A` +
-    `Total: S/ ${totalTexto}%0A` +
-    `Fecha: ${fecha}%0A` +
-    `Aquí está mi comprobante:`;
-
-  const whatsappLink = `https://wa.me/51999207025?text=${mensaje}`;
-  window.open(whatsappLink, "_blank");
-
 // 🟣 PAGO CON YAPE
-} else if (window.metodoSeleccionado === "yape") {
+} else if (window.metodoSeleccionado?.toLowerCase() === "yape") {
   await Swal.fire({
     title: "Pago con Yape",
     html: `
@@ -157,39 +162,47 @@ export async function finalizarCompra() {
       <p>Después de pagar, presiona Enviar Comprobante para enviar tu comprobante por WhatsApp.</p>
     `,
     confirmButtonText: "Enviar comprobante",
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      console.log("🧪 Confirmado (Yape): Ejecutando guardarPedidoYDetalle()...");
+
+      try {
+        await guardarPedidoYDetalle();
+        pedidoYaProcesado = true;
+        console.log("✅ Pedido y detalle guardados correctamente (Yape)");
+
+        const resumen = carrito.map(p => `• ${p.nombre} x${p.cantidad}`).join("%0A");
+        const totalTexto = carrito.reduce((sum, p) => sum + p.precio * p.cantidad, 0).toFixed(2);
+        const metodo = window.metodoSeleccionado;
+        const fecha = new Date().toLocaleString();
+
+        const mensaje = `Hola, soy un cliente de Crakcio Store 🛒.%0A` +
+          `He pagado con *${metodo.toUpperCase()}* el siguiente pedido:%0A` +
+          `${resumen}%0A` +
+          `Total: S/ ${totalTexto}%0A` +
+          `Fecha: ${fecha}%0A` +
+          `Aquí está mi comprobante:`;
+
+        const whatsappLink = `https://wa.me/51999207025?text=${mensaje}`;
+        console.log("📲 Redirigiendo a WhatsApp...");
+        window.open(whatsappLink, "_blank");
+
+      } catch (error) {
+        console.error("🧨 Error al guardar pedido (Yape):", error);
+        Swal.fire("Error", "No se pudo completar el pedido", "error");
+        pedidoYaProcesado = false;
+      }
+    }
   });
 
-  console.log("⚡ Entrando al bloque después del SweetAlert de Yape");
-
-  try {
-    console.log("🚀 Forzando ejecución de guardarPedidoYDetalle...");
-    await guardarPedidoYDetalle();
-    pedidoYaProcesado = true;
-  } catch (error) {
-    console.error("🧨 Error al ejecutar guardarPedidoYDetalle:", error);
-    Swal.fire("Error", "No se pudo completar el pedido", "error");
-  }
-
-  // Redirigir a WhatsApp
-  const resumen = productos.map(p => `• ${p.nombre} x${p.cantidad}`).join("%0A");
-  const totalTexto = productos.reduce((sum, p) => sum + p.precio * p.cantidad, 0).toFixed(2);
-  const metodo = window.metodoSeleccionado;
-  const fecha = new Date().toLocaleString();
-
-  const mensaje = `Hola, soy un cliente de Crakcio Store 🛒.%0A` +
-    `He pagado con *${metodo.toUpperCase()}* el siguiente pedido:%0A` +
-    `${resumen}%0A` +
-    `Total: S/ ${totalTexto}%0A` +
-    `Fecha: ${fecha}%0A` +
-    `Aquí está mi comprobante:`;
-
-  const whatsappLink = `https://wa.me/51999207025?text=${mensaje}`;
-  window.open(whatsappLink, "_blank");
 }else {
     Swal.fire("Error", "Método de pago no implementado o no seleccionado", "error");
     return;
   }
 
+}
+ 
+window.finalizarCompra = finalizarCompra;
 async function guardarPedidoYDetalle() {
   console.log("🧪 Ejecutando guardarPedidoYDetalle...");
 
@@ -205,7 +218,13 @@ async function guardarPedidoYDetalle() {
 
     const user = session.user;
     const email = user.email;
-    const productos = carrito;
+    const productos = carrito.map(p => ({
+  id: p.id,
+  nombre: p.nombre,
+  precio: p.precio,
+  cantidad: p.cantidad ?? 1  // usamos ?? para asegurar valor por defecto
+}));
+
     const total = productos.reduce((sum, p) => sum + p.precio * p.cantidad, 0);
 
     // ⚠️ Obtener datos del formulario
@@ -223,18 +242,18 @@ async function guardarPedidoYDetalle() {
     console.log("💳 Total:", total);
 
     const pedido = {
-      usuario_id: user.id,
-      email,
-      productos,
-      total,
-      estado: "pagado",
-      nombre_cliente: nombreCliente,
-      telefono,
-      direccion,
-      metodo_pago: metodo,
-      notas,
-      fecha: new Date().toISOString(),
-    };
+  usuario_id: user.id,
+  email,
+  total,
+  estado: "pagado",
+  nombre_cliente: nombreCliente,
+  telefono,
+  direccion,
+  metodo_pago: metodo,
+  notas,
+  fecha: new Date().toISOString(),
+};
+
 console.log("👤 Supabase UID (auth.uid):", user.id);
 console.log("📝 Pedido.usuario_id:", pedido.usuario_id);
 
@@ -256,25 +275,32 @@ console.log("📝 Pedido.usuario_id:", pedido.usuario_id);
 
     const pedidoId = data[0].id;
 
-    const detalle = productos.map(p => ({
-      nombre: p.nombre,
-      cantidad: p.cantidad,
-      precio_unitario: p.precio,
-      productos_id: p.id,
-      pedidos_id: pedidoId,
-    }));
+    const detalle = carrito.map(p => ({
+  nombre: p.nombre,
+  cantidad: p.cantidad,
+  precio_unitario: p.precio,
+  productos_id: p.id,
+  pedido_id: pedidoId,
+}));
+console.log("🔥 INSERTANDO detalle_pedido:", detalle);
+console.log("🆔 pedidoId que se usará:", pedidoId);
 
-    console.log("📄 Insertando detalle:", detalle);
+const { data: detalleInsertado, error: errorDetalle } = await supabase
+  .from("detalle_pedido")
+  .insert(detalle);
 
-    const { error: detalleError } = await supabase
-      .from("detalle_pedido")
-      .insert(detalle);
+if (errorDetalle) {
+  console.error("❌ Error al guardar detalle:", errorDetalle.message);
+} else {
+  console.log("✅ Detalle insertado:", detalleInsertado);
+}
 
-    if (detalleError) {
-      console.warn("⚠️ Detalle no guardado:", detalleError.message);
-    } else {
-      console.log("✅ Detalle guardado correctamente");
-    }
+
+    if (errorDetalle) {
+  console.error("❌ Error al guardar detalle:", errorDetalle.message);
+} else {
+  console.log("✅ Detalle insertado:", detalleInsertado);
+}
 
     // Mostrar alerta y limpiar carrito
     Swal.fire("✅ Pedido confirmado", "Tu compra fue exitosa", "success");
@@ -317,10 +343,7 @@ Swal.fire({
   }
 }
 
-}
-
-window.finalizarCompra = finalizarCompra;
-
+window.guardarPedidoYDetalle = guardarPedidoYDetalle;
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".btn-pago").forEach(boton => {
     boton.addEventListener("click", () => {
@@ -337,3 +360,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+

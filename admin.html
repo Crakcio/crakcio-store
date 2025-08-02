@@ -76,7 +76,12 @@
 </div>
   
 
-  <script type="module" src="admin.js"></script>
-  <script type="module" src="supabaseClient.js"></script>
+  <script type="module">
+  import { supabase } from './supabaseClient.js';
+  window.supabase = supabase; // 🔥 Hacemos supabase global
+</script>
+
+<script type="module" src="admin.js"></script>
+
 </body>
 </html>

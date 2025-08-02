@@ -467,21 +467,19 @@ footer .redes {
   margin-bottom: 1rem;
   box-shadow: 0 0 8px rgba(0, 255, 255, 0.1);
 }
-.admin-pedido {
-  border: 1px solid #ccc;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 8px;
-  background: #fff;
+.admin-pedido p {
+  margin: 5px 0;
 }
 .admin-pedido button {
-  background: #28a745;
+  background-color: #00aaff;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  margin-top: 0.5rem;
+  padding: 8px 12px;
   border-radius: 5px;
   cursor: pointer;
+}
+.admin-pedido button:hover {
+  background-color: #0077cc;
 }
 .admin-nav {
   margin-top: 1rem;
@@ -1061,6 +1059,11 @@ footer .redes {
 #btn-vaciar-carrito {
   margin-bottom: 10px;
 }
+
+
+
+
+
 
 
 

@@ -44,16 +44,17 @@ export function mostrarCarrito() {
 
   contenedor.innerHTML = "";
 
-  carrito.forEach(producto => {
-    const div = document.createElement("div");
-    div.className = "producto-carrito";
-    div.innerHTML = `
-      <span>${producto.nombre} x${producto.cantidad}</span>
-      <span>S/ ${(producto.precio * producto.cantidad).toFixed(2)}</span>
-      <button onclick="eliminarProducto(${producto.id})">❌</button>
-    `;
-    contenedor.appendChild(div);
-  });
+carrito.forEach(producto => {
+  const div = document.createElement("div");
+  div.className = "producto-carrito";
+  div.innerHTML = `
+    <span>${producto.nombre} x${producto.cantidad}</span>
+    <span>S/ ${(producto.precio * producto.cantidad).toFixed(2)}</span>
+    <button class="btn-restar" data-id="${producto.id}">➖</button>
+    <button onclick="eliminarProducto(${producto.id})">❌</button>
+  `;
+  contenedor.appendChild(div);
+});
 
   const total = carrito.reduce((sum, p) => sum + (p.precio * p.cantidad), 0);
   totalSpan.textContent = total.toFixed(2);
@@ -62,6 +63,8 @@ export function vaciarCarrito() {
   localStorage.removeItem("carrito");
   actualizarContadorCarrito();
   mostrarCarrito();
+  document.getElementById("panel-contenido").innerHTML = "<p>Tu carrito está vacío.</p>";
+
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -98,95 +101,76 @@ document.addEventListener('DOMContentLoaded', () => {
  
 function mostrarResumenCarrito() {
   const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+  const contenidoCarrito = document.getElementById('panel-contenido');
+
+  if (!contenidoCarrito) return;
+
   if (carrito.length === 0) {
     contenidoCarrito.innerHTML = "<p>Tu carrito está vacío.</p>";
     return;
   }
 
-  let html = "<ul>";
+  let html = '<div class="lista-carrito">';
   carrito.forEach(item => {
-    html += `<li>${item.nombre} - ${item.precio} x ${item.cantidad}</li>`;
+    html += `
+      <div class="item-carrito">
+        <span>${item.nombre} - S/ ${item.precio} x ${item.cantidad}</span>
+        <div>
+          <button class="btn-restar" data-id="${item.id}">➖</button>
+          <button class="btn-eliminar" data-id="${item.id}">❌</button>
+        </div>
+      </div>
+    `;
   });
-  html += "</ul>";
-
-  
-  
+  html += '</div>';
 
   contenidoCarrito.innerHTML = html;
 
-  // 🔄 Ahora que el botón existe, podemos asignar el evento
-  const btn = document.getElementById('confirmar-pedido');
-  btn?.addEventListener('click', async () => {
-  const direccion = document.getElementById('direccion')?.value.trim();
-  const telefono = document.getElementById('telefono')?.value.trim();
-  const metodo = document.getElementById('metodo-pago')?.value;
-  const notas = document.getElementById('notas')?.value.trim() || '';
-  const email = localStorage.getItem('email') || 'Invitado';
-  const nombre_cliente = localStorage.getItem('usuario') || 'Cliente sin nombre';
-  const usuario_id = localStorage.getItem('usuario_id') || null;
+  // Asignar eventos a botones
+  contenidoCarrito.querySelectorAll(".btn-restar").forEach(btn => {
+    btn.addEventListener("click", () => {
+      restarProductoDelCarrito(btn.dataset.id);
+      mostrarResumenCarrito();
+    });
+  });
 
-  if (!direccion || !telefono) {
-    alert('Por favor completa dirección y teléfono.');
-    return;
-  }
-
-  const carrito = obtenerCarrito();
-  if (carrito.length === 0) {
-    alert('Tu carrito está vacío.');
-    return;
-  }
-
-  const total = carrito.reduce((sum, p) => sum + (p.precio * p.cantidad), 0).toFixed(2);
-  const cantidad = carrito.reduce((sum, p) => sum + p.cantidad, 0);
-
-  const resumenProductos = carrito.map(p => `${p.nombre} x${p.cantidad}`).join(', ');
-
-  // Guardar en Supabase
-  const { error } = await supabase.from('pedidos').insert([
-    {
-      usuario_id,
-      nombre_cliente,
-      telefono,
-      direccion,
-      metodo_pago: metodo,
-      notas,
-      email,
-      total: parseFloat(total),
-      cantidad,
-      productos: resumenProductos,
-      estado: 'Pendiente',
-      fecha: new Date().toISOString()
-    }
-  ]);
-
-  if (error) {
-    console.error('❌ Error al guardar pedido:', error.message);
-    alert('Ocurrió un error al guardar el pedido.');
-    return;
-  }
-
-  // WhatsApp
-  const numeroCrackio = '51999207025'; // ← reemplaza con tu número de WhatsApp con código de país
-  const mensaje = `🛒 Nuevo Pedido Crackio Store 🧾%0ACliente: ${nombre_cliente}%0AEmail: ${email}%0A📍 Dirección: ${direccion}%0A📞 Teléfono: ${telefono}%0A💳 Pago: ${metodo}%0A📝 Notas: ${notas || 'Ninguna'}%0A🧩 Productos: ${resumenProductos}%0ATotal: S/ ${total}`;
-  const url = `https://wa.me/${numeroCrackio}?text=${encodeURIComponent(mensaje)}`;
-
-  // Limpieza y redirección
-  vaciarCarrito();
-  document.getElementById('panel-pedido')?.classList.remove('visible');
-  setTimeout(() => {
-    document.getElementById('panel-pedido')?.classList.add('oculto');
-  }, 300);
-  
-  window.open(url, '_blank');
+  contenidoCarrito.querySelectorAll(".btn-eliminar").forEach(btn => {
+  btn.addEventListener("click", () => {
+    let carrito = obtenerCarrito();
+    carrito = carrito.filter(p => p.id != btn.dataset.id);
+    guardarCarrito(carrito);
+    actualizarContadorCarrito();
+    mostrarResumenCarrito();
+    mostrarCarrito();
+  });
 });
-
 
 }
 
-
-
 });
 
+export function restarProductoDelCarrito(id) {
+  let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  const index = carrito.findIndex(p => p.id == id);
+
+  if (index !== -1) {
+    carrito[index].cantidad -= 1;
+
+    if (carrito[index].cantidad <= 0) {
+      carrito.splice(index, 1);
+    }
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    actualizarContadorCarrito();
+    mostrarCarrito();
+  }
+}
+document.addEventListener("click", e => {
+  if (e.target.classList.contains("btn-restar")) {
+    const id = e.target.getAttribute("data-id");
+    restarProductoDelCarrito(id);
+  }
+});
 
 // Esta función necesita ser accesible globalmente para el botón onclick
 window.eliminarProducto = function (id) {

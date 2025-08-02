@@ -7,6 +7,7 @@ import {
 } from "./ui.js";
 
 import {
+  vaciarCarrito, restarProductoDelCarrito,
   obtenerCarrito,
   agregarAlCarrito,
   actualizarContadorCarrito,
@@ -111,6 +112,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById("modalCarrito")?.classList.add("oculto");
   });
 
+  document.querySelector(".btn-vaciar-carrito")?.addEventListener("click", () => {
+  Swal.fire({
+    title: "¿Vaciar carrito?",
+    text: "Se eliminarán todos los productos del carrito.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, vaciar",
+  }).then(result => {
+    if (result.isConfirmed) {
+      vaciarCarrito();
+    }
+  });
+});
   if (!sessionStorage.getItem("bienvenidaMostrada")) {
     Swal.fire({
       title: "🎁 ¡Bienvenido a Crackio Store!",

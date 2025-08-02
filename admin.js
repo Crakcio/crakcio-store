@@ -1,5 +1,5 @@
 import { supabase } from './supabaseClient.js';
-
+console.log("🧪 Se está ejecutando admin.js correctamente");
 const form = document.getElementById('agregarProductoForm');
 const cerrarSesionAdmin = document.getElementById('cerrarSesionAdmin');
 const formEditar = document.getElementById('formEditarProducto');
@@ -17,7 +17,7 @@ async function verificarAdmin() {
   const { data: { session }, error } = await supabase.auth.getSession();
 
   if (!session || !session.user) {
-    console.log("No hay sesión activa");
+    console.log("⛔ No hay sesión activa");
     window.location.href = "login.html";
     return;
   }
@@ -31,15 +31,17 @@ async function verificarAdmin() {
     .single();
 
   if (perfilError || !perfil || perfil.rol !== "admin") {
-    console.log("Acceso denegado: No eres admin.");
+    console.log("⛔ Acceso denegado: No eres admin.");
     window.location.href = "login.html";
     return;
   }
 
-  console.log("Bienvenido admin");
-  cargarProductos(); // Solo se llama si es admin
+  console.log("✅ Bienvenido admin:", session.user.email);
+  cargarProductos();
   cargarPedidos();
 }
+
+
 
 async function subirImagenASupabase(file, nombreArchivo) {
   const { data, error } = await supabase.storage
@@ -171,7 +173,6 @@ async function cargarPedidos() {
   const pedidosContainer = document.getElementById('adminListaPedidos');
   pedidosContainer.innerHTML = '';
 
-  // 1. Obtener todos los pedidos
   const { data: pedidos, error: errorPedidos } = await supabase
     .from('pedidos')
     .select('*')
@@ -183,34 +184,33 @@ async function cargarPedidos() {
     return;
   }
 
-  if (pedidos.length === 0) {
+  if (!pedidos || pedidos.length === 0) {
     pedidosContainer.innerHTML = '<p>No hay pedidos aún</p>';
     return;
   }
 
   for (const pedido of pedidos) {
-    // 2. Obtener detalle de ese pedido desde `detalle_pedido`
+    console.log("📦 Pedido encontrado:", pedido);
+
     const { data: detalles, error: errorDetalles } = await supabase
       .from('detalle_pedido')
       .select('*')
-      .eq('pedido_id', pedido.id);
+      .eq('pedido_id', pedido.id); // ✅ nombre correcto de columna
 
-    if (errorDetalles) {
-      console.warn(`⚠️ Error obteniendo detalle del pedido ${pedido.id}:`, errorDetalles.message);
-      continue;
-    }
+    console.log("📄 Detalles encontrados para pedido:", pedido.id, detalles);
 
-    // 3. Armar HTML del detalle
     let productosHTML = '<ul>';
-    for (const item of detalles) {
-      productosHTML += `<li>${item.nombre} x${item.cantidad} - S/ ${item.precio_unitario}</li>`;
+    if (detalles && detalles.length > 0) {
+      for (const item of detalles) {
+        productosHTML += `<li>${item.nombre} x${item.cantidad} - S/ ${item.precio_unitario}</li>`;
+      }
+    } else {
+      productosHTML += '<li>Sin detalles del pedido</li>';
     }
     productosHTML += '</ul>';
 
-    // 4. Armar HTML del pedido completo
     const div = document.createElement('div');
     div.className = 'admin-pedido';
-
     div.innerHTML = `
       <p><strong>Cliente:</strong> ${pedido.nombre_cliente}</p>
       <p><strong>Correo:</strong> ${pedido.email}</p>
@@ -277,7 +277,6 @@ async function cargarProductos() {
   }
 }
 
-
 // Mostrar modal con los datos del producto a editar
 window.editarProducto = async function (id) {
   const { data, error } = await supabase.from('productos').select('*').eq('id', id).single();
@@ -339,9 +338,38 @@ btnPedidos.addEventListener("click", () => {
 
 // Mostrar productos por defecto al cargar
 window.addEventListener("DOMContentLoaded", () => {
+  (async () => {
+  const resultado = await supabase
+    .from('detalle_pedido')
+    .select('*')
+    .eq('pedido_id', 97);
+
+  console.log("🧪 Resultado de prueba directa:", resultado);
+})();
   document.querySelector(".admin-agregar").style.display = "block";
   document.querySelector(".admin-productos").style.display = "block";
   document.querySelector(".admin-pedidos").style.display = "none";
   btnProductos.classList.add("activo");
+
+
+  (async () => {
+  const { data: pedidos, error: errorPedidos } = await supabase
+    .from('pedidos')
+    .select('*');
+
+  console.log("📋 Pedidos en Supabase:", pedidos, errorPedidos);
+
+  const { data: detalles, error: errorDetalles } = await supabase
+    .from('detalle_pedido')
+    .select('*');
+
+  console.log("📄 Detalles en Supabase:", detalles, errorDetalles);
+})();
+
 });
+
+
+
+
+
 
